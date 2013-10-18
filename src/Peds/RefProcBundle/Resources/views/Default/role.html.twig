@@ -1,0 +1,10 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}New role{% endblock %}
+{% block Login %}{% endblock %}
+{% block body %}
+<form action="{{ path('peds_create_role') }}" id="register" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" />
+</form>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Remove role{% endblock %}
+{% block Login %}{% endblock %}
+{% block body %}
+{# src/Peds/RefProcBundle/Resources/views/Default/role_remove.html.twig #}
+<form action="{{ path('peds_remove_role_list') }}" id="register" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" />
+</form>
+{% endblock %}

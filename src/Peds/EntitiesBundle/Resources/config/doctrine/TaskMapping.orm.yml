@@ -1,0 +1,31 @@
+Peds\EntitiesBundle\Entity\TaskMapping:
+    type: entity
+    table: task_mapping
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        tcomp:
+            targetEntity: TaskComp
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                tcomp_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        task:
+            targetEntity: Task
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                task_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

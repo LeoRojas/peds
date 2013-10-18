@@ -1,0 +1,70 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Matching table{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#matching_table td, th
+{
+margin:0px;
+border:3px solid;
+padding: 10px;
+border-left: 0px;
+border-right: 0px;
+/*border-style: inset;*/
+border-color: gray;
+background-color: white;
+/*border-radius: 5px;*/
+}
+#matching_table th
+{
+font-weight:bold;
+text-align:center;
+background-color: #C0C0C0;
+color: white;
+font-size: 16px;
+}
+#matching_table table
+{
+margin-bottom: 15px;
+border: 3px solid;
+border-color: gray;
+}
+.tmargin{
+margin-top: 20px;
+}
+#body_div
+{
+margin-left: 10px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<script type="text/javascript">
+</script>
+<div id="body_div">
+<h1>Matching table</h1>
+<hr>
+<div id="matching_table" class="tmargin">
+<!-- ver si tiene permisos-->
+
+	<table border=1>
+	<th>id</th>
+	<th>code</th>
+	<th>short_name</th>
+	<th>description</th>
+	<th>score</th>
+	{% for code in matching %}
+	<tr>
+		<td><a href=" {{ path('peds_matching_edit', {'id' : code.id}) }}">{{code.id}}</a></td>
+		<td><a href=" {{ path('peds_matching_edit', {'id' : code.id}) }}">{{code.code}}</a></td>
+		<td><a href=" {{ path('peds_matching_edit', {'id' : code.id}) }}">{{code.shortName}}</a></td>
+		<td><a href=" {{ path('peds_matching_edit', {'id' : code.id}) }}">{{code.description}}</a></td>
+		<td><a href=" {{ path('peds_matching_edit', {'id' : code.id}) }}">{{code.score}}</a></td>
+	</tr>
+	{% endfor %}
+
+	</table>
+
+</div>
+</div>
+{% endblock %}

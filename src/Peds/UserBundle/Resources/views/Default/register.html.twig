@@ -1,0 +1,48 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}New account{% endblock %}
+{% block Login %}{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+.tmargin{
+margin-top: 20px;
+}
+.ffont{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#register input
+{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#body_div
+{
+margin-left: 10px;
+}
+#register div
+{
+margin-top: 10px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id="body_div">
+<h1>Register</h1>
+<hr>
+{# src/Peds/UserBundle/Resources/views/Default/register.html.twig #}
+<form action="{{ path('new_user') }}" class="ffont" id="register" method="post" {{ form_enctype(form) }}>
+    {# {{ form_widget(form) }} #}
+    {{ form_errors(form) }}
+
+    {{ form_row(form.user_name) }}
+    {{ form_row(form.email) }}
+	{{ form_row(form.Password) }}
+	{# {{ form_row(form.role) }} #}
+    {{ form_rest(form) }}
+    <input class="tmargin" value="Register" type="submit" />
+</form>
+</div>
+{% endblock %}

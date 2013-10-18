@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Remove activity{% endblock %}
+{% block Login %}{% endblock %}
+{% block body %}
+{# src/Peds/RefProcBundle/Resources/views/Default/activity_remove.html.twig #}
+<form action="{{ path('peds_remove_act_list') }}" id="register" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" />
+</form>
+{% endblock %}

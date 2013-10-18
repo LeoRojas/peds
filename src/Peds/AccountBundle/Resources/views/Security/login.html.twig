@@ -1,0 +1,59 @@
+{# src/Peds/AccountBundle/Resources/views/Security/login.html.twig #}
+{% extends '::base.html.twig' %}
+{% block title %}Login PEDS{% endblock %}
+{% block asd %}
+{% if error is defined %}
+    {% if error.message is defined %}
+    <div class="error">{{ error.message }}</div>
+    {% endif %}
+{% endif %}
+{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+.tmargin{
+margin-top: 20px;
+}
+.ffont{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#login input
+{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#body_div
+{
+margin-left: 10px;
+}
+</style>
+{% endblock %}
+{% block Login %}
+<div id="body_div">
+<h1>Login</h1>
+<hr>
+<form action="{{ path('login_check') }}" method="post" class="ffont" id="login">
+    <div>
+        <label for="username">Username:</label>
+		{% if last_username is defined %}
+			<input type="text" id="username" name="_username" value="{{ last_username }}" />
+		{% else %}
+			<input type="text" id="username" name="_username" value="" />
+		{% endif %}
+    </div>
+    <div class="tmargin">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="_password" />
+    </div>
+
+    {#
+        If you want to control the URL the user is redirected to on success (more details below)
+        <input type="hidden" name="_target_path" value="/account" />
+    #}
+
+    <button class="tmargin" type="submit">Login</button>
+</form>
+</div>
+{% endblock %}

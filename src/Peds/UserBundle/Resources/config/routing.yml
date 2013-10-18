@@ -1,0 +1,21 @@
+peds_user_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: PedsUserBundle:Default:index }
+register:
+    pattern:  /register2
+    defaults: { _controller: PedsUserBundle:Register:index }
+new_user:
+    pattern:  /register
+    defaults: { _controller: PedsUserBundle:Register:new }
+user_mail:
+    pattern:  /account/management/editE
+    defaults: { _controller: PedsUserBundle:UserManagement:Mail }
+user_edit_mail:
+    pattern:  /account/management/editE/
+    defaults: { _controller: PedsUserBundle:UserManagement:editMail }
+user_pass:
+    pattern:  /account/management/editP
+    defaults: { _controller: PedsUserBundle:UserManagement:Pass }
+user_edit_pass:
+    pattern:  /account/management/editP/
+    defaults: { _controller: PedsUserBundle:UserManagement:editPass }

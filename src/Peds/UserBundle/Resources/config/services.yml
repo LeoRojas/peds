@@ -1,0 +1,7 @@
+parameters:
+#    peds_user.example.class: Peds\UserBundle\Example
+
+services:
+#    peds_user.example:
+#        class: %peds_user.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

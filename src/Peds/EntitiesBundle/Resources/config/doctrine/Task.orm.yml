@@ -1,0 +1,36 @@
+Peds\EntitiesBundle\Entity\Task:
+    type: entity
+    table: task
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        shortName:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+            column: short_name
+        description:
+            type: text
+            nullable: true
+        detail:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+    manyToOne:
+        activity:
+            targetEntity: Activity
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                activity_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

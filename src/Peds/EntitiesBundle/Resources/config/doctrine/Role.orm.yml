@@ -1,0 +1,31 @@
+Peds\EntitiesBundle\Entity\Role:
+    type: entity
+    table: role
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        description:
+            type: text
+            nullable: false
+        shortName:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+            column: short_name
+    manyToOne:
+        task:
+            targetEntity: Task
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                task_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

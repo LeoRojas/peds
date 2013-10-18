@@ -1,0 +1,7 @@
+parameters:
+#    peds_entities.example.class: Peds\EntitiesBundle\Example
+
+services:
+#    peds_entities.example:
+#        class: %peds_entities.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

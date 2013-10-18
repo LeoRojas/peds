@@ -1,0 +1,93 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Compare rp by tasks results{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#compare_table th {
+padding: 5px;
+border-color: gray;
+background-color: #C2C2C2;
+font-weight: bold;
+}
+#body_div
+{
+margin-left: 50px;
+margin-right: 50px;
+}
+.borderless_td
+{
+border-width: 0px;
+}
+#compare_table th,td {
+border-width: 1px;
+border-style: solid;
+border-color: black;
+font-size:16px;
+}
+.compare_table_title {
+font-family:arial;
+font-size:18px;
+color:black;
+}
+.tmargin{
+margin-top: 20px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<script type="text/javascript">
+</script>
+<div id="body_div">
+<div id="compare_ins" >
+	<h1>{{left_rp.shortName|capitalize}} tasks with respect to other standards</h1>
+	<hr>
+</div>
+<div id="table_div" class="tmargin">
+{% if task_res is defined%}
+	<table  id="compare_table">
+		<tr>
+			<th>Task</th>
+			<th>Task Description ({{left_rp.shortName}})</th>
+			<th>{{right_rp.shortName}}</th>
+			<th>Num Of Ocurrences</th>
+			<th></th>
+		</tr>
+	{% for task in task_res[0] %}
+		<tr>
+		<td>{{task.shortName}}</td>
+		<td>{{task.description}}</td>
+		<td>{{task_res[1][loop.index0]}}</td>
+		<td>{{task_res[1][loop.index0]}}</td>
+		<td>{{task_res[1][loop.index0]}}/1</td>
+		</tr>
+	{% endfor %}
+		<tr>
+			<td class="borderless_td"></td>
+			<th>Num of Used Tasks ({{left_rp.shortName}})</th>
+			<td>{{task_res[3]}}</td>
+		</tr>
+		<tr>
+			<td class="borderless_td"></td>
+			<th>Not used tasks ({{left_rp.shortName}})</th>
+			<td>{{task_res[0]|length - task_res[3]}}</td>
+		</tr>
+		<tr>
+			<td class="borderless_td"></td>
+			<th>Total Num of Tasks ({{left_rp.shortName}})</th>
+			<td>{{task_res[0]|length}}</td>
+		</tr>
+		<tr>
+			<td class="borderless_td"></td>
+			<th>Total Num of Tasks ({{right_rp.shortName}})</th>
+			<td>{{task_res[2]}}</td>
+		</tr>
+	</table>
+{% endif %}
+{#
+{% if compare_res is defined%}
+	{{compare_res}}
+{% endif %}
+#}
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+    encoders:
+        Peds\EntitiesBundle\Entity\User:
+            algorithm: sha512
+            encode-as-base64: true
+            iterations: 10
+
+    role_hierarchy:
+        ROLE_USER:       ROLE_USER
+        ROLE_ADMIN: [ROLE_USER, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        peds:
+            entity: { class: Peds\EntitiesBundle\Entity\User, property: userName }
+
+    encoders:
+        Peds\EntitiesBundle\Entity\User: sha512
+
+    access_denied_url: /login
+
+    firewalls:
+        main:
+            pattern: /.*
+            provider: peds
+            form_login:
+                login_path: /login
+                check_path: /login_check
+                remember_me: true
+                always_use_default_target_path: true
+                default_target_path: /account
+                failure_handler: authentication_handler
+            logout:
+                path: /logout
+                target: /login
+                invalidate_session: true
+                success_handler: authentication_handler
+            remember_me:
+                key: MiClaveSegura
+                lifetime: 1800
+                path: /.*
+                domain: ~
+            security: true
+            anonymous: true
+
+    access_control:
+         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+         - { path: ^/account, roles: ROLE_USER }
+         - { path: ^/compare_rp, roles: ROLE_USER }
+         - { path: ^/new/rp, roles: ROLE_USER }
+         - { path: ^/new/act, roles: ROLE_USER }
+         - { path: ^/new/task, roles: ROLE_USER }
+         - { path: ^/remove/rp, roles: ROLE_USER }
+         - { path: ^/remove/act, roles: ROLE_USER }
+         - { path: ^/remove/task, roles: ROLE_USER }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }

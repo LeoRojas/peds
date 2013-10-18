@@ -1,0 +1,36 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Task comparison edit{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#comp_row
+{
+margin-bottom: 50px;
+}
+#update label
+{
+    display: block;
+    float: left;
+    width: 90px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<script type="text/javascript">
+</script>
+<div id="body_div">
+<div id="comp_row" >
+<!-- ver si tiene permisos-->
+
+{# src/Peds/CompareBundle/Resources/views/Default/task_comp_edit.html.twig #}
+	<form action="{{ path('peds_matching_edit', {'id' : id}) }}" id="update" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" />
+	</form>
+
+</div>
+<div>
+<a href="{{ path('peds_task_comp') }}">Back to task comparisons</a>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,75 @@
+peds_ref_proc_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: PedsRefProcBundle:Default:index }
+homepage:
+    pattern:  /
+    defaults: { _controller: PedsRefProcBundle:Homepage:index }
+peds_create_rp:
+    pattern:  /new/rp
+    defaults: { _controller: PedsRefProcBundle:RefProc:new }
+peds_create_rp_index:
+    pattern:  /new/rp/
+    defaults: { _controller: PedsRefProcBundle:RefProc:index }
+peds_create_act:
+    pattern:  /new/act
+    defaults: { _controller: PedsRefProcBundle:Activity:new }
+peds_create_act_index:
+    pattern:  /new/act/
+    defaults: { _controller: PedsRefProcBundle:Activity:index }
+peds_create_task:
+    pattern:  /new/task
+    defaults: { _controller: PedsRefProcBundle:Task:new }
+peds_create_task_index:
+    pattern:  /new/task/
+    defaults: { _controller: PedsRefProcBundle:Task:index }
+peds_remove_rp_list:
+    pattern:  /remove/rp
+    defaults: { _controller: PedsRefProcBundle:RefProc:remove }
+peds_remove_act_list:
+    pattern:  /remove/act
+    defaults: { _controller: PedsRefProcBundle:Activity:remove }
+peds_remove_task_list:
+    pattern:  /remove/task
+    defaults: { _controller: PedsRefProcBundle:Task:remove }
+peds_remove_rp:
+    pattern:  /remove/rp/{id}
+    defaults: { _controller: PedsRefProcBundle:RefProc:removeId }
+peds_remove_act:
+    pattern:  /remove/act/{id}
+    defaults: { _controller: PedsRefProcBundle:Activity:removeId }
+peds_remove_task:
+    pattern:  /remove/task/{id}
+    defaults: { _controller: PedsRefProcBundle:Task:removeId }
+peds_rp_edit:
+    pattern:   /edit/rp/{id}
+    defaults:  { _controller: PedsRefProcBundle:RefProc:edit }
+peds_act_edit:
+    pattern:   /edit/act/{id}
+    defaults:  { _controller: PedsRefProcBundle:Activity:edit }
+peds_task_edit:
+    pattern:   /edit/task/{id}
+    defaults:  { _controller: PedsRefProcBundle:Task:edit }
+peds_create_product:
+    pattern:  /new/product
+    defaults: { _controller: PedsRefProcBundle:Product:new }
+peds_create_product_index:
+    pattern:  /new/product/
+    defaults: { _controller: PedsRefProcBundle:Product:index }
+peds_create_role:
+    pattern:  /new/role
+    defaults: { _controller: PedsRefProcBundle:Role:new }
+peds_create_role_index:
+    pattern:  /new/role/
+    defaults: { _controller: PedsRefProcBundle:Role:index }
+peds_remove_product_list:
+    pattern:  /remove/product
+    defaults: { _controller: PedsRefProcBundle:Product:remove }
+peds_remove_role_list:
+    pattern:  /remove/role
+    defaults: { _controller: PedsRefProcBundle:Role:remove }
+peds_remove_product:
+    pattern:  /remove/product/{id}
+    defaults: { _controller: PedsRefProcBundle:Product:removeId }
+peds_remove_role:
+    pattern:  /remove/role/{id}
+    defaults: { _controller: PedsRefProcBundle:Role:removeId }

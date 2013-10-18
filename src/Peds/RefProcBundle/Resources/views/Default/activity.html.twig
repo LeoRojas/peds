@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}New activity{% endblock %}
+{% block Login %}{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+hr
+{
+height: 5px;
+background-color: green;
+}
+.tmargin{
+margin-top: 20px;
+}
+.ffont{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#body_div
+{
+margin-left: 10px;
+}
+#activity label
+{
+width: 10%;
+}
+#activity div
+{
+margin-top: 10px;
+}
+#activity input[type=text]
+{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id="body_div">
+<h1>Create new activity</h1>
+<hr>
+{# {% if form.rp|length > 0 %} #}
+{% if rps is defined %}
+{% if rps|length > 0 %}
+<div id="act_form_div">
+<form action="{{ path('peds_create_act') }}" class="ffont" id="register" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input class="tmargin" value="Create Activity" type="submit" />
+</form>
+</div>
+
+<div class="tmargin">
+	<a href="{{ path('peds_create_task_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create TASK" />Create task</a>
+</div>
+{% else %}
+<div id="no_rp_div" class="inst_font bmargin">
+There are no RPs to bind a new activity</div>
+{% endif %}
+{% endif %}
+
+</div>
+{% endblock %}

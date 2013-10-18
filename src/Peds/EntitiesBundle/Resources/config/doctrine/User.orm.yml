@@ -1,0 +1,52 @@
+Peds\EntitiesBundle\Entity\User:
+    type: entity
+    table: user
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        description:
+            type: string
+            length: 255
+            fixed: false
+            nullable: true
+        userName:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+            column: user_name
+        email:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        password:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        salt:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        rDate:
+            type: datetime
+            nullable: false
+            column: r_date
+    manyToOne:
+        role:
+            targetEntity: UserRole
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                role:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

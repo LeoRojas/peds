@@ -1,0 +1,33 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Compare rp results{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#body_div
+{
+margin-left: 50px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<script type="text/javascript">
+</script>
+<div id="compare_ins" >
+</div>
+<div id="rp_left" >
+{% if rp_res is defined%}
+	<table>
+	{% for rp in rp_res %}
+	<tr><td>
+	  {{rp}}
+	</td></tr>
+	{% endfor %}
+
+	</table>
+{% endif %}
+{% if compare_res is defined%}
+	{{compare_res}}
+{% endif %}
+
+</div>
+{% endblock %}

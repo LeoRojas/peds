@@ -1,0 +1,25 @@
+peds_account_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: PedsAccountBundle:Default:index }
+peds_account:
+    pattern:  /account
+    defaults: { _controller: PedsAccountBundle:Account:index }
+login:
+    pattern:   /login
+    defaults:  { _controller: PedsAccountBundle:Security:login }
+login_check:
+    pattern:   /login_check
+logout:
+    pattern:   /logout
+peds_matching:
+    pattern:   /matching
+    defaults:  { _controller: PedsAccountBundle:MantenedorMatching:index }
+peds_matching_edit:
+    pattern:   /matching/edit/{id}
+    defaults:  { _controller: PedsAccountBundle:MantenedorMatching:edit }
+peds_load_rp:
+    pattern:   /load_rp
+    defaults:  { _controller: PedsAccountBundle:LoadRP:index }
+peds_load_rp_func:
+    pattern:   /load_rp/
+    defaults:  { _controller: PedsAccountBundle:LoadRP:load }

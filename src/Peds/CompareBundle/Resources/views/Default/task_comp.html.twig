@@ -1,0 +1,131 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Task comparisons{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#comp_table td, th
+{
+margin:0px;
+border:3px solid;
+padding: 10px;
+border-left: 0px;
+border-right: 0px;
+/*border-style: inset;*/
+border-color: gray;
+background-color: white;
+/*border-radius: 5px;*/
+}
+#comp_table th
+{
+font-weight:bold;
+text-align:center;
+background-color: #C0C0C0;
+color: white;
+font-size: 16px;
+}
+#comp_table table
+{
+margin-bottom: 15px;
+border: 3px solid;
+border-color: gray;
+}
+#body_div img
+{
+vertical-align: middle;
+}
+#body_div
+{
+margin-left: 10px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<script type="text/javascript">
+var id_to_be_deleted=0;
+var entitie_to_be_deleted="";
+function confirmDeleteFunction(id)
+{
+//alert(entitie);
+id_to_be_deleted=id;
+//entitie_to_be_deleted=entitie;
+$( "#dialog-confirm-taskComp" ).dialog( "open" );
+
+return false;
+}
+$(function() {
+    $( ".dialog-confirm" ).dialog({
+      resizable: false,
+      autoOpen: false,
+      height:200,
+      width:500,
+      modal: true,
+      buttons: {
+        "Delete": function() {
+          $( this ).dialog( "close" );
+		  /*
+          window.location.href = "{{ path('peds_remove_rp_list') }}/".replace('rp',entitie_to_be_deleted)+id_to_be_deleted;
+		  */
+		   window.location.href = "{{ path('peds_task_comp_remove', {'id' : '0'}) }}".replace('0',id_to_be_deleted);
+		  {# window.location.href ="{{ path('peds_task_comp_remove')}}"+id_to_be_deleted;#}
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+  });
+</script>
+<div id="body_div">
+<h1>My Mappings</h1>
+<hr>
+<div id="dialog-confirm-taskComp" class="dialog-confirm" title="Confirm delete">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>These Comparison between tasks will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+<div id="comp_table" >
+<!-- ver si tiene permisos-->
+
+	<table border=1>
+	<th>Base RP</th>
+	<th>Base Task</th>
+	<th>Covered RP</th>
+	<th>Covered Tasks</th>
+	<th>Similarity</th>
+	<th>Observations</th>
+	{#
+	<th></th>
+	<th></th>
+	#}
+	{% if comparisons is defined%}
+		{% for comp in comparisons %}
+		<tr>
+			<td>{{comp.baseTask.activity.rp}}</td>
+			<td>{{comp.baseTask}}</td>
+			<td>{{comp.rp}}</td>
+			{% if mappings is defined%}
+				<td>
+				{% set c_index = loop.index0 %}
+				{% for map in mappings[c_index] %}
+					{% if loop.last %}
+						{{map.task}}
+					{% else %}
+						{{map.task}},
+					{% endif %}
+				{% endfor %}
+				</td>
+			{% else %}
+				<td></td>
+			{% endif %}
+			<td>{{comp.matching.shortName}}</td>
+			<td>{{comp.obs}}</td>
+			{#
+			<td><a href=" {{ path('peds_task_comp_edit', {'id' : comp.id}) }}"><img src="{{asset('img/Edit_1.png')}}" width="26" height="26" alt="Edit COMP" />Edit</a></td>
+			<td><a href=" {{ path('peds_task_comp_remove', {'id' : comp.id}) }}" onclick="return confirmDeleteFunction({{comp.id}});"><img src="{{asset('img/Delete_1.png')}}" width="26" height="26" alt="Remove COMP" />Delete</a></td>
+			#}
+		</tr>
+		{% endfor %}
+	{% endif %}
+	</table>
+
+</div>
+</div>
+{% endblock %}

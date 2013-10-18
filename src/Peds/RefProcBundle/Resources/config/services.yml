@@ -1,0 +1,7 @@
+parameters:
+#    peds_ref_proc.example.class: Peds\RefProcBundle\Example
+
+services:
+#    peds_ref_proc.example:
+#        class: %peds_ref_proc.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

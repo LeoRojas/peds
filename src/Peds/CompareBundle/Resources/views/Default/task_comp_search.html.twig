@@ -1,0 +1,298 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Search comparisons{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#comp_table td, th
+{
+margin:0px;
+border:3px solid;
+padding: 10px;
+border-left: 0px;
+border-right: 0px;
+/*border-style: inset;*/
+border-color: gray;
+background-color: white;
+/*border-radius: 5px;*/
+}
+#comp_table th
+{
+font-weight:bold;
+text-align:center;
+background-color: #C0C0C0;
+color: white;
+font-size: 16px;
+}
+#comp_table table
+{
+margin-bottom: 15px;
+border: 3px solid;
+border-color: gray;
+}
+.inb
+{
+display: inline-block;
+}
+.v_marg
+{
+margin-top: 20px;
+margin-bottom: 20px;
+}
+.l_marg
+{
+margin-left: 50px;
+}
+.inst_font{
+font-family:arial;
+font-size:20px;
+color:black;
+}
+.bmargin{
+margin-bottom: 50px;
+}
+#body_div
+{
+margin-left: 10px;
+}
+.ffont{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+.fake_href
+{
+color: #B24926;
+cursor: pointer;
+}
+</style>
+{% endblock %}
+{% block body %}
+<script type="text/javascript">
+function searchRPFunction(){
+var left_rp=jQuery( 'select[name="rp_select1"]' );
+var right_rp=jQuery( 'select[name="rp_select2"]' );
+//alert(left_rp.val());
+//alert(right_rp.val());
+var request = $.ajax({
+  type: "POST",
+  url: "{{path('peds_task_comp_search_rp')}}",
+  dataType: 'json',
+  data: { left_rp: left_rp.val(), right_rp: right_rp.val() }
+});
+request.done(function( response ) {
+  //alert(response);
+  if(response.success){
+
+	var ComparisonHTML="";
+	ComparisonHTML+="<table border=1>";
+	ComparisonHTML+="<th>Base Task</th>";
+	ComparisonHTML+="<th>Covered Tasks</th>";
+	ComparisonHTML+="<th>Similarity</th>";
+	ComparisonHTML+="<th>Observations</th>";
+	ComparisonHTML+="<th>Owner</th>";
+	ComparisonHTML+="<th></th>";
+	$.each(response.comparisons, function( index, comp ) {
+		//alert( index + ": " + comp );
+		ComparisonHTML+="<tr>";
+		ComparisonHTML+="<td>"+comp['base_task_sname']+"</td>";
+		ComparisonHTML+="<td>";
+		$.each(comp['mappings'], function( index_map, map ) {
+			ComparisonHTML+=map+" , ";
+		});
+		//alert(ComparisonHTML);
+		//alert(ComparisonHTML.slice(0, -3));
+		ComparisonHTML=ComparisonHTML.slice(0, -3);
+		ComparisonHTML+="</td>";
+		ComparisonHTML+="<td>"+comp['mat_sname']+"</td>";
+		ComparisonHTML+="<td>"+comp['obs']+"</td>";
+		ComparisonHTML+="<td>"+comp['user']+"</td>";
+		//ComparisonHTML+="<td>"+comp['comp_id']+"</td>";
+		if(comp['user_id']!={{app.user.id}}){
+			//ComparisonHTML+="<td>"+"Banana"+"</td>";
+			ComparisonHTML+="<td><span class='fake_href' onclick='copyCompFunction("+comp['comp_id']+")'>Copy to my account</span></td>";
+		}
+		else{
+			ComparisonHTML+="<td></td>";
+		}	
+		ComparisonHTML+="</tr>";
+	});
+	ComparisonHTML+="</table>";
+	//$("#comp_div").html(ComparisonHTML);
+	$("#comp_table").html(ComparisonHTML);
+  }
+  else{alert(response.msg);}
+});
+ 
+request.fail(function( jqXHR, textStatus ) {
+  alert( "Request failed: " + textStatus );
+});
+}
+function searchUserFunction(){
+var user=jQuery( 'select[name="user_select"]' );
+//alert(user.val());
+var request = $.ajax({
+  type: "POST",
+  url: "{{path('peds_task_comp_search_user')}}",
+  dataType: 'json',
+  data: { user_id: user.val(), }
+});
+request.done(function( response ) {
+
+  if(response.success){
+	//return;
+	var ComparisonHTML="";
+	ComparisonHTML+="<table border=1>";
+	ComparisonHTML+="<th>Base RP</th>";
+	ComparisonHTML+="<th>Base Task</th>";
+	ComparisonHTML+="<th>Covered RP</th>";
+	ComparisonHTML+="<th>Covered Tasks</th>";
+	ComparisonHTML+="<th>Similarity</th>";
+	ComparisonHTML+="<th>Observations</th>";
+	ComparisonHTML+="<th>Owner</th>";
+	ComparisonHTML+="<th></th>";
+	$.each(response.comparisons, function( index, comp ) {
+		//alert( index + ": " + comp );
+		ComparisonHTML+="<tr>";
+		ComparisonHTML+="<td>"+comp['base_rp_sname']+"</td>";
+		ComparisonHTML+="<td>"+comp['base_task_sname']+"</td>";
+		ComparisonHTML+="<td>"+comp['sec_rp_sname']+"</td>";
+		ComparisonHTML+="<td>";
+		$.each(comp['mappings'], function( index_map, map ) {
+			ComparisonHTML+=map+" , ";
+		});
+		//alert(ComparisonHTML);
+		//alert(ComparisonHTML.slice(0, -3));
+		ComparisonHTML=ComparisonHTML.slice(0, -3);
+		ComparisonHTML+="</td>";
+		ComparisonHTML+="<td>"+comp['mat_sname']+"</td>";
+		ComparisonHTML+="<td>"+comp['obs']+"</td>";
+		ComparisonHTML+="<td>"+comp['user']+"</td>";
+		//ComparisonHTML+="<td>"+comp['comp_id']+"</td>";
+		if(comp['user_id']!={{app.user.id}}){
+			//ComparisonHTML+="<td>"+"Banana"+"</td>";
+			ComparisonHTML+="<td><span class='fake_href' onclick='copyCompFunction("+comp['comp_id']+")'>Copy to my account</span></td>";
+		}
+		else{
+			ComparisonHTML+="<td></td>";
+		}	
+		ComparisonHTML+="</tr>";
+	});
+	ComparisonHTML+="</table>";
+	//$("#comp_div").html(ComparisonHTML);
+	$("#comp_table").html(ComparisonHTML);
+  }
+  else{alert(response.msg);}
+});
+ 
+request.fail(function( jqXHR, textStatus ) {
+  alert( "Request failed: " + textStatus );
+});
+}
+function copyCompFunction(comp_id){
+alert("COPY "+comp_id);
+var request = $.ajax({
+  type: "POST",
+  url: "{{path('peds_task_comp_search_copy')}}",
+  dataType: 'json',
+  data: { comp_id: comp_id,
+  }
+});
+request.done(function( response ) {
+  if(response.success){
+  //addComparisonFunction();
+  alert(response.msg);
+  //addComparisonFunction(response.created_id,response.rtasks_sname);
+  }
+  else{alert(response.msg);}
+});
+ 
+request.fail(function( jqXHR, textStatus ) {
+  alert( "Request failed: " + textStatus );
+});
+}
+$( document ).ready(function() {
+  // Handler for .ready() called.
+  //var search_criteria=$( "#rp_radio" );
+	var $radios = $('input:radio[name=search]');
+    if($radios.is(':checked') === false) {
+		{% if rps|length > 0 %}
+			$radios.filter('[value=rp]').prop('checked', true);
+			$( "#user_div" ).hide();
+		{% else %}
+			$radios.filter('[value=user]').prop('checked', true);
+			$radios.filter('[value=rp]').attr('disabled',true);
+			$( "#rp_div" ).hide();
+		{% endif %}
+    }
+	
+	$("#rp_radio").click(function(){
+    //alert("rp selected");
+	$( "#rp_div" ).show();
+	$( "#user_div" ).hide();
+	});
+	$("#user_radio").click(function(){
+    //alert("user selected");
+	$( "#user_div" ).show();
+	$( "#rp_div" ).hide();
+	});
+	$( "#rp_select1" ).change(function() {
+		//alert( "rp_select1 for .change() called." );
+		searchRPFunction();
+	});
+	$( "#rp_select2" ).change(function() {
+		//alert( "rp_select2 for .change() called." );
+		searchRPFunction();
+	});
+	$( "#user_select" ).change(function() {
+		//alert( "user_select for .change() called." );
+		searchUserFunction();
+	});
+});
+</script>
+<div id="body_div">
+<h1>Mappings</h1>
+<hr>
+<div id="search_div">
+<div id="inst_div" class="inst_font bmargin">
+Select the search criteria</div>
+<form id="search_form" class="ffont">
+<div id="rp_radio_div" class="inb">
+	<input type="radio" id="rp_radio" name="search" value="rp">By Reference Processes<br>
+</div>
+<div id="user_radio_div" class="inb l_marg">
+	<input type="radio" id="user_radio" name="search" value="user">By user
+</div>
+<div id="rp_div" class="v_marg">
+<select id="rp_select1" name="rp_select1">
+	{% if rps is defined%}
+		{% for rp in rps %}
+			<option value="{{rp.id}}">{{rp.shortName}}</option>
+  		{% endfor %}
+	{% endif %}
+</select>
+<select id="rp_select2" name="rp_select2">
+	{% if rps is defined%}
+		{% for rp in rps %}
+			<option value="{{rp.id}}">{{rp.shortName}}</option>
+  		{% endfor %}
+	{% endif %}
+</select>
+</div>
+<div id="user_div" class="v_marg">
+<select id="user_select" name="user_select">
+	{% if users is defined%}
+		{% for user in users %}
+			<option value="{{user.id}}">{{user.userName}}</option>
+  		{% endfor %}
+	{% endif %}
+</select>
+</div>
+</form>
+</div>
+<div id="comp_table" >
+<!-- ver si tiene permisos-->
+
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Matching entry edit{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#matching_row
+{
+margin-bottom: 20px;
+}
+#Matching label
+{
+    display: block;
+    float: left;
+    width: 10%;
+}
+.tmargin{
+margin-top: 20px;
+}
+.ffont{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#Matching input[type=text]
+{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#Matching div
+{
+margin-top: 10px;
+}
+#body_div
+{
+margin-left: 10px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<script type="text/javascript">
+</script>
+<div id="body_div">
+<h1>Edit Matching table entry </h1>
+<hr>
+<div id="matching_row" >
+<!-- ver si tiene permisos-->
+
+{# src/Peds/AccountBundle/Resources/views/Default/mantenedor_matching.html.twig #}
+	<form action="{{ path('peds_matching_edit', {'id' : id}) }}" class="ffont" id="update" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input class="tmargin" value="Edit" type="submit" />
+	</form>
+
+</div>
+<div>
+<a href="{{ path('peds_matching') }}">Continue editing matching table</a>
+</div>
+</div>
+{% endblock %}

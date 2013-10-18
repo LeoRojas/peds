@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+  <entity name="CompRes" table="comp_res">
+    <id name="id" type="integer" column="id">
+      <generator strategy="IDENTITY"/>
+    </id>
+    <many-to-one field="task2" target-entity="Task">
+      <join-columns>
+        <join-column name="task_2" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="code" target-entity="Matching">
+      <join-columns>
+        <join-column name="code" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="act2" target-entity="Activity">
+      <join-columns>
+        <join-column name="act_2" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="rp2" target-entity="ReferenceProcess">
+      <join-columns>
+        <join-column name="rp_2" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="act1" target-entity="Activity">
+      <join-columns>
+        <join-column name="act_1" referenced-column-name="rp_id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="task1" target-entity="Task">
+      <join-columns>
+        <join-column name="task_1" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+    <many-to-one field="rp1" target-entity="ReferenceProcess">
+      <join-columns>
+        <join-column name="rp_1" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
+  </entity>
+</doctrine-mapping>

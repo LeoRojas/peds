@@ -1,0 +1,49 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}New task{% endblock %}
+{% block Login %}{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+hr
+{
+height: 5px;
+background-color: green;
+}
+.tmargin{
+margin-top: 20px;
+}
+.ffont{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#body_div
+{
+margin-left: 10px;
+}
+#Task label
+{
+width: 10%;
+}
+#Task div
+{
+margin-top: 10px;
+}
+#Task input[type=text]
+{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id="body_div">
+<h1>Create new task</h1>
+<hr>
+<form action="{{ path('peds_create_task') }}" class="ffont" id="register" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input class="tmargin" value="Create Task" type="submit" />
+</form>
+</div>
+{% endblock %}

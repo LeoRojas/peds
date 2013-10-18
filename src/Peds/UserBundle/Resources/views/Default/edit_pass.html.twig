@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+{% block title %}Change pass{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#edit_pass_form label
+{
+width: 15%;
+display: block;
+float: left;
+}
+#edit_pass_form div
+{
+margin-top: 10px;
+}
+.tmargin{
+margin-top: 20px;
+}
+#edit_pass_form input
+{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#body_div
+{
+margin-left: 10px;
+}
+.ffont{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id="body_div">
+<h1>Change pass</h1>
+<hr>
+<form action="{{ path('user_edit_pass') }}" method="post" class="ffont" id="edit_pass_form">
+	<div>
+        <label for="cpassword">Current Password:</label>
+        <input type="password" id="cpassword" placeholder="Current Password" name="_cpassword" />
+    </div>
+    <div>
+        <label for="npassword">New Password:</label>
+        <input type="password" id="npassword" placeholder="New Password" name="_npassword" />
+    </div>
+	<div>
+        <label for="rnpassword">Repeat New Password:</label>
+        <input type="password" id="rnpassword" placeholder="Repeat New Password" name="_rnpassword" />
+    </div>
+    {#
+        If you want to control the URL the user is redirected to on success (more details below)
+        <input type="hidden" name="_target_path" value="/account" />
+    #}
+
+    <button class="tmargin" type="submit">Update password</button>
+</form>
+</div>
+{% endblock %}

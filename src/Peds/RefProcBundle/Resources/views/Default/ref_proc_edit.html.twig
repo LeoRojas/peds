@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}RP entry edit{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+.tmargin{
+margin-top: 20px;
+}
+.ffont{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#matching_row
+{
+margin-bottom: 50px;
+}
+#update label
+{
+    display: block;
+    float: left;
+    width: 90px;
+}
+#body_div
+{
+margin-left: 10px;
+}
+#ReferenceProcess label
+{
+width: 10%;
+}
+#ReferenceProcess div
+{
+margin-top: 10px;
+}
+#ReferenceProcess input[type=text]
+{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+</style>
+{% endblock %}
+{% block body %}
+<script type="text/javascript">
+</script>
+<div id="body_div">
+<h1>Edit reference process</h1>
+<hr>
+<div id="edit_rp" >
+<!-- ver si tiene permisos-->
+
+	<form action="{{ path('peds_rp_edit', {'id' : id}) }}" class="ffont" id="update" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input class="tmargin" value="Edit RP" type="submit" />
+	</form>
+
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Account{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#hello_div
+{
+margin-bottom: 15px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id="body_div">
+{% if is_granted("ROLE_USER") %}
+
+<div id="hello_div" >
+Hello {{app.user.username}}
+</div>
+<li><a href="{{ path('peds_compare') }}">Compare reference processes</a></li>
+<li><a href="{{ path('peds_create_rp') }}">Create new RP</a></li>
+<li><a href="{{ path('peds_create_act') }}">Create new activity</a></li>
+<li><a href="{{ path('peds_create_task') }}">Create new task</a></li>
+<li><a href="{{ path('peds_create_product') }}">Create new product</a></li>
+<li><a href="{{ path('peds_create_role') }}">Create new role</a></li>
+<li><a href="{{ path('peds_remove_rp_list') }}">Remove a reference processes (RP)</a></li>
+<li><a href="{{ path('peds_remove_act_list') }}">Remove a activity</a></li>
+<li><a href="{{ path('peds_remove_task_list') }}">Remove a task</a></li>
+<li><a href="{{ path('peds_remove_product_list') }}">Remove a product</a></li>
+<li><a href="{{ path('peds_remove_role_list') }}">Remove a role</a></li>
+<!-- poner un if granted admin-->
+<li><a href="{{ path('peds_matching') }}">Edit matching table</a></li>
+</div>
+
+{% endif %}
+{% endblock %}

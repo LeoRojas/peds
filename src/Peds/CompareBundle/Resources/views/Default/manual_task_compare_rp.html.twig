@@ -1,0 +1,221 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Map RPs{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#feedback { font-size: 1.4em; }
+.selectable_rp .ui-selecting { background: #9DE68B; }
+.selectable_rp .ui-selected { background: #9DE68B; color: white; }
+.selectable_rp { 
+list-style-type: none;
+margin: 0;
+padding: 0; 
+float:none;
+width: 50%;
+text-align: center;
+margin-left: auto;
+margin-right: auto;
+}
+.selectable_rp li { list-style-type: none; margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
+
+#compare_ins
+{
+clear:both;
+}
+#compare_button_div
+{
+clear:both;
+margin-left:auto;
+margin-right:auto;
+width:20%;
+}
+.center
+{
+margin-left:auto;
+margin-right:auto;
+width:100%;
+}
+#rp_left
+{
+float:left;
+width: 33%;
+}
+#compare_with
+{
+float:left;
+width: 33%;
+text-align: center;
+font-size: 20px;
+font-weight: bold;
+line-height: 180px;
+}
+#rp_right
+{
+float:left;
+width: 33%;
+}
+table.rp_table
+{
+border-width: 1px;
+border-spacing: 2px;
+border-style: outset;
+border-color: gray;
+border-collapse: separate;
+background-color: white;
+border-radius: 5px;
+}
+table.rp_table th {
+border-width: 0px;
+padding: 5px;
+border-style: inset;
+border-color: gray;
+background-color: white;
+border-radius: 5px;
+}
+table.rp_table td {
+border-width: 0px;
+padding: 5px;
+border-style: inset;
+border-color: gray;
+background-color: white;
+border-radius: 5px;
+}
+#body_div img
+{
+vertical-align: middle;
+}
+.mbutton_font
+{
+font-size: 20px;
+}
+#body_div
+{
+margin-left: 10px;
+}
+hr
+{
+height: 5px;
+background-color: green;
+}
+.flwi{
+float:left;
+width: 33%;
+}
+.inst_font{
+font-family:arial;
+font-size:20px;
+color:black;
+}
+.bmargin{
+margin-bottom: 50px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id="body_div">
+<script type="text/javascript">
+
+function CompareFunction()
+{
+var left_rp=$( "#selectable .ui-selected" );
+var right_rp=$( "#selectable2 .ui-selected" );
+//Select conditions
+var len_l = left_rp.length;
+var len_r = right_rp.length;
+if(len_l<1 || len_l>1){
+alert("Select exactly one RP as Base RP from the left RP list");
+return false;
+}
+if(len_r<1 || len_r>1){
+alert("Select exactly one RP from the right RP list");
+return false;
+}
+//
+//alert("The selected rps are, Left: "+left_rp.attr('id')+" Right: "+right_rp.attr('id'));
+$("#left_rp").val(left_rp.attr('id'));
+$("#right_rp").val(right_rp.attr('id'));
+return true;
+}
+$(function() {
+    $( "#selectable" ).selectable({
+      stop: function() {
+        var result = $( "#select-result" ).empty();
+        $( ".ui-selected", this ).each(function() {
+          //var index = $( "#selectable li" ).index( this );
+          //var index = $( "#selectable li" ).attr('id');
+          var index =$(this).attr('id');
+          result.append( " #" + index );
+          //result.append( " #" + ( index + 1 ) );
+        });
+      }
+    });
+    $( "#selectable2" ).selectable();
+
+  });
+</script>
+<div id="compare_ins" >
+<h1>Map reference processes</h1>
+<p id="feedback">
+{#<span>You've selected:</span> <span id="select-result">none</span>.#}
+</p>
+</div>
+<hr>
+{% if rps is defined%}
+{% if rps|length > 0 %}
+<div id="inst_div" class="inst_font bmargin">
+
+Select two reference process to map them</div>
+{#
+<div id="left_hdiv" class="flwi">Base Reference process</div>
+<div id="hdiv" class="flwi"></div>
+<div id="right_hdiv" class="flwi"></div>
+#}
+<div id="rp_left" >
+
+	{#<span>Base Reference process</span>#}
+	<ol id="selectable"  class="selectable_rp">
+	{% for rp in rps %}
+	  <li id="left_{{rp.id}}" class="ui-widget-content">{{rp.shortName}}</li>
+	{% endfor %}
+	</ol>
+
+</div>
+<div id="compare_with" >
+
+<img src="{{asset('img/Left_arrow.png')}}" width="26" height="26" alt="Left_arrow" />
+<span style="color:black">mapping with respect to</span>
+<img src="{{asset('img/Right_arrow.png')}}" width="26" height="26" alt="Right_arrow" />
+
+</div>
+<div id="rp_right" >
+
+	<ol id="selectable2"  class="selectable_rp">
+	 	{% for rp in rps %}
+		  <li id="right_{{rp.id}}" class="ui-widget-content">{{rp.shortName}}</li>
+		{% endfor %}
+	</ol>
+
+<!--
+	<table class="rp_table">
+		<tr><th>Second RP</th></tr>
+		<tr><td>RP falso right</td></tr>
+		<tr><td>RP falso right</td></tr>
+		<tr><td>RP falso right</td></tr>
+		<tr><td>RP falso right</td></tr>
+	</table>
+-->
+</div>
+<div id="compare_button_div" >
+	<form action="{{ path('peds_compare_tasks_func') }}" name="nhab" id="habform" method="post">
+            <input type="hidden" id="left_rp" name="left_rp" value="">
+            <input type="hidden" id="right_rp" name="right_rp" value="">
+            <input type="submit" id="compare_button" class="center mbutton_font bmargin" value="Map RPs" onclick="return CompareFunction();">
+    </form>
+</div>
+{% else %}
+<div id="no_rp_div" class="inst_font bmargin">
+There are no RPs</div>
+{% endif %}
+{% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+Peds\EntitiesBundle\Entity\Matching:
+    type: entity
+    table: matching
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        code:
+            type: string
+            length: 5
+            fixed: false
+            nullable: false
+        shortName:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+            column: short_name
+        description:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+        score:
+            type: float
+            nullable: false
+    lifecycleCallbacks: {  }

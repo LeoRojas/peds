@@ -1,0 +1,60 @@
+{% extends '::base.html.twig' %}
+{% block title %}Change e-mail{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+.tmargin{
+margin-top: 20px;
+}
+.ffont{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+#body_div
+{
+margin-left: 10px;
+}
+#edit_mail label
+{
+width: 10%;
+}
+#edit_mail div
+{
+margin-top: 10px;
+}
+#edit_mail input
+{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id="body_div">
+<h1>Change e-mail</h1>
+<hr>
+<form action="{{ path('user_edit_mail') }}" method="post" class="ffont" id="login">
+<div id='edit_mail'>
+    <div>
+        <label for="nmail">New e-mail:</label>
+		{% if last_username is defined %}
+			<input type="text" id="nmail" name="_nmail" value="{{ last_username }}" />
+		{% else %}
+			<input type="text" id="nmail" name="_nmail" value="" />
+		{% endif %}
+    </div>
+    <div class="tmargin">
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="_password" />
+    </div>
+
+    {#
+        If you want to control the URL the user is redirected to on success (more details below)
+        <input type="hidden" name="_target_path" value="/account" />
+    #}
+</div>
+    <button class="tmargin" type="submit">Update mail</button>
+</form>
+</div>
+{% endblock %}

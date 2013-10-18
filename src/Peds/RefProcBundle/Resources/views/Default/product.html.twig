@@ -1,0 +1,24 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}New product{% endblock %}
+{% block Login %}{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#body_div
+{
+margin-left: 100px;
+}
+#create_product label
+{
+    display: block;
+    float: left;
+    width: 200px;
+}
+</style>
+{% endblock %}
+{% block body %}
+<form action="{{ path('peds_create_product') }}" id="create_product" method="post" {{ form_enctype(form) }}>
+    {{ form_widget(form) }}
+    <input type="submit" />
+</form>
+{% endblock %}

@@ -1,0 +1,39 @@
+Peds\EntitiesBundle\Entity\ReferenceProcess:
+    type: entity
+    table: reference_process
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+        shortName:
+            type: string
+            length: 50
+            fixed: false
+            nullable: false
+            column: short_name
+        description:
+            type: text
+            nullable: true
+        workflow:
+            type: boolean
+            nullable: false
+        visibility:
+            type: string
+            length: 255
+            fixed: false
+            nullable: false
+    manyToOne:
+        owner:
+            targetEntity: User
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                owner:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

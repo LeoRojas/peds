@@ -1,0 +1,7 @@
+parameters:
+#    peds_compare.example.class: Peds\CompareBundle\Example
+
+services:
+#    peds_compare.example:
+#        class: %peds_compare.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

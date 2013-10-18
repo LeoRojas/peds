@@ -1,0 +1,67 @@
+peds_compare_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: PedsCompareBundle:Default:index }
+peds_compare:
+    pattern:   /compare_rp
+    defaults: { _controller: PedsCompareBundle:Compare:index }
+peds_compare_func:
+    pattern:   /compare_rp/
+    defaults: { _controller: PedsCompareBundle:Compare:compare }
+peds_compare_manual:
+    pattern:   /compare_rp/tasks
+    defaults: { _controller: PedsCompareBundle:ManualCompare:index }
+peds_compare_manual_func:
+    pattern:   /compare_rp/tasks/
+    defaults: { _controller: PedsCompareBundle:ManualCompare:compare }
+peds_compare_tasks:
+    pattern:   /compare_rp/manually
+    defaults: { _controller: PedsCompareBundle:ManualTaskCompare:index }
+peds_compare_tasks_func:
+    pattern:   /compare_rp/manually/
+    defaults: { _controller: PedsCompareBundle:ManualTaskCompare:compare }
+peds_compare_tasks_create:
+    pattern:   /compare_rp/manually/create
+    defaults: { _controller: PedsCompareBundle:ManualTaskCompare:create }
+peds_compare_tasks_create_empty:
+    pattern:   /compare_rp/manually/create/
+    defaults: { _controller: PedsCompareBundle:ManualTaskCompare:createComp }
+peds_compare_tasks_user_edit:
+    pattern:   /compare_rp/manually/edit
+    defaults: { _controller: PedsCompareBundle:ManualTaskCompare:editComp }
+peds_compare_tasks_user_edit_mapping:
+    pattern:   /compare_rp/manually/edit/mapping
+    defaults: { _controller: PedsCompareBundle:ManualTaskCompare:editMapping }
+peds_compare_tasks_user_remove:
+    pattern:   /compare_rp/manually/remove
+    defaults: { _controller: PedsCompareBundle:ManualTaskCompare:removeComp }
+peds_compare_tasks_check_comparison:
+    pattern:   /compare_rp/manually/check
+    defaults: { _controller: PedsCompareBundle:ManualTaskCompare:check }
+peds_chart:
+    pattern:   /charts/
+    defaults: { _controller: PedsCompareBundle:Chart:index }
+peds_task_comp:
+    pattern:   /task/comparisons
+    defaults:  { _controller: PedsCompareBundle:TaskComp:index }
+peds_task_comp_edit:
+    pattern:   /task/comparisons/edit/{id}
+    defaults:  { _controller: PedsCompareBundle:TaskComp:edit }
+peds_task_comp_remove:
+    pattern:   /task/comparisons/remove/{id}
+    defaults:  { _controller: PedsCompareBundle:TaskComp:removeId }
+peds_task_comp_search:
+    pattern:   /task/comparisons/search
+    defaults:  { _controller: PedsCompareBundle:TaskComp:search }
+peds_task_comp_search_rp:
+    pattern:   /task/comparisons/search/rp
+    defaults:  { _controller: PedsCompareBundle:TaskComp:searchComphByRp }
+peds_task_comp_search_user:
+    pattern:   /task/comparisons/search/user
+    defaults:  { _controller: PedsCompareBundle:TaskComp:searchComphByUser }
+peds_task_comp_search_copy:
+    pattern:   /task/comparisons/search/copy
+    defaults:  { _controller: PedsCompareBundle:TaskComp:copyComp }
+peds_task_comp_search_copy_all:
+    pattern:   /task/comparisons/search/copy/all
+    defaults:  { _controller: PedsCompareBundle:TaskComp:copyAllComp }
+

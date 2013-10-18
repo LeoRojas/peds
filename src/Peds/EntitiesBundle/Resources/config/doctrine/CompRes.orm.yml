@@ -1,0 +1,76 @@
+Peds\EntitiesBundle\Entity\CompRes:
+    type: entity
+    table: comp_res
+    fields:
+        id:
+            id: true
+            type: integer
+            unsigned: false
+            nullable: false
+            generator:
+                strategy: IDENTITY
+    manyToOne:
+        rp1:
+            targetEntity: ReferenceProcess
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                rp_1:
+                    referencedColumnName: id
+            orphanRemoval: false
+        act1:
+            targetEntity: Activity
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                act_1:
+                    referencedColumnName: rp_id
+            orphanRemoval: false
+        task1:
+            targetEntity: Task
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                task_1:
+                    referencedColumnName: id
+            orphanRemoval: false
+        rp2:
+            targetEntity: ReferenceProcess
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                rp_2:
+                    referencedColumnName: id
+            orphanRemoval: false
+        act2:
+            targetEntity: Activity
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                act_2:
+                    referencedColumnName: id
+            orphanRemoval: false
+        task2:
+            targetEntity: Task
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                task_2:
+                    referencedColumnName: id
+            orphanRemoval: false
+        code:
+            targetEntity: Matching
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                code:
+                    referencedColumnName: id
+            orphanRemoval: false
+    lifecycleCallbacks: {  }

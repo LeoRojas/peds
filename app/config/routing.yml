@@ -1,0 +1,28 @@
+peds_account:
+    resource: "@PedsAccountBundle/Resources/config/routing.yml"
+    prefix:   /
+
+peds_ref_proc:
+    resource: "@PedsRefProcBundle/Resources/config/routing.yml"
+    prefix:   /
+
+peds_compare:
+    resource: "@PedsCompareBundle/Resources/config/routing.yml"
+    prefix:   /
+
+peds_user:
+    resource: "@PedsUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+peds_entities:
+    resource: "@PedsEntitiesBundle/Resources/config/routing.yml"
+    prefix:   /
+
+# Internal routing configuration to handle ESI
+# ****** WARNING ******
+# This route should be enabled with caution as it can open a security vulnerability
+# see http://symfony.com/blog/security-release-symfony-2-0-20-and-2-1-5-released for more information
+# ****** WARNING ******
+#_internal:
+#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#    prefix:   /_internal

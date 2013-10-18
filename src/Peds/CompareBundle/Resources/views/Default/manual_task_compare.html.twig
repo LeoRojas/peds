@@ -1,0 +1,772 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Compare rp by tasks manually{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+#body_div
+{
+margin-left: 20px;
+}
+#body_div img
+{
+vertical-align: middle;
+}
+.borderless_td
+{
+border-width: 0px;
+}
+.task_table td, th
+{
+margin:0px;
+border:3px solid;
+padding: 10px;
+border-left: 0px;
+border-right: 0px;
+/*border-style: inset;*/
+border-color: gray;
+background-color: white;
+/*border-radius: 5px;*/
+}
+.task_table th
+{
+font-weight:bold;
+text-align:center;
+background-color: #C0C0C0;
+color: white;
+font-size: 16px;
+}
+.task_table table
+{
+margin-bottom: 15px;
+border: 3px solid;
+border-color: gray;
+}
+.float_div
+{
+float: left;
+width: 45%;
+margin-bottom: 15px;
+margin-top: 15px;
+}
+.ctask_div
+{
+float:left;
+}
+#comparison_div
+{
+clear: left;
+}
+.cleft
+{
+clear: left;
+}
+.table_like_div
+{
+border: 3px solid;
+border-color: gray;
+margin-top: 10px;
+}
+.small_div
+{
+width: 18%;
+}
+.half_div
+{
+width: 50%;
+}
+.inb
+{
+display: inline-block;
+}
+.vtop
+{
+vertical-align: top;
+}
+.rmargin
+{
+margin-right: 15px;
+}
+#body_div img
+{
+vertical-align: middle;
+}
+.total_score
+{
+font-family:arial;
+font-size:20px;
+color:black;
+}
+.func_font
+{
+font-family:arial;
+font-size:18px;
+color:black;
+}
+hr
+{
+height: 5px;
+background-color: green;
+}
+.b_margin
+{
+margin:5px;
+}
+.lmargin
+{
+margin-left: 50px;
+}
+.s_lmargin
+{
+margin-left: 10px;
+}
+.xs_lmargin{
+margin-left: 5px;
+}
+.selected_row
+{
+background-color: green;
+}
+</style>
+{% endblock %}
+{% block body %}
+<script type="text/javascript">
+var id_to_be_deleted=0;
+var task_count=0;
+var prev_selected_radio="";
+var prev_selected_comp="";
+var comp_count=0;
+var map_array=new Array();
+//var selected_base_color="green";
+//var selected_base_color="#9DE68B";
+var selected_base_color="rgb(157, 230, 139)";
+var selected_comp_color="lightgreen";
+	{% if mappings is defined%}
+		{% for maparray in mappings %}
+			{# map_array[{{ loop.index }}]=new Array(); #}
+			var aux_array=new Array();
+			{% for map in maparray %}
+				//ComparisonHTML+="&nbsp;&nbsp;&nbsp;&nbsp;";
+				//ComparisonHTML+="{{map.task.shortName}}";
+				//ComparisonHTML+="&nbsp;&nbsp;&nbsp;&nbsp;";
+				{# map_array[{{ loop.parent.loop.index }}][{{ loop.index }}]="{{map.task.shortName}}"; #}
+				aux_array[{{ loop.index0 }}]="{{map.task.shortName}}";
+			{% endfor %}
+			map_array[{{ loop.index0 }}]=aux_array;
+		{% endfor %}
+	{% endif %}
+
+function removeComparisonForm(id){
+var comp_form=$( "#form_"+id );
+comp_form.remove();
+}
+function confirmDeleteFunction(id)
+{
+id_to_be_deleted=id;
+$( "#dialog-confirm-taskComp" ).dialog( "open" );
+
+return false;
+}
+$(function() {
+    $( ".dialog-confirm" ).dialog({
+      resizable: false,
+      autoOpen: false,
+      height:200,
+      width:500,
+      modal: true,
+      buttons: {
+        "Delete": function() {
+          $( this ).dialog( "close" );
+		  
+		  var request = $.ajax({
+			type: "POST",
+			url: "{{path('peds_compare_tasks_user_remove')}}",
+			dataType: 'json',
+			data: { task_id: id_to_be_deleted }
+			});
+			request.done(function( response ) {
+			if(response.success){
+				alert(response.msg);
+				var comp_form=$( "#form_"+id_to_be_deleted );
+				
+				var task_id=comp_form.find("input[name=left_task_id]").val();
+				addBaseTaskColor(task_id,"white");
+				var left_task=jQuery( 'input[name=left_rp_task_radio]:checked' );
+				if(left_task.val() == task_id){
+					clearCheckboxes();
+					$('#save_map_button').hide();
+				}
+				removeComparisonForm(id_to_be_deleted);
+				var aux_per=$( "#matching_total").html();
+				var aux=(aux_per*task_count)/100;
+				aux-=response.old_score;
+				//aux+=response.new_score;
+				var per_total=(aux/task_count)*100;
+				$( "#matching_total").html(per_total.toFixed(1));
+			}
+			else{alert(response.msg);}
+			});
+			 
+			request.fail(function( jqXHR, textStatus ) {
+			alert( "Request failed: " + textStatus );
+			});
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+  });
+function checkRadioFunction()
+{
+var left_task=jQuery( 'input[name=left_rp_task_radio]:checked' );
+//var right_task=jQuery( 'input[name=right_rp_task_radio]:checked' );
+var right_tasks=jQuery( 'input[name=right_rp_task_cbox]:checked' );
+//right_rp_task_cbox
+//if((typeof left_task.val() === "undefined") || (typeof right_task.val() === "undefined")){
+if((typeof left_task.val() === "undefined") || (typeof right_tasks.val() === "undefined")){
+	alert("Select a task in each Reference Process");
+}
+else{
+	checkComparisonFunction();
+	//alert(right_tasks);
+	/*
+	$.each(right_tasks, function( key, value ) {
+		//alert( index + ": " + elem.val() );
+		//alert( key + ": " + value);
+		//alert($(this).val());
+	});
+	*/
+	}
+}
+function createComparisonFunction(left_task_id,right_tasks_array_id){
+alert(right_tasks_array_id);
+var request = $.ajax({
+  type: "POST",
+  url: "{{path('peds_compare_tasks_create_empty')}}",
+  dataType: 'json',
+  data: { left_task_id: left_task_id, right_tasks_id: right_tasks_array_id, right_rp_id: {{right_rp.id}}
+  }
+});
+request.done(function( response ) {
+  if(response.success){
+  //addComparisonFunction();
+  alert(response.msg);
+  addComparisonFunction(response.created_id,response.rtasks_sname);
+  }
+  else{alert(response.msg);}
+});
+ 
+request.fail(function( jqXHR, textStatus ) {
+  alert( "Request failed: " + textStatus );
+});
+}
+function editCompMapping(comp_form){
+//var left_task=jQuery( 'input[name=left_rp_task_radio]:checked' );
+		//if(left_task.parent().css("background-color")==selected_base_color){
+			//var comp_form=$( "#form_"+id );
+			//var task_id=comp_form.find("input[name=left_task_id]").val();
+			//var comp_form=$("#user_comparisons_div").find("input[name=left_task_id][value="+left_task.val()+"]").parent();
+			//var map_snames=comp_form.find("p[name=map_tasks]").html();
+			alert(comp_form.attr( "name" ));
+			alert(comp_form.attr( "id" ));
+			//alert(map_snames);
+			//var map_array = map_snames.split("&nbsp;&nbsp;&nbsp;&nbsp;");
+			var right_tasks=jQuery( 'input[name=right_rp_task_cbox]:checked' );
+			var right_tasks_snames = new Array();
+			var comp_map_HTML="";
+			$.each(right_tasks, function( index, elem ) {
+				//alert($(this).val());
+				//right_tasks_snames.push($(this).attr("sname"));
+				comp_map_HTML+=$(this).attr("sname");
+				comp_map_HTML+="&nbsp;&nbsp;&nbsp;&nbsp;";
+			});
+			comp_form.find("p[name=map_tasks]").html(comp_map_HTML);
+			alert("Mapping HTML updated");
+		//}
+}
+function editMappingFunction(){
+var left_task=jQuery( 'input[name=left_rp_task_radio]:checked' );
+if(left_task.parent().css("background-color")==selected_base_color){
+	var comp_form=$("#user_comparisons_div").find("input[name=left_task_id][value="+left_task.val()+"]").parent();
+	editCompMapping(comp_form);
+	//alert("falta AJAX");
+	var map_snames=comp_form.find("p[name=map_tasks]").html();
+	var map_array = map_snames.split("&nbsp;&nbsp;&nbsp;&nbsp;");
+	var comparison_id=(comp_form.attr("id")).substring(5);
+	alert("map_array "+map_array);
+	alert("comparison_id "+comparison_id);
+	
+	var right_tasks=jQuery( 'input[name=right_rp_task_cbox]:checked' );
+	var right_tasks_id_array = new Array();
+
+	$.each(right_tasks, function( index, elem ) {
+		//alert($(this).val());
+		right_tasks_id_array.push($(this).val());
+	});
+	alert("right_tasks_id_array"+right_tasks_id_array);
+	var request = $.ajax({
+	  type: "POST",
+	  url: "{{path('peds_compare_tasks_user_edit_mapping')}}",
+	  dataType: 'json',
+	  data: { map_array: right_tasks_id_array, comp_id: comparison_id}
+	});
+	request.done(function( response ) {
+	  if(response.success){
+		alert(response.msg);
+		scrollFunction("#form_"+response.comp_id);
+	  }
+	  else{alert(response.msg);}
+	});
+	request.fail(function( jqXHR, textStatus ) {
+	  alert( "Request failed: " + textStatus );
+	});	
+	}
+}
+function editComparisonFunction(comparison_id){
+//var nationality = $('select[id="comp_select"]').val()
+var comp_form=$( "#form_"+comparison_id );
+var mat=comp_form.find("select").val();
+var obs=comp_form.find("textarea").val();
+//alert("matching="+mat);
+//alert("observations="+obs);
+
+var request = $.ajax({
+  type: "POST",
+  url: "{{path('peds_compare_tasks_user_edit')}}",
+  dataType: 'json',
+  data: { matching: mat, observations: obs, comp_id: comparison_id}
+});
+request.done(function( response ) {
+  if(response.success){
+  //addComparisonFunction();
+  alert(response.msg);
+  //$( "#matching_total").html(mtotal);
+  var aux_per=$( "#matching_total").html();
+  var aux=(aux_per*task_count)/100;
+  aux-=response.old_score;
+  aux+=response.new_score;
+  var per_total=(aux/task_count)*100;
+  $( "#matching_total").html(per_total.toFixed(1));
+  }
+  else{alert(response.msg);}
+});
+ 
+request.fail(function( jqXHR, textStatus ) {
+  alert( "Request failed: " + textStatus );
+});
+
+}
+function checkComparisonFunction(){
+var left_task=jQuery( 'input[name=left_rp_task_radio]:checked' );
+//var right_task=jQuery( 'input[name=right_rp_task_radio]:checked' );
+
+var right_tasks=jQuery( 'input[name=right_rp_task_cbox]:checked' );
+var right_tasks_id_array = new Array();
+
+	$.each(right_tasks, function( index, elem ) {
+		//alert($(this).val());
+		right_tasks_id_array.push($(this).val());
+	});
+	
+var request = $.ajax({
+  type: "POST",
+  url: "{{path('peds_compare_tasks_check_comparison')}}",
+  dataType: 'json',
+  //data: { left_task_id: left_task.val(), right_task_id: right_task.val()
+  data: { left_task_id: left_task.val(), right_rp_id: {{right_rp.id}}   
+  }
+});
+request.done(function( response ) {
+  if(response.success){
+  //createComparisonFunction(left_task.val(),right_task.val());
+  createComparisonFunction(left_task.val(),right_tasks_id_array);
+  //alert(response.msg);
+  }
+  else{alert(response.msg);}
+});
+ 
+request.fail(function( jqXHR, textStatus ) {
+  alert( "Request failed: " + textStatus );
+});
+}
+$( document ).ready(function() {
+	var mtotal=0;
+	//alert(map_array);
+	/*
+	for(var i = 0; i < map_array.length; i++) {
+		for(var z = 0; z < map_array[i].length; z++) {
+			//console.log(a[z][i]);
+			alert(map_array[i][z]);
+		}
+	}
+	*/
+    {% if comparisons is defined%}
+		{% for tcomp in comparisons %}
+			addBDComparisonFunction("{{ tcomp.id}}", "{{tcomp.matching.code}}","{{tcomp.obs}}","{{tcomp.baseTask.id}}","{{tcomp.baseTask.shortName}}","","");
+			mtotal+={{tcomp.matching.score}};
+		{% endfor %}
+	{% endif %}
+	//alert(mtotal);
+	//find("div[name=comp_score]");
+	var left_rp=$( "#left_rp_task_table");
+	task_count=left_rp.find("tr[name=left_task]").length;
+	//alert(task_count);
+	var per_total=(mtotal/task_count)*100;
+	//Math.round(val);
+	$( "#matching_total").html(per_total.toFixed(1));
+	$('#showB').attr("disabled", true);
+	$('#save_map_button').hide();
+	
+	$( "#hideB" ).click(function() {
+		$( "#user_comparisons_div" ).hide();
+		$('#showB').attr("disabled", false);
+		$('#hideB').attr("disabled", true);
+	});
+	$( "#showB" ).click(function() {
+		$( "#user_comparisons_div" ).show();
+		$('#showB').attr("disabled", true);
+		$('#hideB').attr("disabled", false);
+	});
+	$('#right_rp_task_table input[type=checkbox]').click(function(){
+		//var cboxes=$("#right_rp_task_table").find("input[name=right_rp_task_cbox]");
+		//cboxes.prop('checked',false);
+		var rows=$(this).parent().parent();
+		if($(this).prop('checked')){
+		rows.children("td").css("background-color", selected_base_color);
+		}
+		else{
+		rows.children("td").css("background-color", "white");
+		}
+	});
+	$("input[name=left_rp_task_radio]").change(function() {
+		clearCheckboxes();
+		if(prev_selected_comp!=""){
+			prev_selected_comp.css("background-color", "#EFEFEF");
+		}
+		//alert($(this).parent().css("background-color"));
+		//alert(selected_base_color);
+		if($(this).parent().css("background-color")==selected_base_color){
+			//var comp_form=$( "#form_"+id );
+			//var task_id=comp_form.find("input[name=left_task_id]").val();
+			var comp_form=$("#user_comparisons_div").find("input[name=left_task_id][value="+$(this).val()+"]").parent();
+			var map_snames=comp_form.find("p[name=map_tasks]").html();
+			//alert(comp_form.attr( "name" ));
+			//alert(comp_form.attr( "id" ));
+			//alert(map_snames);
+			var map_array = map_snames.split("&nbsp;&nbsp;&nbsp;&nbsp;");
+			
+			//length-1 to avoid, last empty element or != "" check
+			for(i = 0; i < map_array.length; i++){
+				if(map_array[i]!=""){
+				//alert("Element " + i + " = " + map_array[i]); 
+				var cbox=$("#right_rp_task_table").find("input[name=right_rp_task_cbox][sname="+map_array[i]+"]");
+				cbox.prop('checked',true);
+				//var trow=$("#left_rp_task_table").find("tr[value="+task_id+"]");
+				var trow=cbox.parent().parent();
+				trow.children("td").css("background-color", selected_base_color);
+				}
+			}
+			var comp_cdiv=comp_form.find("div[id=cdiv]");
+			comp_cdiv.css("background-color", selected_comp_color);
+			prev_selected_comp=comp_cdiv;
+			$('#save_map_button').show();
+		}
+		else{
+			prev_selected_comp="";
+			$('#save_map_button').hide();
+		}
+	});
+	
+  });
+function addBDComparisonFunction(comp_id,comp_matching,comp_obs,left_task_id,left_task_sname,right_task_id,right_task_sname)
+{
+	//alert(obs);
+	//alert(comp_id);
+	//alert(comp_obs);
+	//return true;
+
+	var ComparisonHTML="";
+	var selectCodeHTML="";
+	selectCodeHTML+="<select name='comp_select'><option value='T'>Totally</option>";
+	selectCodeHTML+="<option value='L'>Largely</option>";
+	selectCodeHTML+="<option value='P'>Partially</option>";
+	selectCodeHTML+="<option value='N'>Not achieved</option></select>";
+	//form
+
+	var aux_path="{{path('peds_compare_tasks_create')}}";
+	ComparisonHTML+="<form id='form_";
+	ComparisonHTML+=comp_id+"' ";
+	ComparisonHTML+="action='";
+	//ComparisonHTML+="<form action='";
+	ComparisonHTML+=aux_path+"'";
+	ComparisonHTML+=" id='create_comp_form' method='post'>";
+	//tasks id hidden inputs
+	ComparisonHTML+="<input type='hidden' name='left_task_id' value='";
+	ComparisonHTML+=left_task_id+"'>";
+	//ComparisonHTML+="<input type='hidden' name='right_task_id' value='";
+	//ComparisonHTML+=right_task_id+"'>";
+	//Norway">
+	ComparisonHTML+="<div id='cdiv' class='table_like_div half_div'><div id='tdiv'><div><p>";
+
+	ComparisonHTML+=left_task_sname;
+	ComparisonHTML+="</p></div>";
+	ComparisonHTML+="<div><p id='map_tasks' name='map_tasks'>";
+	//ComparisonHTML+="&nbsp;&nbsp;&nbsp;&nbsp;";
+	//ComparitsonHTML+=right_task_sname;
+	
+		for(var z = 0; z < map_array[comp_count].length; z++) {
+			//console.log(a[z][i]);
+			//alert(map_array[i][z]);
+			ComparisonHTML+=map_array[comp_count][z];
+			ComparisonHTML+="&nbsp;&nbsp;&nbsp;&nbsp;";
+		}
+	
+	
+	comp_count++;
+	//ComparisonHTML-="&nbsp;&nbsp;&nbsp;&nbsp;";
+	ComparisonHTML+="</p></div>";
+	ComparisonHTML+="<div><p>comparison</p></div>";
+
+	ComparisonHTML+="<div class='small_div inb'>Coverage Level: </div><div class='inb'>";
+	ComparisonHTML+=selectCodeHTML;
+	ComparisonHTML+="</div>";
+	ComparisonHTML+="<div class='inb lmargin'>Score: </div>";
+	ComparisonHTML+="<div id='comp_score' name='comp_score' class='inb s_lmargin'>0</div>"
+	//Comments Remarks
+	ComparisonHTML+="</div><div id='obdiv'><div class='inb vtop small_div'>Observations: </div><div class='inb'><textarea name='obs_text' rows='4' cols='50'></textarea></div></div>";
+
+	var func='editComparisonFunction("';
+	func+=comp_id+'")';
+	var func2='confirmDeleteFunction("';
+	func2+=comp_id+'")';
+
+	ComparisonHTML+="<input type='button' class='b_margin' value='Save changes' onclick='";
+	ComparisonHTML+=func;
+	ComparisonHTML+="'>";
+
+	ComparisonHTML+="<input type='button' class='b_margin' value='Remove' onclick='";
+	ComparisonHTML+=func2;
+	ComparisonHTML+="'>";
+	ComparisonHTML+="</div>";
+	//ComparisonHTML+="<input type='submit' value='Save changes'>";
+	ComparisonHTML+="</form>";
+
+	$("#user_comparisons_div").append(ComparisonHTML);
+	var comp_form=$( "#form_"+comp_id );
+	var comp_select=comp_form.find("select");
+	comp_select.val(comp_matching);
+	comp_form.find("textarea").val(comp_obs);
+	addScoreFunction(comp_form,comp_select);
+	//Get into a function (task id, color)
+	//var trow=$("#left_rp_task_table").find("tr[value="+left_task_id+"]");
+	//trow.children("td").css("background-color", "green");
+	addBaseTaskColor(left_task_id,selected_base_color);
+	
+	//Set initial score
+	var c_score=comp_form.find("div[name=comp_score]");
+		if(comp_select.val()=="T"){c_score.html('100 %');}		
+		if(comp_select.val()=="L"){c_score.html('70 %');}	
+		if(comp_select.val()=="P"){c_score.html('30 %');}
+		if(comp_select.val()=="N"){c_score.html('0 %');}
+}
+function addBaseTaskColor(task_id,color){
+var trow=$("#left_rp_task_table").find("tr[value="+task_id+"]");
+	trow.children("td").css("background-color", color);
+}
+function clearCheckboxes(){
+right_rp_task_table
+var cboxes=$("#right_rp_task_table").find("input[name=right_rp_task_cbox]");
+cboxes.prop('checked',false);
+var rows=cboxes.parent().parent();
+rows.children("td").css("background-color", "white");
+}
+function scrollFunction(id){
+$('html, body').animate({
+	scrollTop: $(id).offset().top
+}, 1000);
+}
+function addScoreFunction(comp_form,comp_select){
+comp_select.change(function() {
+		//alert( "comp_select .change() called." );
+		//alert( "new val= "+$( this ).val());
+		//input[name=left_rp_task_radio]
+		var c_score=comp_form.find("div[name=comp_score]");
+		if($(this).val()=="T"){c_score.html('100 %');}		
+		
+		if($(this).val()=="L"){c_score.html('70 %');}
+			
+		if($(this).val()=="P"){c_score.html('30 %');}
+			
+		if($(this).val()=="N"){c_score.html('0 %');}
+			
+		});
+}
+function addComparisonFunction(comp_id,rtasks_sname)
+{
+//response.rtasks_sname
+//alert("addComparisonFunction, comp_id: " +comp_id);
+//alert('left task id: '+jQuery( 'input[name=left_rp_task_radio]:checked' ).val() );
+//alert('right task id: '+ jQuery( 'input[name=right_rp_task_radio]:checked' ).val() );
+//alert('left task short_name: '+jQuery( 'input[name=left_rp_task_radio]:checked' ).attr('sname'));
+var left_task=jQuery( 'input[name=left_rp_task_radio]:checked' );
+//var right_task=jQuery( 'input[name=right_rp_task_radio]:checked' );
+//alert('PATATA' + left_task.attr('sname'));
+var ComparisonHTML="";
+var selectCodeHTML="";
+selectCodeHTML+="<select name='comp_select'><option value='T'>Totally</option>";
+selectCodeHTML+="<option value='L'>Largely</option>";
+selectCodeHTML+="<option value='P'>Partially</option>";
+selectCodeHTML+="<option value='N'>Not achieved</option></select>";
+//form
+
+var aux_path="{{path('peds_compare_tasks_create')}}";
+ComparisonHTML+="<form id='form_";
+ComparisonHTML+=comp_id+"' ";
+ComparisonHTML+="action='";
+//ComparisonHTML+="<form action='";
+ComparisonHTML+=aux_path+"'";
+ComparisonHTML+=" id='create_comp_form' method='post'>";
+//tasks id hidden inputs
+ComparisonHTML+="<input type='hidden' name='left_task_id' value='";
+ComparisonHTML+=left_task.val()+"'>";
+// tocheck
+//ComparisonHTML+="<input type='hidden' name='right_task_id' value='";
+//ComparisonHTML+=right_task.val()+"'>";
+//Norway">
+ComparisonHTML+="<div id='cdiv' class='table_like_div half_div'><div id='tdiv'><div><p>";
+
+ComparisonHTML+=left_task.attr('sname');
+ComparisonHTML+="</p></div>";
+ComparisonHTML+="<div><p id='map_tasks' name='map_tasks'>";
+//ComparisonHTML+=right_task.attr('sname');
+$.each(rtasks_sname, function( index, value) {
+		//alert($(this).val());
+		//right_tasks_id_array.push($(this).val());
+		ComparisonHTML+=value;
+		ComparisonHTML+="&nbsp;&nbsp;&nbsp;&nbsp;";
+	});
+ComparisonHTML+="</p></div>";
+ComparisonHTML+="<div><p>comparison</p></div>";
+
+ComparisonHTML+="<div class='small_div inb'>Coverage Level: </div><div class='inb'>";
+ComparisonHTML+=selectCodeHTML;
+//Comments Remarks
+ComparisonHTML+="</div>";
+ComparisonHTML+="<div class='inb lmargin'>Score: </div>";
+ComparisonHTML+="<div id='comp_score' name='comp_score' class='inb s_lmargin'>0</div>"
+ComparisonHTML+="</div><div id='obdiv'><div class='inb vtop small_div'>Observations: </div><div class='inb'><textarea name='obs_text' rows='4' cols='50'></textarea></div></div>";
+
+var func='editComparisonFunction("';
+func+=comp_id+'")';
+var func2='confirmDeleteFunction("';
+func2+=comp_id+'")';
+
+ComparisonHTML+="<input type='button' class='b_margin' value='Save changes' onclick='";
+ComparisonHTML+=func;
+ComparisonHTML+="'>";
+
+ComparisonHTML+="<input type='button' class='b_margin' value='Remove' onclick='";
+ComparisonHTML+=func2;
+ComparisonHTML+="'>";
+ComparisonHTML+="</div>";
+//ComparisonHTML+="<input type='submit' value='Save changes'>";
+ComparisonHTML+="</form>";
+
+$("#user_comparisons_div").append(ComparisonHTML);
+var comp_form=$( "#form_"+comp_id );
+var comp_select=comp_form.find("select");
+comp_select.val("N");
+addScoreFunction(comp_form,comp_select);
+addBaseTaskColor(left_task.val(),selected_base_color);
+$('#save_map_button').show();
+}
+</script>
+<div id="body_div">
+<h1>{{left_rp.shortName|capitalize}} with respect to {{right_rp.shortName}}</h1>
+<div id="dialog-confirm-taskComp" class="dialog-confirm" title="Confirm delete">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>These Comparison between tasks will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+<div id="comparison_div">
+<hr>
+<h2>Current mapping</h2>
+<div>
+	<img src="{{asset('img/Create_1.png')}}" onClick='checkRadioFunction()' width="26" height="26" alt="Create COMPARISON" /><p class="func_font inb">Create comparison between tasks</p>
+</div>
+<div id="comparison_total">
+<p class="total_score inb">Reference processes final coverage level: </p><p id="matching_total" class="total_score inb s_lmargin">0</p><span class="total_score xs_lmargin">%</span>
+</div>
+<div id="display_div">
+	<button id="hideB">Hide comparisons</button>
+	<button id="showB">Show comparisons</button>
+</div>
+<div id="user_comparisons_div">
+
+</div>
+
+</div>
+<div id="task_div">
+<hr>
+<div><h2>List of tasks</h2></div>
+<div id="left_rp_task_table" class="task_table float_div cleft rmargin">
+
+	<table border=1>
+	{#<caption>{{left_rp.shortName}} (tasks to cover)</caption>#}
+	<tr> <th colspan="4">{{left_rp.shortName}} (tasks to cover)
+	<img src="{{asset('img/Create_1.png')}}" onClick='checkRadioFunction()' class="s_lmargin" width="26" height="26" alt="Create COMPARISON" /><p class="func_font inb">Create mapping</p>
+	</th></tr>
+	<tr>
+	<th>short_name</th>
+	<th>description</th>
+	<th>detail</th>
+	<th></th>
+	</tr>
+	{#<p>LEFT TASKS</p>#}
+	{% if left_rp_tasks is defined%}
+		{% for task_array in left_rp_tasks %}
+			{% for task in task_array %}
+				<tr name="left_task" value="{{task.id}}">
+					<td>{{task.shortName}}</td>
+					<td>{{task.description}}</td>
+					<td>{{task.detail}}</td>
+					<td><input type="radio" name="left_rp_task_radio" sname="{{task.shortName}}" value="{{task.id}}"></td>
+				</tr>
+			{% endfor %}
+		{% endfor %}
+	{% endif %}
+	</table>
+</div>
+<div id="right_rp_task_table" class="task_table float_div">
+
+	<table border=1>
+	{#<caption>{{right_rp.shortName}} (tasks that covers it)</caption>#}
+	<tr> <th colspan="4">{{right_rp.shortName}} (tasks that covers it)
+	<button type="button" id="save_map_button" class="s_lmargin" onclick="editMappingFunction()">Save mapping</button></th></tr>
+	<tr>
+	<th>short_name</th>
+	<th>description</th>
+	<th>detail</th>
+	<th></th>
+	</tr>
+	{#<p>RIGHT TASKS</p>#}
+	{% if right_rp_tasks is defined%}
+		{% for task_array in right_rp_tasks %}
+			{% for task in task_array %}
+				<tr>
+					<td>{{task.shortName}}</td>
+					<td>{{task.description}}</td>
+					<td>{{task.detail}}</td>
+					
+					<td><input type="checkbox" name="right_rp_task_cbox" sname="{{task.shortName}}" value="{{task.id}}"></td>
+					{#
+					<td><input type="radio" name="right_rp_task_radio" sname="{{task.shortName}}" value="{{task.id}}"></td>
+					#}
+				</tr>
+			{% endfor %}
+		{% endfor %}
+	{% endif %}
+	</table>
+</div>
+</div>
+{#<button type="button" id="test_scroll" class="s_lmargin" onclick="scrollFunction()">Scroll</button>#}
+</div>
+{% endblock %}
