@@ -331,3 +331,12 @@ margin-right: auto;
 font-size: 1.4em; 
 /*height: 18px;*/ 
 }
+.fake_href
+{
+color: #B24926;
+cursor: pointer;
+}
+.cli
+{
+cursor: pointer;
+}

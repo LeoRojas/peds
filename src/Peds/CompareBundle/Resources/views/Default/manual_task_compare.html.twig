@@ -126,6 +126,16 @@ margin-left: 5px;
 {
 background-color: green;
 }
+.n_pa
+{
+padding: 0px;
+}
+#sec_create_map_button_p
+{
+padding-bottom: 0px;
+font-weight:normal;
+color: white;
+}
 </style>
 {% endblock %}
 {% block body %}
@@ -690,7 +700,7 @@ $('#save_map_button').show();
 <hr>
 <h2>Current mapping</h2>
 <div>
-	<img src="{{asset('img/Create_1.png')}}" onClick='checkRadioFunction()' width="26" height="26" alt="Create COMPARISON" /><p class="func_font inb">Create comparison between tasks</p>
+	<img src="{{asset('img/Create_1.png')}}" class="cli" onClick='checkRadioFunction()' width="26" height="26" alt="Create COMPARISON" /><p class="func_font inb">Create comparison between tasks</p>
 </div>
 <div id="comparison_total">
 <p class="total_score inb">Reference processes final coverage level: </p><p id="matching_total" class="total_score inb s_lmargin">0</p><span class="total_score xs_lmargin">%</span>
@@ -711,9 +721,12 @@ $('#save_map_button').show();
 
 	<table border=1>
 	{#<caption>{{left_rp.shortName}} (tasks to cover)</caption>#}
-	<tr> <th colspan="4">{{left_rp.shortName}} (tasks to cover)
-	<img src="{{asset('img/Create_1.png')}}" onClick='checkRadioFunction()' class="s_lmargin" width="26" height="26" alt="Create COMPARISON" /><p class="func_font inb">Create mapping</p>
+	<tr> <th colspan="4">{{left_rp.shortName}} (tasks to cover)</th></tr>
+	
+	<tr> <th id="sec_create_map_button_th" class="n_pa" colspan="4">
+		<img src="{{asset('img/Create_1.png')}}" onClick='checkRadioFunction()' class="cli" width="26" height="26" alt="Create COMPARISON" /><p id="sec_create_map_button_p" class="func_font inb">Create mapping</p>
 	</th></tr>
+	
 	<tr>
 	<th>short_name</th>
 	<th>description</th>
