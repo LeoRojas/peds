@@ -314,3 +314,20 @@ font-family:arial;
 font-size:20px;
 color:black;
 }
+.selectable_rp .ui-selecting { background: #9DE68B; }
+.selectable_rp .ui-selected { background: #9DE68B; color: white; }
+
+.selectable_rp { 
+list-style-type: none;
+margin: 0;
+padding: 0; 
+float:none;
+width: 75%;
+text-align: center;
+margin-left: auto;
+margin-right: auto;
+}
+.selectable_rp li { list-style-type: none; margin: 3px; padding: 0.4em;
+font-size: 1.4em; 
+/*height: 18px;*/ 
+}

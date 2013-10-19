@@ -4,19 +4,6 @@
 {% block stylesheets %}
 <style type="text/css">
 #feedback { font-size: 1.4em; }
-.selectable_rp .ui-selecting { background: #9DE68B; }
-.selectable_rp .ui-selected { background: #9DE68B; color: white; }
-.selectable_rp { 
-list-style-type: none;
-margin: 0;
-padding: 0; 
-float:none;
-width: 50%;
-text-align: center;
-margin-left: auto;
-margin-right: auto;
-}
-.selectable_rp li { list-style-type: none; margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
 
 #compare_ins
 {
@@ -170,8 +157,8 @@ $(function() {
 {% if rps is defined %}
 {% if rps|length > 0 %}
 <div id="inst_div" class="inst_font bmargin">
-Select two reference process for comparison based on "My mappings"</div>
-
+Select one reference process from the left RP list and one or more from the right RP list, for comparison based on "My mappings"</div>
+{# mapping based comparison #}
 <div id="rp_left" >
 
 	<ol id="selectable"  class="selectable_rp">

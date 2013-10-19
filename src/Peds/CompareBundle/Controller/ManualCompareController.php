@@ -31,12 +31,12 @@ class ManualCompareController extends Controller
             if( (isset($_POST["right_rps"])) && (!empty($_POST["right_rps"])) ){
                     
 				//$coverage_aux=$this->mappingCoverageFunction($left_rp,$right_rp);
-				print_r("BANANA");
-				echo '<br>'; 
-				print_r($_POST["right_rps"]);
+				//print_r("BANANA");
+				//echo '<br>'; 
+				//print_r($_POST["right_rps"]);
 				$sec_rps=explode(",", $_POST["right_rps"]);
-				echo '<br>'; 
-				print_r($sec_rps);
+				//echo '<br>'; 
+				//print_r($sec_rps);
 				$coverage_aux=$this->mappingCoverageFunction($left_rp,$sec_rps[0]);
 				$right_rp=$em->getRepository('PedsEntitiesBundle:ReferenceProcess')->find($sec_rps[0]);
 				$coverage_res=array();
