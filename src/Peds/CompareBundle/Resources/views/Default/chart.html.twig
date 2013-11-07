@@ -3,21 +3,6 @@
 {% block title %}Charts example{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
-#feedback { font-size: 1.4em; }
-.selectable_rp .ui-selecting { background: #FECA40; }
-.selectable_rp .ui-selected { background: #F39814; color: white; }
-.selectable_rp { 
-list-style-type: none;
-margin: 0;
-padding: 0; 
-float:none;
-width: 50%;
-text-align: center;
-margin-left: auto;
-margin-right: auto;
-}
-.selectable_rp li { list-style-type: none; margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }
-
 #compare_ins
 {
 clear:both;
@@ -84,6 +69,13 @@ border-radius: 5px;
 {
 vertical-align: middle;
 }
+#body_div
+{
+margin-left: 10px;
+}
+.tmargin{
+margin-top: 40px;
+}
 </style>
 {% endblock %}
 {% block body %}
@@ -92,75 +84,179 @@ vertical-align: middle;
 function CompareFunction()
 {
 //alert("Still does nothing!");
-var left_rp=$( "#selectable .ui-selected" ).attr('id');
-var right_rp=$( "#selectable2 .ui-selected" ).attr('id');
-alert("The select rps are, Left: "+left_rp+" Right: "+right_rp);
-$("#left_rp").val(left_rp);
-$("#right_rp").val(right_rp);
-//<a href="{{ path('_demo_hello', { 'name': 'Thomas' }) }}">Greet Thomas!</a>
-//window.location.href = "http://stackoverflow.com";
-//window.location.href = "{{ path('peds_compare_func', { 'left_rp': 'left_rp' , 'right_rp': 'right_rp'}) }}";
 }
-$(function() {
-    $( "#selectable" ).selectable({
-      stop: function() {
-        var result = $( "#select-result" ).empty();
-        $( ".ui-selected", this ).each(function() {
-          //var index = $( "#selectable li" ).index( this );
-          //var index = $( "#selectable li" ).attr('id');
-          var index =$(this).attr('id');
-          result.append( " #" + index );
-          //result.append( " #" + ( index + 1 ) );
-        });
-      }
-    });
-    $( "#selectable2" ).selectable();
+$( document ).ready(function() {
 
-  });
+  //Bar Graph
+  
+  $('#chart_div').highcharts({
+        chart: {
+            type: 'bar'
+        },
+        title: {
+            text: 'Fruit Consumption'
+        },
+        xAxis: {
+            categories: ['Apples', 'Bananas', 'Oranges']
+        },
+        yAxis: {
+            title: {
+                text: 'Fruit eaten'
+            }
+        },
+        series: [{
+            name: 'Jane',
+            data: [1, 0, 4]
+        }, {
+            name: 'John',
+            data: [5, 7, 3]
+        }]
+    });
+	
+	//Spider web Graph
+	window.chart = new Highcharts.Chart({
+                
+        chart: {
+            renderTo: 'chart_div_2',
+            polar: true,
+            type: 'line'
+        },
+        
+        title: {
+            text: 'Budget vs spending',
+            x: -80
+        },
+        
+        pane: {
+            size: '80%'
+        },
+        
+        xAxis: {
+            categories: ['Sales', 'Marketing', 'Development', 'Customer Support', 
+                    'Information Technology', 'Administration'],
+            tickmarkPlacement: 'on',
+            lineWidth: 0
+        },
+            
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,
+            min: 0
+        },
+        
+        tooltip: {
+            shared: true,
+            valuePrefix: '$'
+        },
+        
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 100,
+            layout: 'vertical'
+        },
+        
+        series: [{
+            name: 'Allocated Budget',
+            data: [43000, 19000, 60000, 35000, 17000, 10000],
+            pointPlacement: 'on'
+        }, {
+            name: 'Actual Spending',
+            data: [50000, 39000, 42000, 31000, 26000, 14000],
+            pointPlacement: 'on'
+        }]
+    
+    });
+	{% if coverage_res is defined%}
+		//Spider web Graph 2
+	window.chart = new Highcharts.Chart({
+                
+        chart: {
+            renderTo: 'chart_div_3',
+            polar: true,
+            type: 'line'
+        },
+        
+        title: {
+            text: '{{left_rp.shortName}}',
+            x: -80
+        },
+        
+        pane: {
+            size: '90%'
+        },
+        
+        xAxis: {
+            categories: [
+			{% for key, right_rp in right_rp_array %}
+			{% if loop.last %}
+				'{{right_rp.shortName}}'
+			{% else %}
+				'{{right_rp.shortName}}',
+			{% endif %}
+			{% endfor %}
+					],
+            tickmarkPlacement: 'on',	//dont change
+            lineWidth: 0,				//dont change
+			labels: {
+                align: 'center',
+                x: 0,
+                y: 0
+            }
+        },
+            
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,			//dont change
+            min: 0,
+			max: 100,
+			tickInterval: 10,
+			showLastLabel: true
+        },
+        
+        tooltip: {
+            shared: true,
+			valueSuffix: '%'
+            //valuePrefix: '$'
+			
+        },
+        
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 100,
+            layout: 'vertical'
+        },
+        
+        series: [{
+            name: 'Coverage',
+            data: [
+			{% for key, coverage in coverage_res %}
+			{% if loop.last %}
+				{{coverage}}
+			{% else %}
+				{{coverage}},
+			{% endif %}
+			{% endfor %}
+			],
+            pointPlacement: 'on'
+        }, 
+		]
+    
+    });
+	{% endif %}
+});
 </script>
-<div id="compare_ins" >
-Vista de los charts, pruebas solamente
-Select two reference process to compare them
-<p id="feedback">
-<span>You've selected:</span> <span id="select-result">none</span>.
-</p>
-</div>
-<div id="rp_left" >
-{% if rps is defined%}
-	<ol id="selectable"  class="selectable_rp">
-	{% for rp in rps %}
-	  <li id="left_{{rp.id}}" class="ui-widget-content">{{rp.shortName}}</li>
-	{% endfor %}
-	</ol>
+<h1>Charts beta</h1>
+<hr>
+<h2>First chart</h2>
+{% if score is defined %}
+{{score}}
 {% endif %}
-</div>
-<div id="compare_with" >
-<img src="{{asset('img/Left_arrow.png')}}" width="26" height="26" alt="Left_arrow" /><span style="color:black">compare with</span><img src="{{asset('img/Right_arrow.png')}}" width="26" height="26" alt="Right_arrow" />
-</div>
-<div id="rp_right" >
-{% if rps is defined%}
-	<ol id="selectable2"  class="selectable_rp">
-	 	{% for rp in rps %}
-		  <li id="right_{{rp.id}}" class="ui-widget-content">{{rp.shortName}}</li>
-		{% endfor %}
-	</ol>
+{% if coverage_res is defined%}
 {% endif %}
-<!--
-	<table class="rp_table">
-		<tr><th>Second RP</th></tr>
-		<tr><td>RP falso right</td></tr>
-		<tr><td>RP falso right</td></tr>
-		<tr><td>RP falso right</td></tr>
-		<tr><td>RP falso right</td></tr>
-	</table>
--->
-</div>
-<div id="compare_button_div" >
-	<form action="{{ path('peds_compare_func') }}" name="nhab" id="habform" method="post">
-            <input type="hidden" id="left_rp" name="left_rp" value="">
-            <input type="hidden" id="right_rp" name="right_rp" value="">
-            <input type="submit" id="compare_button" class="center" value="Compare RPs!" onclick="CompareFunction()">
-    </form>
-</div>
+<div id="chart_div" style="width:100%; height:400px;"></div>
+<div id="chart_div_2" class="tmargin" style="width:100%; height:400px;"></div>
+<div id="chart_div_3" class="tmargin" style="width:100%; height:400px;"></div>
 </div>
 {% endblock %}

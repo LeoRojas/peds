@@ -20,4 +20,14 @@ Peds\EntitiesBundle\Entity\Product:
             length: 255
             fixed: false
             nullable: false
+    manyToOne:
+        rp:
+            targetEntity: ReferenceProcess
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                rp_id:
+                    referencedColumnName: id
+            orphanRemoval: false
     lifecycleCallbacks: {  }

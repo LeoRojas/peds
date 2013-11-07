@@ -19,13 +19,13 @@ Peds\EntitiesBundle\Entity\Role:
             nullable: false
             column: short_name
     manyToOne:
-        task:
-            targetEntity: Task
+        rp:
+            targetEntity: ReferenceProcess
             cascade: {  }
             mappedBy: null
             inversedBy: null
             joinColumns:
-                task_id:
+                rp_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

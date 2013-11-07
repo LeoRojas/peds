@@ -168,4 +168,10 @@ class ReferenceProcess
     {
         return $this->shortName;
     }
+	/*
+	public function __construct(){
+		 $this->workflow = '0';
+		 $this->visibility = 'PUBLIC';
+    }
+	*/
 }

@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Peds\RefProcBundle\Form\TaskType;
 use Peds\EntitiesBundle\Entity\Task;
+use Peds\EntitiesBundle\Entity\InputProducts;
+use Peds\EntitiesBundle\Entity\OutputProducts;
 
 class TaskController extends Controller
 {
@@ -15,7 +17,8 @@ class TaskController extends Controller
         //$form = $this->createForm(new TaskType());
 		$user = $this->get('security.context')->getToken()->getUser();
 		$form = $this->createForm(new TaskType(), null, array(
-		'user_id' => $user->getId()
+		'user_id' => $user->getId(),
+		'translator_service' =>$this->get('translator')
 		));
         return $this->render('PedsRefProcBundle:Default:task.html.twig', array('form' => $form->createView(),));
     }
@@ -78,7 +81,8 @@ class TaskController extends Controller
         //$form = $this->createForm(new TaskType(), $task);
 		$user = $this->get('security.context')->getToken()->getUser();
 		$form = $this->createForm(new TaskType(), $task, array(
-		'user_id' => $user->getId()
+		'user_id' => $user->getId(),
+		'translator_service' =>$this->get('translator')
 		));
         if ($this->getRequest()->isMethod('POST')) {
         $form->bind($this->getRequest());
@@ -88,12 +92,30 @@ class TaskController extends Controller
             $task = $form->getData();
             $em->persist($task);
             $em->flush();
+			//Delete old input and output products
+			$this->removeProductRows($task,0);
+			$this->removeProductRows($task,1);
+			//Create input and output products
+			if( (isset($_POST['Task']['input_prods'])) && (!empty($_POST['Task']['input_prods'])) ){
+				$iprod_array=$_POST['Task']['input_prods'];
+				$this->createProductRows($iprod_array,$task->getId(),0);
+			}
+			if( (isset($_POST['Task']['output_prods'])) && (!empty($_POST['Task']['output_prods'])) ){
+				$oprod_array=$_POST['Task']['output_prods'];
+				$this->createProductRows($oprod_array,$task->getId(),1);
+			}
+			//
             $this->get('session')->getFlashBag()->add('notice', 'Task entry updated!');
             
 
             }//isvalid
         }
-        return $this->render('PedsRefProcBundle:Default:task_edit.html.twig',array('form' => $form->createView(),'id' => $id ));
+		$iprods=$em->getRepository('PedsEntitiesBundle:InputProducts')->findByTask($task);
+		$oprods=$em->getRepository('PedsEntitiesBundle:OutputProducts')->findByTask($task);
+		$work_prods=array();
+		$work_prods[0]=$iprods;
+		$work_prods[1]=$oprods;
+        return $this->render('PedsRefProcBundle:Default:task_edit.html.twig',array('form' => $form->createView(),'id' => $id,'work_prods' =>$work_prods));
     }
 
     public function newAction()
@@ -103,7 +125,8 @@ class TaskController extends Controller
     //$form = $this->createForm(new TaskType(), $task);
 	$user = $this->get('security.context')->getToken()->getUser();
 	$form = $this->createForm(new TaskType(), $task, array(
-		'user_id' => $user->getId()
+		'user_id' => $user->getId(),
+		'translator_service' =>$this->get('translator')
 		));
 
     if ($this->getRequest()->isMethod('POST')) {
@@ -111,10 +134,20 @@ class TaskController extends Controller
 
         if ($form->isValid()) {
             $url = $this->getRequest()->headers->get("referer");
-            //print_r($_POST);
+            print_r($_POST);
             $task = $form->getData();
             $em->persist($task);
             $em->flush();
+			//Create input and output products
+			if( (isset($_POST['Task']['input_prods'])) && (!empty($_POST['Task']['input_prods'])) ){
+				$iprod_array=$_POST['Task']['input_prods'];
+				$this->createProductRows($iprod_array,$task->getId(),0);
+			}
+			if( (isset($_POST['Task']['output_prods'])) && (!empty($_POST['Task']['output_prods'])) ){
+				$oprod_array=$_POST['Task']['output_prods'];
+				$this->createProductRows($oprod_array,$task->getId(),1);
+			}
+			//
 			$task_name=$task->getShortName();
             $this->get('session')->getFlashBag()->add('notice', 'Task '.$task_name.' created successfully!');
             return $this->redirect($url);
@@ -123,5 +156,40 @@ class TaskController extends Controller
     }
         return $this->render('PedsRefProcBundle:Default:task.html.twig', array('form' => $form->createView(),));
 	
+	}
+		//0 to create input products
+		//1 to create output products
+	public function createProductRows($product_array,$task_id,$ptype)
+    {
+		$em = $this->getDoctrine()->getEntityManager();
+		$task = $em->getRepository('PedsEntitiesBundle:Task')->find($task_id);
+		foreach($product_array as $key => $product_id){
+				if($ptype==0){
+					$auxprod = new InputProducts();
+				}
+				else{
+					$auxprod = new OutputProducts();
+				}
+				$auxprod->setTask($task);
+				$prod=$em->getRepository('PedsEntitiesBundle:Product')->find($product_id);
+				$auxprod->setProduct($prod);
+				$em->persist($auxprod);
+		}
+		$em->flush();
+	}
+	//0 to remove input products
+	//1 to remove output products
+	public function removeProductRows($task,$ptype){
+		$em = $this->getDoctrine()->getEntityManager();
+		if($ptype==0){
+			$auxprods=$em->getRepository('PedsEntitiesBundle:InputProducts')->findByTask($task);
+		}
+		else{
+			$auxprods=$em->getRepository('PedsEntitiesBundle:OutputProducts')->findByTask($task);
+		}
+		foreach($auxprods as $key => $prod){
+			$em->remove($prod);
+		}
+		$em->flush();
 	}
 }

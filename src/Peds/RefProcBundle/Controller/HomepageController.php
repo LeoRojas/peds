@@ -8,6 +8,7 @@ class HomepageController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('PedsRefProcBundle:Default:homepage.html.twig');
+		return $this->redirect($this->generateUrl('login'), 301);
+        //return $this->render('PedsRefProcBundle:Default:homepage.html.twig');
     }
 }

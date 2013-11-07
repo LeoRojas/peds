@@ -1,0 +1,424 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+			<trans-unit id="1">
+                <source>rp.new</source>
+                <target>RP %rp_name% created successfully!</target>
+            </trans-unit>
+			<!--  load_rp.html.twig  -->
+			<trans-unit id="4">
+                <source>load_rp.title</source>
+                <target>Load reference process from file</target>
+            </trans-unit>
+			<trans-unit id="5">
+                <source>load_rp.subtitle</source>
+                <target>Select .xml file</target>
+            </trans-unit>
+			<trans-unit id="6">
+                <source>load_rp.file.label</source>
+                <target>Filename</target>
+            </trans-unit>
+			<trans-unit id="7">
+                <source>load_rp.file.submit</source>
+                <target>Submit</target>
+            </trans-unit>
+			<trans-unit id="8">
+                <source>load_rp.tab.title</source>
+                <target>Load reference process</target>
+            </trans-unit>
+			<!--  load_rp.html.twig  end  -->
+			<!--  base.html.twig  -->
+			<!--  user_menu  -->
+			<trans-unit id="9">
+                <source>user_menu.login</source>
+                <target>Login</target>
+            </trans-unit>
+			<trans-unit id="10">
+                <source>user_menu.register</source>
+                <target>Register</target>
+            </trans-unit>
+			<trans-unit id="11">
+                <source>user_menu.account</source>
+                <target>My account</target>
+            </trans-unit>
+			<trans-unit id="12">
+                <source>user_menu.logged</source>
+                <target>logged in as</target>
+            </trans-unit>
+			<trans-unit id="13">
+                <source>user_menu.logout</source>
+                <target>Logout</target>
+            </trans-unit>
+			<!--  js_menu  -->
+			<trans-unit id="14">
+                <source>js_menu.charts</source>
+                <target>Charts beta</target>
+            </trans-unit>
+			<trans-unit id="15">
+                <source>js_menu.compare</source>
+                <target>Compare RPs</target>
+            </trans-unit>
+			<trans-unit id="16">
+                <source>js_menu.compare.mapping</source>
+                <target>Mapping Based</target>
+            </trans-unit>
+			<trans-unit id="17">
+                <source>js_menu.mapping</source>
+                <target>Mappings</target>
+            </trans-unit>
+			<trans-unit id="18">
+                <source>js_menu.mapping.map</source>
+                <target>Map RPs</target>
+            </trans-unit>
+			<trans-unit id="19">
+                <source>js_menu.mapping.my</source>
+                <target>My mappings</target>
+            </trans-unit>
+			<trans-unit id="20">
+                <source>js_menu.mapping.other</source>
+                <target>Other User Mappings</target>
+            </trans-unit>
+			<trans-unit id="23">
+                <source>js_menu.model</source>
+                <target>Model</target>
+            </trans-unit>
+			<trans-unit id="24">
+                <source>js_menu.model.rp</source>
+                <target>Reference process</target>
+            </trans-unit>
+			<trans-unit id="25">
+                <source>js_menu.model.act</source>
+                <target>Activity</target>
+            </trans-unit>
+			<trans-unit id="26">
+                <source>js_menu.model.task</source>
+                <target>Task</target>
+            </trans-unit>
+			<trans-unit id="27">
+                <source>js_menu.account</source>
+                <target>Account</target>
+            </trans-unit>
+			<trans-unit id="28">
+                <source>js_menu.account.my</source>
+                <target>My Account</target>
+            </trans-unit>
+			<trans-unit id="29">
+                <source>js_menu.account.management</source>
+                <target>Management</target>
+            </trans-unit>
+			<trans-unit id="30">
+                <source>js_menu.account.management.mail</source>
+                <target>Edit e-mail</target>
+            </trans-unit>
+			<trans-unit id="31">
+                <source>js_menu.account.management.pass</source>
+                <target>Edit password</target>
+            </trans-unit>
+			<trans-unit id="32">
+                <source>js_menu.settings</source>
+                <target>Settings</target>
+            </trans-unit>
+			<trans-unit id="33">
+                <source>js_menu.settings.load_rp</source>
+                <target>Load RP from .xml file</target>
+            </trans-unit>
+			<trans-unit id="34">
+                <source>js_menu.settings.edit_mtable</source>
+                <target>Edit Matching table</target>
+            </trans-unit>
+			<trans-unit id="101">
+                <source>js_menu.model.product</source>
+                <target>Product</target>
+            </trans-unit>
+			<trans-unit id="102">
+                <source>js_menu.model.role</source>
+                <target>Role</target>
+            </trans-unit>
+			<!--  base.html.twig  end  -->
+			<trans-unit id="35">
+                <source>action.create</source>
+                <target>Create</target>
+            </trans-unit>
+			<trans-unit id="36">
+                <source>action.edit</source>
+                <target>Edit</target>
+            </trans-unit>
+			<trans-unit id="37">
+                <source>action.remove</source>
+                <target>Remove</target>
+            </trans-unit>
+			<!--  account.html.twig  -->
+			<trans-unit id="38">
+                <source>account.title</source>
+                <target>%user_name% account</target>
+            </trans-unit>
+			<trans-unit id="39">
+                <source>account.tools</source>
+                <target>Tools</target>
+            </trans-unit>
+			<trans-unit id="40">
+                <source>account.charts</source>
+                <target>Charts beta</target>
+            </trans-unit>
+			<trans-unit id="41">
+                <source>account.compare.mapping</source>
+                <target>Compare reference processes using My mappings</target>
+            </trans-unit>
+			<trans-unit id="42">
+                <source>account.map</source>
+                <target>Map reference processes tasks manually</target>
+            </trans-unit>
+			<trans-unit id="43">
+                <source>account.my_maps</source>
+                <target>My mappings</target>
+            </trans-unit>
+			<trans-unit id="44">
+                <source>account.other_maps</source>
+                <target>Other user mappings</target>
+            </trans-unit>
+			<trans-unit id="45">
+                <source>account.edit_mail</source>
+                <target>Edit e-mail</target>
+            </trans-unit>
+			<trans-unit id="46">
+                <source>account.edit_pass</source>
+                <target>Edit password</target>
+            </trans-unit>
+			<trans-unit id="47">
+                <source>account.load_rp</source>
+                <target>Load reference process from .xml file</target>
+            </trans-unit>
+			<trans-unit id="48">
+                <source>account.edit_mtable</source>
+                <target>Edit matching table</target>
+            </trans-unit>
+			<trans-unit id="49">
+                <source>account.models</source>
+                <target>My models</target>
+            </trans-unit>
+			<trans-unit id="50">
+                <source>account.my_rps</source>
+                <target>My reference processes</target>
+            </trans-unit>
+			<trans-unit id="51">
+                <source>account.my_acts</source>
+                <target>My activities</target>
+            </trans-unit>
+			<trans-unit id="52">
+                <source>account.my_tasks</source>
+                <target>My tasks</target>
+            </trans-unit>
+			<trans-unit id="99">
+                <source>account.my_prods</source>
+                <target>My Work Products</target>
+            </trans-unit>
+			<trans-unit id="100">
+                <source>account.my_roles</source>
+                <target>My Roles</target>
+            </trans-unit>
+			<!--  account.html.twig  end  -->
+			<trans-unit id="53">
+                <source>action.delete</source>
+                <target>Delete</target>
+            </trans-unit>
+			<!--  edit_mail.html.twig  -->
+			<trans-unit id="54">
+                <source>edit_mail.submit</source>
+                <target>Update mail</target>
+            </trans-unit>
+			<trans-unit id="55">
+                <source>edit_mail.tab.title</source>
+                <target>Change e-mail</target>
+            </trans-unit>
+			<trans-unit id="56">
+                <source>edit_mail.title</source>
+                <target>Change e-mail</target>
+            </trans-unit>
+			<trans-unit id="57">
+                <source>edit_mail.label.new</source>
+                <target>New e-mail</target>
+            </trans-unit>
+			<trans-unit id="58">
+                <source>edit_mail.label.pass</source>
+                <target>Password</target>
+            </trans-unit>
+			<!--  edit_mail.html.twig  end  -->
+			<!--  edit_pass.html.twig  -->
+			<trans-unit id="59">
+                <source>edit_pass.submit</source>
+                <target>Update password</target>
+            </trans-unit>
+			<trans-unit id="60">
+                <source>edit_pass.tab.title</source>
+                <target>Change password</target>
+            </trans-unit>
+			<trans-unit id="61">
+                <source>edit_pass.title</source>
+                <target>Change password</target>
+            </trans-unit>
+			<trans-unit id="62">
+                <source>edit_pass.label.current</source>
+                <target>Current Password</target>
+            </trans-unit>
+			<trans-unit id="63">
+                <source>edit_pass.label.new</source>
+                <target>New Password</target>
+            </trans-unit>
+			<trans-unit id="64">
+                <source>edit_pass.label.repeat</source>
+                <target>Repeat New Password</target>
+            </trans-unit>
+			<!--  edit_pass.html.twig  end  -->
+			<!--  ref_proc.html.twig  -->
+			<trans-unit id="65">
+                <source>rp_form.new.tab.title</source>
+                <target>New RP</target>
+            </trans-unit>
+			<trans-unit id="66">
+                <source>rp_form.new.title</source>
+                <target>Create new Reference Process</target>
+            </trans-unit>
+			<trans-unit id="67">
+                <source>form.sname</source>
+                <target>Short Name</target>
+            </trans-unit>
+			<trans-unit id="68">
+                <source>form.desc</source>
+                <target>Description</target>
+            </trans-unit>
+			<trans-unit id="69">
+                <source>form.vis</source>
+                <target>Visibility</target>
+            </trans-unit>
+			<trans-unit id="70">
+                <source>form.workf</source>
+                <target>Workflow</target>
+            </trans-unit>
+			<trans-unit id="71">
+                <source>form.vis.public</source>
+                <target>Public</target>
+            </trans-unit>
+			<trans-unit id="72">
+                <source>form.vis.private</source>
+                <target>Private</target>
+            </trans-unit>
+			<trans-unit id="73">
+                <source>form.workf.yes</source>
+                <target>Yes</target>
+            </trans-unit>
+			<trans-unit id="74">
+                <source>form.workf.no</source>
+                <target>No</target>
+            </trans-unit>
+			<trans-unit id="75">
+                <source>rp_form.new.submit</source>
+                <target>Create RP</target>
+            </trans-unit>
+			<trans-unit id="76">
+                <source>rp_form.new.act.shortcut</source>
+                <target>Go to create Activity</target>
+            </trans-unit>
+			<!--  ref_proc.html.twig  end  -->
+			<!--  ref_proc_edit.html.twig  -->
+			<trans-unit id="77">
+                <source>rp_form.edit.tab.title</source>
+                <target>RP entry edit</target>
+            </trans-unit>
+			<trans-unit id="78">
+                <source>rp_form.edit.title</source>
+                <target>Edit Reference Process</target>
+            </trans-unit>
+			<trans-unit id="79">
+                <source>rp_form.edit.submit</source>
+                <target>Edit RP</target>
+            </trans-unit>
+			<!--  ref_proc_edit.html.twig  end  -->
+			<!--  activity.html.twig  -->
+			<trans-unit id="80">
+                <source>act_form.new.tab.title</source>
+                <target>New Activity</target>
+            </trans-unit>
+			<trans-unit id="81">
+                <source>act_form.new.title</source>
+                <target>Create new Activity</target>
+            </trans-unit>
+			<trans-unit id="82">
+                <source>form.rp</source>
+                <target>RP</target>
+            </trans-unit>
+			<trans-unit id="83">
+                <source>act_form.new.submit</source>
+                <target>Create Activity</target>
+            </trans-unit>
+			<trans-unit id="84">
+                <source>act_form.new.task.shortcut</source>
+                <target>Go to create Task</target>
+            </trans-unit>
+			<!--  activity.html.twig  end  -->
+			<!--  activity_edit.html.twig  -->
+			<trans-unit id="85">
+                <source>act_form.edit.tab.title</source>
+                <target>Activity entry edit</target>
+            </trans-unit>
+			<trans-unit id="86">
+                <source>act_form.edit.title</source>
+                <target>Edit Activity</target>
+            </trans-unit>
+			<trans-unit id="87">
+                <source>act_form.edit.submit</source>
+                <target>Edit Activity</target>
+            </trans-unit>
+			<!--  activity_edit.html.twig  end  -->
+			<!--  task.html.twig  -->
+			<trans-unit id="88">
+                <source>task_form.new.tab.title</source>
+                <target>New Task</target>
+            </trans-unit>
+			<trans-unit id="89">
+                <source>task_form.new.title</source>
+                <target>Create new Task</target>
+            </trans-unit>
+			<trans-unit id="90">
+                <source>form.act</source>
+                <target>Activity</target>
+            </trans-unit>
+			<trans-unit id="91">
+                <source>form.detail</source>
+                <target>Detail</target>
+            </trans-unit>
+			<trans-unit id="92">
+                <source>form.detail.yes</source>
+                <target>Detailed</target>
+            </trans-unit>
+			<trans-unit id="93">
+                <source>form.detail.abit</source>
+                <target>Some detail</target>
+            </trans-unit>
+			<trans-unit id="94">
+                <source>form.detail.no</source>
+                <target>No detail</target>
+            </trans-unit>
+			<trans-unit id="95">
+                <source>task_form.new.submit</source>
+                <target>Create Task</target>
+            </trans-unit>
+			<!--  task.html.twig  end  -->
+			<!--  task_edit.html.twig  -->
+			<trans-unit id="96">
+                <source>task_form.edit.tab.title</source>
+                <target>Task entry edit</target>
+            </trans-unit>
+			<trans-unit id="97">
+                <source>task_form.edit.title</source>
+                <target>Edit Task</target>
+            </trans-unit>
+			<trans-unit id="98">
+                <source>task_form.edit.submit</source>
+                <target>Edit Task</target>
+            </trans-unit>
+			<!--  task_edit.html.twig  end  -->
+			<!--  next id 103   -->
+        </body>
+    </file>
+</xliff>

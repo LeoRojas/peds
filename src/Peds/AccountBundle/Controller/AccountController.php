@@ -14,10 +14,14 @@ class AccountController extends Controller
     	$user_rps=$em->getRepository('PedsEntitiesBundle:ReferenceProcess')->findByOwner($user->getId());
     	$acts=array();
     	$tasks=array();
+		$prods=array();
+		$roles=array();
     		foreach ($user_rps as $key => $rp) {
     			//array_push($acts, $this->getRp_Acts($rp));
     			//$acts=array_merge($acts, $this->getRp_Acts($rp));
     			$acts[$rp->getId()]=$this->getRp_Acts($rp);
+				$prods[$rp->getId()]=$this->getRp_Prods($rp);
+				$roles[$rp->getId()]=$this->getRp_Roles($rp);
     		}
     		//For debugging purposes
     		//print_r($acts);
@@ -42,10 +46,26 @@ class AccountController extends Controller
     			print_r($task->getShortName());
     		}
 			*/
-		return $this->render('PedsAccountBundle:Default:account2.html.twig',array('user_rps' => $user_rps,'user_acts' => $acts,'user_tasks' =>$tasks));
+		return $this->render('PedsAccountBundle:Default:account.html.twig',array('user_rps' => $user_rps,'user_acts' => $acts,'user_tasks' =>$tasks,'user_prods' =>$prods,'user_roles' =>$roles));
         //return $this->render('PedsAccountBundle:Default:account.html.twig');
     }
-
+	
+	public function getRp_Prods($rp)
+    {
+    	$prods=array();
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$prods=$em->getRepository('PedsEntitiesBundle:Product')->findByRp($rp->getId());
+    	
+        return $prods;
+    }
+	public function getRp_Roles($rp)
+    {
+    	$roles=array();
+    	$em = $this->getDoctrine()->getEntityManager();
+    	$roles=$em->getRepository('PedsEntitiesBundle:Role')->findByRp($rp->getId());
+    	
+        return $roles;
+    }
     public function getRp_Acts($rp)
     {
     	$acts=array();

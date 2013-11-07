@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}Activity entry edit{% endblock %}
+{% block title %}{{'act_form.edit.tab.title'|trans}}{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
 .tmargin{
@@ -27,7 +27,11 @@ margin-left: 10px;
 }
 #activity label
 {
-width: 10%;
+{% if app.request.locale == 'es' %}
+width: 30%;
+{% else %}
+width: 20%;
+{% endif %}
 }
 #activity div
 {
@@ -45,14 +49,14 @@ color:black;
 <script type="text/javascript">
 </script>
 <div id="body_div">
-<h1>Edit activity</h1>
+<h1>{{'act_form.edit.title'|trans}}</h1>
 <hr>
-<div id="edit_activity" >
+<div id="edit_activity" class="symfony-content content_l">
 <!-- ver si tiene permisos-->
 
-	<form action="{{ path('peds_act_edit', {'id' : id}) }}" class="ffont" id="update" method="post" {{ form_enctype(form) }}>
+	<form action="{{ path('peds_act_edit', {'id' : id}) }}" class="ffont model_form" id="update" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input class="tmargin" value="Edit ACT" type="submit" />
+    <input class="tmargin symfony-button-green" value="{{'act_form.edit.submit'|trans}}" type="submit" />
 	</form>
 
 </div>

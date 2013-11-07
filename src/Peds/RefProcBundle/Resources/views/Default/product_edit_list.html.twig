@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}Remove Product{% endblock %}
+{% block title %}Edit Product{% endblock %}
 {% block Login %}{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
@@ -11,7 +11,7 @@ margin-top: 20px;
 {
 margin-left: 10px;
 }
-#remove_product_form_div label
+#edit_product_form_div label
 {
 {% if app.request.locale == 'es' %}
 width: 30%;
@@ -19,11 +19,11 @@ width: 30%;
 width: 20%;
 {% endif %}
 }
-#remove_product_form_div div
+#edit_product_form_div div
 {
 margin-top: 10px;
 }
-#remove_product_form_div input[type=text]
+#edit_product_form_div input[type=text]
 {
 font-family:arial;
 font-size: 18px;
@@ -33,13 +33,13 @@ color:black;
 {% endblock %}
 {% block body %}
 <div id="body_div">
-<h1>Remove Product</h1>
+<h1>Select Product to edit</h1>
 <hr>
 
-<div id="remove_product_form_div" class="symfony-content content_l">
-<form action="{{ path('peds_remove_product_list') }}" class="ffont model_form" id="register" method="post" {{ form_enctype(form) }}>
+<div id="edit_product_form_div" class="symfony-content content_l">
+<form action="{{ path('peds_edit_product_aux') }}" class="ffont model_form" id="register" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input class="tmargin peds-button-green" value="Remove Product" type="submit" />
+    <input class="tmargin peds-button-green" value="Edit Product" type="submit" />
 </form>
 </div>
 </div>

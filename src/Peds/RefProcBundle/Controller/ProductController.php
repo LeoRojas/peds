@@ -15,7 +15,11 @@ class ProductController extends Controller
 {
     public function indexAction()
     {
-        $form = $this->createForm(new ProductType());
+		$user = $this->get('security.context')->getToken()->getUser();
+        $form = $this->createForm(new ProductType(),null,array(
+		'user_id' => $user->getId(),
+		'translator_service' =>$this->get('translator')
+		));
         return $this->render('PedsRefProcBundle:Default:product.html.twig', array('form' => $form->createView(),));
     }
 
@@ -38,9 +42,61 @@ class ProductController extends Controller
             $em->remove($product_to_be_removed);
             $em->flush();
             $this->get('session')->getFlashBag()->add('notice', 'Product '.$product_name.' was deleted successfully!');
+			$url = $this->getRequest()->headers->get("referer");
+			return $this->redirect($url);
         }
 
         return $this->render('PedsRefProcBundle:Default:product_remove.html.twig', array('form' => $form->createView(),));
+    }
+	public function editListAction(Request $request)
+    {
+        $defaultData = array('');
+        $form = $this->createFormBuilder($defaultData)
+        ->add('products', 'entity', array(
+        'class' => 'PedsEntitiesBundle:Product',))
+        ->getForm();
+
+        return $this->render('PedsRefProcBundle:Default:product_edit_list.html.twig', array('form' => $form->createView(),));
+    }
+	public function editListAuxAction(Request $request)
+    {
+		if ($request->isMethod('POST')) {
+			$product_to_be_edited=$_POST['form']['products'];
+		}
+
+		return $this->redirect($this->generateUrl('peds_edit_product',array('id' => $product_to_be_edited)), 301);
+    }
+	
+	public function editAction($id, Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $defaultData = array('');
+        $product = $em->getRepository('PedsEntitiesBundle:Product')->find($id);
+
+        if (!$product) {
+             throw $this->createNotFoundException(
+                'No Product found for id '.$id);
+        }
+		$user = $this->get('security.context')->getToken()->getUser();
+		$form = $this->createForm(new ProductType(), $product,array(
+		'user_id' => $user->getId(),
+		'translator_service' =>$this->get('translator')
+		));
+
+        if ($this->getRequest()->isMethod('POST')) {
+        $form->bind($this->getRequest());
+
+            if ($form->isValid()) {
+            //print_r($_POST);
+            $product = $form->getData();
+			$em->persist($product);
+			$em->flush();
+            $this->get('session')->getFlashBag()->add('notice', 'Product entry updated!');
+            
+
+            }//isvalid
+        }
+        return $this->render('PedsRefProcBundle:Default:product_edit.html.twig',array('form' => $form->createView(),'id' => $id ));
     }
 
     public function removeIdAction($id)
@@ -52,17 +108,25 @@ class ProductController extends Controller
              throw $this->createNotFoundException(
                 'No Product found for id '.$id);
         }
+		$product_name=$product->getShortName();
         $em->remove($product);
         $em->flush();
-        $this->get('session')->getFlashBag()->add('notice', 'Product with id='.$id.' was deleted successfully!');
-        return $this->render('PedsRefProcBundle:Default:product_remove_id.html.twig',array('id' => $id));
+		$this->get('session')->getFlashBag()->add('notice', 'Product '.$product_name.' was deleted successfully!');
+		$url = $this->getRequest()->headers->get("referer");
+		return $this->redirect($url);
+        //$this->get('session')->getFlashBag()->add('notice', 'Product with id='.$id.' was deleted successfully!');
+        //return $this->render('PedsRefProcBundle:Default:product_remove_id.html.twig',array('id' => $id));
     }
 
     public function newAction()
 	{
 	$em = $this->getDoctrine()->getEntityManager();
+	$user = $this->get('security.context')->getToken()->getUser();
     $product = new Product();
-    $form = $this->createForm(new ProductType(), $product);
+    $form = $this->createForm(new ProductType(), $product,array(
+		'user_id' => $user->getId(),
+		'translator_service' =>$this->get('translator')
+	));
 		
 
 if ($this->getRequest()->isMethod('POST')) {
@@ -72,6 +136,7 @@ if ($this->getRequest()->isMethod('POST')) {
         $url = $this->getRequest()->headers->get("referer");
        //print_r($_POST);
 
+		/*
         if(isset($_POST['Product']["taskI"])){
             $taskI_id=$_POST['Product']["taskI"];
             //$taskIbool = $em->getRepository('PedsEntitiesBundle:InputProducts')->findOneBy(array('name' => 'foo', 'price' => 19.99));
@@ -94,7 +159,8 @@ if ($this->getRequest()->isMethod('POST')) {
             $this->get('session')->getFlashBag()->add('info', 'Product created as output product of task '. $taskO->getShortName());
             //print_r("Product created as output product of task ". $taskO->getShortName());
         }
-
+	*/
+		
     	$product = $form->getData();
     	$em->persist($product);
         $em->flush();

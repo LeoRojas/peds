@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}Load reference process from .xml file{% endblock %}
+{% block title %}{{'load_rp.tab.title'|trans}}{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
 hr
@@ -20,6 +20,10 @@ color:black;
 {
 margin-left: 10px;
 }
+#load_rp_div
+{
+width: 60%;
+}
 </style>
 {% endblock %}
 {% block body %}
@@ -29,15 +33,17 @@ $( document ).ready(function() {
 });
 </script>
 <div id="body_div">
-<h1>Load reference process from file</h1>
+{#<h1>Load reference process from file</h1>#}
+<h1>{{'load_rp.title'|trans}}</h1>
 <hr>
-<h2>Select .xml file</h2>
+<h2>{{'load_rp.subtitle'|trans}}</h2>
+<div id="load_rp_div" class="symfony-content content_l">
 <form action="{{ path('peds_load_rp_func') }}" method="post" class="tmargin ffont" enctype="multipart/form-data">
-	<label for="file">Filename:</label>
+	<label for="file">{{'load_rp.file.label'|trans}}</label>
 	<input type="file" name="file" id="file"><br>
-	<input type="submit" name="submit" class="tmargin" value="Submit">
+	<input type="submit" name="submit" class="tmargin symfony-button-green" value="{{'load_rp.file.submit'|trans}}">
 </form>
-
+</div>
 </div>
 {#
 {% if load_res is defined %}

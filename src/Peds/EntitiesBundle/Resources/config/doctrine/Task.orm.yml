@@ -24,6 +24,15 @@ Peds\EntitiesBundle\Entity\Task:
             fixed: false
             nullable: false
     manyToOne:
+        role:
+            targetEntity: Role
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                role_id:
+                    referencedColumnName: id
+            orphanRemoval: false
         activity:
             targetEntity: Activity
             cascade: {  }

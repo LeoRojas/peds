@@ -17,7 +17,8 @@ class ActivityController extends Controller
 		$em = $this->getDoctrine()->getEntityManager();
 		$rps=$em->getRepository('PedsEntitiesBundle:ReferenceProcess')->findByOwner($user);
 		$form = $this->createForm(new ActivityType(), null, array(
-		'user_id' => $user->getId()
+		'user_id' => $user->getId(),
+		'translator_service' =>$this->get('translator')
 		));
 		
         return $this->render('PedsRefProcBundle:Default:activity.html.twig', array('form' => $form->createView(),'rps'=>$rps));
@@ -79,7 +80,8 @@ class ActivityController extends Controller
 		$user = $this->get('security.context')->getToken()->getUser();
 		$rps=$em->getRepository('PedsEntitiesBundle:ReferenceProcess')->findByOwner($user);
 		$form = $this->createForm(new ActivityType(), $act, array(
-		'user_id' => $user->getId()
+		'user_id' => $user->getId(),
+		'translator_service' =>$this->get('translator')
 		));
         if ($this->getRequest()->isMethod('POST')) {
         $form->bind($this->getRequest());
@@ -103,7 +105,8 @@ class ActivityController extends Controller
 	$user = $this->get('security.context')->getToken()->getUser();
 	$rps=$em->getRepository('PedsEntitiesBundle:ReferenceProcess')->findByOwner($user);
     $form = $this->createForm(new ActivityType(), $activity, array(
-		'user_id' => $user->getId()
+		'user_id' => $user->getId(),
+		'translator_service' =>$this->get('translator')
 		));
 		
 

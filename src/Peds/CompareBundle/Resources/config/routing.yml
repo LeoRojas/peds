@@ -13,6 +13,9 @@ peds_compare_manual:
 peds_compare_manual_func:
     pattern:   /compare_rp/tasks/
     defaults: { _controller: PedsCompareBundle:ManualCompare:compare }
+peds_compare_manual_export:
+    pattern:   /compare_rp/tasks/export
+    defaults: { _controller: PedsCompareBundle:ManualCompare:export }
 peds_compare_tasks:
     pattern:   /compare_rp/manually
     defaults: { _controller: PedsCompareBundle:ManualTaskCompare:index }
@@ -38,8 +41,11 @@ peds_compare_tasks_check_comparison:
     pattern:   /compare_rp/manually/check
     defaults: { _controller: PedsCompareBundle:ManualTaskCompare:check }
 peds_chart:
-    pattern:   /charts/
+    pattern:   /charts/rp
     defaults: { _controller: PedsCompareBundle:Chart:index }
+peds_chart_plot:
+    pattern:   /charts/plot
+    defaults: { _controller: PedsCompareBundle:Chart:chartData }
 peds_task_comp:
     pattern:   /task/comparisons
     defaults:  { _controller: PedsCompareBundle:TaskComp:index }

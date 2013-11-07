@@ -1,10 +1,10 @@
 {% extends '::base.html.twig' %}
-{% block title %}Change pass{% endblock %}
+{% block title %}{{'edit_pass.tab.title'|trans}}{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
 #edit_pass_form label
 {
-width: 15%;
+width: 40%;
 display: block;
 float: left;
 }
@@ -34,27 +34,32 @@ color:black;
 {% endblock %}
 {% block body %}
 <div id="body_div">
-<h1>Change pass</h1>
+<h1>{{'edit_pass.title'|trans}}</h1>
 <hr>
+<div id='edit_pass_div' class="symfony-content content_l">
 <form action="{{ path('user_edit_pass') }}" method="post" class="ffont" id="edit_pass_form">
 	<div>
-        <label for="cpassword">Current Password:</label>
-        <input type="password" id="cpassword" placeholder="Current Password" name="_cpassword" />
+        <label for="cpassword">{{'edit_pass.label.current'|trans}}</label>
+		{#  
+		<input type="password" id="cpassword" placeholder="{{'edit_pass.label.current'|trans}}" name="_cpassword" />
+		#}
+        <input type="password" id="cpassword"  name="_cpassword" />
     </div>
     <div>
-        <label for="npassword">New Password:</label>
-        <input type="password" id="npassword" placeholder="New Password" name="_npassword" />
+        <label for="npassword">{{'edit_pass.label.new'|trans}}</label>
+        <input type="password" id="npassword" name="_npassword" />
     </div>
 	<div>
-        <label for="rnpassword">Repeat New Password:</label>
-        <input type="password" id="rnpassword" placeholder="Repeat New Password" name="_rnpassword" />
+        <label for="rnpassword">{{'edit_pass.label.repeat'|trans}}</label>
+        <input type="password" id="rnpassword" name="_rnpassword" />
     </div>
     {#
         If you want to control the URL the user is redirected to on success (more details below)
         <input type="hidden" name="_target_path" value="/account" />
     #}
 
-    <button class="tmargin" type="submit">Update password</button>
+    <button class="tmargin symfony-button-green" type="submit">{{'edit_pass.submit'|trans}}</button>
 </form>
+</div>
 </div>
 {% endblock %}

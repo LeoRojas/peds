@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}Task entry edit{% endblock %}
+{% block title %}{{'task_form.edit.tab.title'|trans}}{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
 .tmargin{
@@ -27,7 +27,11 @@ margin-left: 10px;
 }
 #Task label
 {
-width: 10%;
+{% if app.request.locale == 'es' %}
+width: 30%;
+{% else %}
+width: 20%;
+{% endif %}
 }
 #Task div
 {
@@ -43,16 +47,28 @@ color:black;
 {% endblock %}
 {% block body %}
 <script type="text/javascript">
+$( document ).ready(function() {
+  // Handler for .ready() called.
+  {% if work_prods is defined %}
+	{% for iprod in work_prods[0] %}
+		$('#Task_input_prods option[value="{{iprod.product.id}}"]').attr("selected", "selected");
+	{% endfor %}
+	
+	{% for oprod in work_prods[1] %}
+		$('#Task_output_prods option[value="{{oprod.product.id}}"]').attr("selected", "selected");
+	{% endfor %}
+  {% endif %}
+});
 </script>
 <div id="body_div">
-<h1>Edit task</h1>
+<h1>{{'task_form.edit.title'|trans}}</h1>
 <hr>
-<div id="edit_task" >
+<div id="edit_task" class="symfony-content content_l">
 <!-- ver si tiene permisos-->
 
-	<form action="{{ path('peds_task_edit', {'id' : id}) }}" class="ffont" id="update" method="post" {{ form_enctype(form) }}>
+	<form action="{{ path('peds_task_edit', {'id' : id}) }}" class="ffont model_form" id="update" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input class="tmargin" value="Edit Task" type="submit" />
+    <input class="tmargin symfony-button-green" value="{{'task_form.edit.submit'|trans}}" type="submit" />
 	</form>
 
 </div>

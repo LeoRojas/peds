@@ -1,0 +1,41 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}Import Public RPs{% endblock %}
+{% block Login %}{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+.tmargin{
+margin-top: 20px;
+}
+#body_div
+{
+margin-left: 10px;
+}
+#edit_role_form_div label
+{
+{% if app.request.locale == 'es' %}
+width: 30%;
+{% else %}
+width: 20%;
+{% endif %}
+}
+#edit_role_form_div div
+{
+margin-top: 10px;
+}
+#edit_role_form_div input[type=text]
+{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+</style>
+{% endblock %}
+{% block body %}
+<div id="body_div">
+<h1>Import Public Processes</h1>
+<hr>
+
+
+</div>
+{% endblock %}

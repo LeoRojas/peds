@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}New task{% endblock %}
+{% block title %}{{'task_form.new.tab.title'|trans}}{% endblock %}
 {% block Login %}{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
@@ -23,7 +23,11 @@ margin-left: 10px;
 }
 #Task label
 {
-width: 10%;
+{% if app.request.locale == 'es' %}
+width: 30%;
+{% else %}
+width: 20%;
+{% endif %}
 }
 #Task div
 {
@@ -39,11 +43,13 @@ color:black;
 {% endblock %}
 {% block body %}
 <div id="body_div">
-<h1>Create new task</h1>
+<h1>{{'task_form.new.title'|trans}}</h1>
 <hr>
-<form action="{{ path('peds_create_task') }}" class="ffont" id="register" method="post" {{ form_enctype(form) }}>
+<div id="task_form_div" class="symfony-content content_l">
+<form action="{{ path('peds_create_task') }}" class="ffont model_form" id="register" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input class="tmargin" value="Create Task" type="submit" />
+    <input class="tmargin symfony-button-green" value="{{'task_form.new.submit'|trans}}" type="submit" />
 </form>
+</div>
 </div>
 {% endblock %}

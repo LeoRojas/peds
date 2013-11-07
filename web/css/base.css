@@ -44,14 +44,17 @@ em
 
 h1, h2, h3
 {
-    font-family:    Georgia, "Times New Roman", Times, serif;
+    /*font-family:    Georgia, "Times New Roman", Times, serif;*/
+	font-family:    Arial;
     color:          #404040;
 }
 
 h1
 {
-    font-size:      45px;
-    padding-bottom: 30px;
+    /*font-size:      45px;*/
+	font-size:      38px;
+    padding-bottom: 10px;
+    padding-top: 10px;
 }
 
 h2
@@ -62,7 +65,10 @@ h2
     font-family:      "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif;
 
     margin-bottom:    10px;
-    background-color: #aacd4e;
+    /* background-color: #aacd4e; */
+	background-color: #759E1A;
+	/* original font-size=14=body div font-size*/
+	font-size: 18px;
     padding:          2px 4px;
     display:          inline-block;
     text-transform:   uppercase;
@@ -141,7 +147,7 @@ ul li
     display: none;
 }
 
-input[type=text], input[type=password]
+input[type=text], input[type=password], input[type=email]
 {
     border:      1px solid #DADADA;
     padding:     5px 6px;
@@ -283,6 +289,7 @@ ul#menu
 .menu_tr{
 margin-right: 5px;
 font-size: 18px;
+margin-bottom: 20px;
 }
 .flash-notice{
     background-color: #61b832;
@@ -339,4 +346,64 @@ cursor: pointer;
 .cli
 {
 cursor: pointer;
+}
+#body_div
+{
+margin-left: 10px;
+margin-right: 10px;
+}
+.content_l
+{
+width: 40%;
+}
+.content_c
+{
+width: 60%;
+margin: auto;
+}
+
+form.model_form input,
+form.model_form textarea,
+form.model_form select
+{
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+border: 1px solid #DADADA;
+border: 1px solid #707070;
+padding: 4px;
+}
+.peds-button-green
+{
+	font-size: 0.85em;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-block;
+    outline: none;
+    text-align:     center;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    text-shadow: 0 1px 1px rgba(0,0,0,.3);
+
+    -webkit-border-radius: 4px;
+    -moz-border-radius:    4px;
+    border-radius:         4px;
+    padding: 5px 12px;
+    color: white;
+    border:     solid 1px #a7da39;
+    background: #a7da39;
+    background: -webkit-gradient(linear, left top, left bottom, from(#759E1A), to(#759E1A));
+    background: -moz-linear-gradient(top,  #759E1A,  #759E1A);
+    filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#759E1A', endColorstr='#759E1A');
+}
+.ffont{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+form.ffont input[type=text]
+{
+font-family:arial;
+font-size: 18px;
+color:black;
 }

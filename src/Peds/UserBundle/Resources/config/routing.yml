@@ -8,14 +8,22 @@ new_user:
     pattern:  /register
     defaults: { _controller: PedsUserBundle:Register:new }
 user_mail:
-    pattern:  /account/management/editE
-    defaults: { _controller: PedsUserBundle:UserManagement:Mail }
+    pattern:  /{_locale}/account/management/editE
+    defaults: { _controller: PedsUserBundle:UserManagement:Mail, _locale: en  }
+    requirements:
+        _locale: en|es
 user_edit_mail:
-    pattern:  /account/management/editE/
-    defaults: { _controller: PedsUserBundle:UserManagement:editMail }
+    pattern:  /{_locale}/account/management/editE/
+    defaults: { _controller: PedsUserBundle:UserManagement:editMail, _locale: en  }
+    requirements:
+        _locale: en|es
 user_pass:
-    pattern:  /account/management/editP
-    defaults: { _controller: PedsUserBundle:UserManagement:Pass }
+    pattern:  /{_locale}/account/management/editP
+    defaults: { _controller: PedsUserBundle:UserManagement:Pass, _locale: en  }
+    requirements:
+        _locale: en|es
 user_edit_pass:
-    pattern:  /account/management/editP/
-    defaults: { _controller: PedsUserBundle:UserManagement:editPass }
+    pattern:  /{_locale}/account/management/editP/
+    defaults: { _controller: PedsUserBundle:UserManagement:editPass, _locale: en  }
+    requirements:
+        _locale: en|es

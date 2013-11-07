@@ -2,8 +2,10 @@ peds_account_homepage:
     pattern:  /hello/{name}
     defaults: { _controller: PedsAccountBundle:Default:index }
 peds_account:
-    pattern:  /account
-    defaults: { _controller: PedsAccountBundle:Account:index }
+    pattern:  /{_locale}/account
+    defaults: { _controller: PedsAccountBundle:Account:index, _locale: en }
+    requirements:
+        _locale: en|es
 login:
     pattern:   /login
     defaults:  { _controller: PedsAccountBundle:Security:login }
@@ -18,8 +20,21 @@ peds_matching_edit:
     pattern:   /matching/edit/{id}
     defaults:  { _controller: PedsAccountBundle:MantenedorMatching:edit }
 peds_load_rp:
-    pattern:   /load_rp
-    defaults:  { _controller: PedsAccountBundle:LoadRP:index }
+    pattern:   /{_locale}/load_rp
+    defaults:  { _controller: PedsAccountBundle:LoadRP:index ,_locale: en}
+    requirements:
+        _locale: en|es
 peds_load_rp_func:
-    pattern:   /load_rp/
-    defaults:  { _controller: PedsAccountBundle:LoadRP:load }
+    pattern:   /{_locale}/load_rp/
+    defaults:  { _controller: PedsAccountBundle:LoadRP:load,locale: en }
+    requirements:
+        _locale: en|es
+peds_text_excel_export:
+    pattern:   /test/export
+    defaults:  { _controller: PedsAccountBundle:TestExportExcel:index }
+peds_text_excel_export_func:
+    pattern:   /test/export/
+    defaults:  { _controller: PedsAccountBundle:TestExportExcel:export }
+peds_import_public_rp:
+    pattern:   /import/rp
+    defaults:  { _controller: PedsAccountBundle:ImportPublicRP:index }

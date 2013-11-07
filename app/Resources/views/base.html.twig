@@ -1,22 +1,35 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
+        
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		{#<meta charset="UTF-8" />#}
         <title>{% block title %}Welcome PEDS!{% endblock %}</title>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/base.css') }}" />    
         {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <!-- <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" /> -->
         {# Jquery #}
-        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
-        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-        <script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+		<!-- INTERNET -->
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script> 
+		<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+		
+		<!-- NO INTERNET -->
+		{# <script src="{{asset('js/jquery-1.9.1.js')}}"></script>
+        <script src="{{asset('js/jquery-ui.js')}}"></script> #}
+		
         <link rel="stylesheet" href="http://jqueryui.com/jquery-wp-content/themes/jqueryui.com/style.css">
 		<!-- JMENU -->
-		<link rel="stylesheet" type="text/css" href="{{asset('css/jmenu2.css')}}" media="screen" />
+		<link rel="stylesheet" type="text/css" href="{{asset('css/jmenu3.css')}}" media="screen" />
 		<script type="text/javascript" src="{{asset('js/jMenu.jquery.min.js')}}"></script>
-		
+		<!-- CHARTS -->
+		<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script> -->
+		<script src="http://code.highcharts.com/highcharts.js"></script>
+		<script src="http://code.highcharts.com/highcharts-more.js"></script>
+		<!-- <script type="text/javascript" src="/js/themes/gray.js"></script> -->
+		<!-- END CHARTS -->
         <!--<link rel="stylesheet" href="/resources/demos/style.css" />-->
-
+	
     </head>
     <body>
 
@@ -24,11 +37,11 @@
                 <ul id="menu" class="menu_tr">
                     {% block content_header_more %}
                         {% if not is_granted("IS_AUTHENTICATED_FULLY") %}
-                            <li><a href="{{ path('login') }}">Login</a></li>
-                            <li><a href="{{ path('new_user') }}">Register</a></li>
+                            <li><a href="{{ path('login') }}">{{'user_menu.login'|trans}}</a></li>
+                            <li><a href="{{ path('new_user') }}">{{'user_menu.register'|trans}}</a></li>
                             {% else %}
-                            <li><a href="{{ path('peds_account') }}">My account</a></li>
-                            <li>logged in as <strong>{{ app.user ? app.user.username : 'Anonymous' }}</strong> - <a href="{{ path('logout') }}">Logout</a></li>
+                            <li><a href="{{ path('peds_account') }}">{{'user_menu.account'|trans}}</a></li>
+                            <li>{{'user_menu.logged'|trans}}<strong> {{ app.user ? app.user.username : 'Anonymous' }}</strong> - <a href="{{ path('logout') }}">{{'user_menu.logout'|trans}}</a></li>
                         {% endif %}
                     {% endblock %}
                 </ul>
@@ -40,63 +53,80 @@
 		{% if is_granted("IS_AUTHENTICATED_FULLY") %}
 		<div id="top_menu_div">
 			<ul id="jMenu">
-			  <li><a href="{{ path('peds_chart') }}">Charts beta</a>
+			  <li><a href="{{ path('peds_chart') }}">{{'js_menu.charts'|trans}}</a>
 			  </li>
-			  <li><a>Compare RPs</a>
+			  <li><a>{{'js_menu.compare'|trans}}</a>
 				<ul>
 					{#<li><a href="{{ path('peds_compare') }}">Automatically</a></li>#}
-					<li><a href="{{ path('peds_compare_manual') }}">Mapping Based</a></li>
+					<li><a href="{{ path('peds_compare_manual') }}">{{'js_menu.compare.mapping'|trans}}</a></li>
 				</ul>
 			  </li>
-			  <li><a>Mappings</a>
+			  <li><a>{{'js_menu.mapping'|trans}}</a>
 				<ul>
-					<li><a href="{{ path('peds_compare_tasks') }}">Map RPs</a></li>
-					<li><a href="{{ path('peds_task_comp') }}">My mappings</a></li>
-					<li><a href="{{ path('peds_task_comp_search') }}">Other User Mappings</a></li>
+					<li><a href="{{ path('peds_compare_tasks') }}">{{'js_menu.mapping.map'|trans}}</a></li>
+					<li><a href="{{ path('peds_task_comp') }}">{{'js_menu.mapping.my'|trans}}</a></li>
+					<li><a href="{{ path('peds_task_comp_search') }}">{{'js_menu.mapping.other'|trans}}</a></li>
 				</ul>
 			  </li>
-			  <li><a>Model</a>
+			  <li><a>{{'js_menu.model'|trans}}</a>
 				<ul>
-					<li><a href="{{ path('peds_create_rp_index') }}">Reference process</a>
+					<li><a href="{{ path('peds_create_rp_index') }}">{{'js_menu.model.rp'|trans}}</a>
 						<ul>
-						<li><a href="{{ path('peds_create_rp_index') }}">Create</a></li>
-						<li><a href="{{ path('peds_account') }}">Edit</a></li>
-						<li><a href="{{ path('peds_account') }}">Remove</a></li>
+						<li><a href="{{ path('peds_create_rp_index') }}">{{'action.create'|trans}}</a></li>
+						<li><a href="{{ path('peds_account') }}">{{'action.edit'|trans}}</a></li>
+						<li><a href="{{ path('peds_account') }}">{{'action.remove'|trans}}</a></li>
 						</ul>
 					</li>
-					<li><a href="{{ path('peds_create_act_index') }}">Activity</a>
+					<li><a href="{{ path('peds_create_act_index') }}">{{'js_menu.model.act'|trans}}</a>
 						<ul>
-						<li><a href="{{ path('peds_create_act_index') }}">Create</a></li>
-						<li><a href="{{ path('peds_account') }}">Edit</a></li>
-						<li><a href="{{ path('peds_account') }}">Remove</a></li>
+						<li><a href="{{ path('peds_create_act_index') }}">{{'action.create'|trans}}</a></li>
+						<li><a href="{{ path('peds_account') }}">{{'action.edit'|trans}}</a></li>
+						<li><a href="{{ path('peds_account') }}">{{'action.remove'|trans}}</a></li>
 						</ul>
 					</li>
-					<li><a href="{{ path('peds_create_task_index') }}">Task</a>
+					<li><a href="{{ path('peds_create_task_index') }}">{{'js_menu.model.task'|trans}}</a>
 						<ul>
-						<li><a href="{{ path('peds_create_task_index') }}">Create</a></li>
-						<li><a href="{{ path('peds_account') }}">Edit</a></li>
-						<li><a href="{{ path('peds_account') }}">Remove</a></li>
+						<li><a href="{{ path('peds_create_task_index') }}">{{'action.create'|trans}}</a></li>
+						<li><a href="{{ path('peds_account') }}">{{'action.edit'|trans}}</a></li>
+						<li><a href="{{ path('peds_account') }}">{{'action.remove'|trans}}</a></li>
+						</ul>
+					</li>
+					<li><a href="{{ path('peds_create_product_index') }}">{{'js_menu.model.product'|trans}}</a>
+						<ul>
+						<li><a href="{{ path('peds_create_product_index') }}">{{'action.create'|trans}}</a></li>
+						<li><a href="{{ path('peds_edit_product_list') }}">{{'action.edit'|trans}}</a></li>
+						<li><a href="{{ path('peds_remove_product_list') }}">{{'action.remove'|trans}}</a></li>
+						</ul>
+					</li>
+					<li><a href="{{ path('peds_create_role_index') }}">{{'js_menu.model.role'|trans}}</a>
+						<ul>
+						<li><a href="{{ path('peds_create_role_index') }}">{{'action.create'|trans}}</a></li>
+						<li><a href="{{ path('peds_edit_role_list') }}">{{'action.edit'|trans}}</a></li>
+						<li><a href="{{ path('peds_remove_role_list') }}">{{'action.remove'|trans}}</a></li>
 						</ul>
 					</li>
 				</ul>
 			  </li>
-			  <li><a href="{{ path('peds_account') }}">Account</a>
+			  <li><a href="{{ path('peds_account') }}">{{'js_menu.account'|trans}}</a>
 				<ul>
-					<li><a href="{{ path('peds_account') }}">My Account</a></li>
-					<li><a>Management</a>
+					<li><a href="{{ path('peds_account') }}">{{'js_menu.account.my'|trans}}</a></li>
+					<li><a>{{'js_menu.account.management'|trans}}</a>
 						<ul>
-						  <li><a href="{{ path('user_edit_mail') }}"><img src="{{asset('img/Config_1.png')}}" width="26" height="26" alt="edit_mail" />Edit e-mail</a></li>
-						  <li><a href="{{ path('user_edit_pass') }}"><img src="{{asset('img/Config_1.png')}}" width="26" height="26" alt="edit_pass" />Edit password</a></li>
+						  <li><a href="{{ path('user_edit_mail') }}"><img src="{{asset('img/Config_1.png')}}" width="26" height="26" alt="edit_mail" />{{'js_menu.account.management.mail'|trans}}</a></li>
+						  <li><a href="{{ path('user_edit_pass') }}"><img src="{{asset('img/Config_1.png')}}" width="26" height="26" alt="edit_pass" />{{'js_menu.account.management.pass'|trans}}</a></li>
 						</ul>
 					</li>
+					<li><a href="{{ path('peds_import_public_rp') }}">Import Public Processes</a></li>
 				</ul>
 			  </li>
-			  <li><a>Others</a>
+			  <li><a>{{'js_menu.settings'|trans}}</a>
 				<ul>
-					<li><a href="{{ path('peds_load_rp') }}">Load RP from .xml file</a></li>
+					<li><a href="{{ path('peds_load_rp') }}">{{'js_menu.settings.load_rp'|trans}}</a></li>
 					{% if is_granted("ROLE_ADMIN") %}
-					<li><a href="{{ path('peds_matching') }}">Edit Matching table</a></li>
+					<li><a href="{{ path('peds_matching') }}">{{'js_menu.settings.edit_mtable'|trans}}</a></li>
 					{% endif %}
+					<li><a href="{{ path('peds_account', {'_locale' :'en'}) }}">English</a></li>
+					<li><a href="{{ path('peds_account', {'_locale' :'es'}) }}">Español</a></li>
 				</ul>
 			  </li>
 			</ul>

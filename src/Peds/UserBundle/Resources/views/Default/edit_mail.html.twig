@@ -1,5 +1,5 @@
 {% extends '::base.html.twig' %}
-{% block title %}Change e-mail{% endblock %}
+{% block title %}{{'edit_mail.tab.title'|trans}}{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
 .tmargin{
@@ -14,15 +14,19 @@ color:black;
 {
 margin-left: 10px;
 }
-#edit_mail label
+#edit_mail_div label
 {
-width: 10%;
+{% if app.request.locale == 'es' %}
+width: 45%;
+{% else %}
+width: 20%;
+{% endif %}
 }
-#edit_mail div
+#edit_mail_div div
 {
 margin-top: 10px;
 }
-#edit_mail input
+#edit_mail_div input
 {
 font-family:arial;
 font-size: 18px;
@@ -32,12 +36,12 @@ color:black;
 {% endblock %}
 {% block body %}
 <div id="body_div">
-<h1>Change e-mail</h1>
+<h1>{{'edit_mail.title'|trans}}</h1>
 <hr>
-<form action="{{ path('user_edit_mail') }}" method="post" class="ffont" id="login">
-<div id='edit_mail'>
+<form action="{{ path('user_edit_mail') }}" method="post" class="ffont model_form" id="login">
+<div id='edit_mail_div' class="symfony-content content_l">
     <div>
-        <label for="nmail">New e-mail:</label>
+        <label for="nmail">{{'edit_mail.label.new'|trans}}</label>
 		{% if last_username is defined %}
 			<input type="text" id="nmail" name="_nmail" value="{{ last_username }}" />
 		{% else %}
@@ -45,7 +49,7 @@ color:black;
 		{% endif %}
     </div>
     <div class="tmargin">
-        <label for="password">Password:</label>
+        <label for="password">{{'edit_mail.label.pass'|trans}}</label>
         <input type="password" id="password" name="_password" />
     </div>
 
@@ -53,8 +57,9 @@ color:black;
         If you want to control the URL the user is redirected to on success (more details below)
         <input type="hidden" name="_target_path" value="/account" />
     #}
+	<button class="tmargin symfony-button-green" type="submit">{{'edit_mail.submit'|trans}}</button>
 </div>
-    <button class="tmargin" type="submit">Update mail</button>
+    
 </form>
 </div>
 {% endblock %}

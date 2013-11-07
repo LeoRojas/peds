@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}New activity{% endblock %}
+{% block title %}{{'act_form.new.tab.title'|trans}}{% endblock %}
 {% block Login %}{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
@@ -23,7 +23,11 @@ margin-left: 10px;
 }
 #activity label
 {
-width: 10%;
+{% if app.request.locale == 'es' %}
+width: 30%;
+{% else %}
+width: 20%;
+{% endif %}
 }
 #activity div
 {
@@ -39,20 +43,20 @@ color:black;
 {% endblock %}
 {% block body %}
 <div id="body_div">
-<h1>Create new activity</h1>
+<h1>{{'act_form.new.title'|trans}}</h1>
 <hr>
 {# {% if form.rp|length > 0 %} #}
 {% if rps is defined %}
 {% if rps|length > 0 %}
-<div id="act_form_div">
-<form action="{{ path('peds_create_act') }}" class="ffont" id="register" method="post" {{ form_enctype(form) }}>
+<div id="act_form_div" class="symfony-content content_l">
+<form action="{{ path('peds_create_act') }}" class="ffont model_form" id="register" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input class="tmargin" value="Create Activity" type="submit" />
+    <input class="tmargin symfony-button-green" value="{{'act_form.new.submit'|trans}}" type="submit" />
 </form>
 </div>
 
 <div class="tmargin">
-	<a href="{{ path('peds_create_task_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create TASK" />Create task</a>
+	<a href="{{ path('peds_create_task_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create TASK" />{{'act_form.new.task.shortcut'|trans}}</a>
 </div>
 {% else %}
 <div id="no_rp_div" class="inst_font bmargin">

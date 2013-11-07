@@ -12,7 +12,9 @@ class RefProcController extends Controller
 {
     public function indexAction()
     {
-        $form = $this->createForm(new RPType());
+        $form = $this->createForm(new RPType(),null,array(
+		'translator_service' => $this->get('translator')
+		));
         return $this->render('PedsRefProcBundle:Default:ref_proc.html.twig', array('form' => $form->createView(),));
     }
     
@@ -69,7 +71,10 @@ class RefProcController extends Controller
             );
         }
         //$matching = new Matching();
-        $form = $this->createForm(new RPType(), $rp);
+        //$form = $this->createForm(new RPType(), $rp);
+		$form = $this->createForm(new RPType(),$rp,array(
+		'translator_service' => $this->get('translator')
+		));
 
         if ($this->getRequest()->isMethod('POST')) {
         $form->bind($this->getRequest());
@@ -91,7 +96,10 @@ class RefProcController extends Controller
 	{
 	$em = $this->getDoctrine()->getEntityManager();
     $rp = new ReferenceProcess();
-    $form = $this->createForm(new RPType(), $rp);
+	//$form = $this->createForm(new RPType(), $rp);
+	$form = $this->createForm(new RPType(),$rp,array(
+		'translator_service' => $this->get('translator')
+		));
 		
 
 if ($this->getRequest()->isMethod('POST')) {
@@ -106,7 +114,21 @@ if ($this->getRequest()->isMethod('POST')) {
     	$em->persist($rp);
         $em->flush();
 		$rp_name=$rp->getShortName();
-        $this->get('session')->getFlashBag()->add('notice', 'RP '.$rp_name.' created successfully!');
+		
+		/*
+		$this->get('session')->set('_locale', 'es');
+		$request = $this->getRequest();
+		$locale = $request->getLocale();
+		$request->setLocale('es');
+		*/
+
+		$translated = $this->get('translator')->trans(
+        'rp.new',
+        array('%rp_name%' => $rp_name)
+		);
+
+		$this->get('session')->getFlashBag()->add('notice', $translated);
+        //$this->get('session')->getFlashBag()->add('notice', 'RP '.$rp_name.' created successfully!');
         //$_POST=array();
         return $this->redirect($url);
         //return $this->redirect($url, 301);

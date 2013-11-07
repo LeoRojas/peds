@@ -32,17 +32,155 @@ color:black;
 .tmargin{
 margin-top: 20px;
 }
+.bmargin{
+margin-bottom: 40px;
+}
+#compare_table .telem_invis
+{
+background-color: #EFEFEF;
+border: none;
+}
+.telem_centered
+{
+text-align: center;
+}
+#aux_compare_table
+{
+display: none;
+}
 </style>
 {% endblock %}
 {% block body %}
 <script type="text/javascript">
+$( document ).ready(function() {
+  	$("#exportToExcel").click(function() {	
+		$("#aux_compare_table").html($("#compare_table").html());
+		
+		var aux_table=$("#aux_compare_table");
+		aux_table.find(".frac_elem").each(function(i, obj) {
+		//$( this ).html("'"+$( this ).html())
+		$( this ).html("0 "+$( this ).html())
+		var div_array=$(this).html().split("/");
+		//$(this).html(div_array[0]/div_array[1]);
+		//$(this).html($(this).html().replace('.',','));
+		});
+		
+		//alert(aux_table.html());
+		
+		//var data='<table>'+aux_table.html().replace(/<a\/?[^>]+>/gi, '')+'</table>';
+		//var data='<table>'+$("#compare_table").html().replace(/<a\/?[^>]+>/gi, '')+'</table>';
+		var data='<table>'+$("#aux_compare_table").html().replace(/<a\/?[^>]+>/gi, '')+'</table>';
+		//alert(data);
+		$('body').prepend("<form method='post' action='{{ path('peds_compare_manual_export') }}' style='display:none' id='ReportTableData'><input type='text' name='tableData' value='"+data+"' ></form>");
+		 $('#ReportTableData').submit().remove();
+		 return false;
+	});
+	{% if chart_coverage is defined%}
+		//Spider web Graph
+	window.chart = new Highcharts.Chart({
+                
+        chart: {
+            renderTo: 'spider_polar_chart_div',
+            polar: true,
+            type: 'line'
+        },
+        
+        title: {
+            text: '{{left_rp.shortName}}',
+            x: -80
+        },
+        
+        pane: {
+            size: '90%'
+        },
+        
+        xAxis: {
+            categories: [
+			{% for key, right_rp in right_rp_array %}
+			{% if loop.last %}
+				'{{right_rp.shortName}}'
+			{% else %}
+				'{{right_rp.shortName}}',
+			{% endif %}
+			{% endfor %}
+					],
+            tickmarkPlacement: 'on',	//dont change
+            lineWidth: 0,				//dont change
+			labels: {
+                align: 'center',
+                x: 0,
+                y: 0
+            }
+        },
+            
+        yAxis: {
+            gridLineInterpolation: 'polygon',
+            lineWidth: 0,			//dont change
+            min: 0,
+			max: 100,
+			tickInterval: 10,
+			showLastLabel: true
+        },
+        
+        tooltip: {
+            shared: true,
+			valueSuffix: '%'
+            //valuePrefix: '$'
+			
+        },
+        
+        legend: {
+            align: 'right',
+            verticalAlign: 'top',
+            y: 100,
+            layout: 'vertical'
+        },
+        
+        series: [{
+            name: 'Coverage',
+            data: [
+			{% for key, coverage in chart_coverage %}
+			{% if loop.last %}
+				{{coverage}}
+			{% else %}
+				{{coverage}},
+			{% endif %}
+			{% endfor %}
+			],
+            pointPlacement: 'on'
+        }, 
+		]
+    
+    });
+	{% endif %}
+	//////Spider web Graph end
+	$( "#hide_chart_ref" ).hide();
+	$( "#spider_polar_chart_div" ).hide();
+	
+	$( "#show_chart_ref" ).click(function() {
+		$( "#spider_polar_chart_div" ).show();
+		$( "#show_chart_ref" ).hide();
+		$( "#hide_chart_ref" ).show();
+		//$('#showB').attr("disabled", false);
+		//$('#hideB').attr("disabled", true);
+		return false;
+	});
+	$( "#hide_chart_ref" ).click(function() {
+		$( "#spider_polar_chart_div" ).hide();
+		$( "#show_chart_ref" ).show();
+		$( "#hide_chart_ref" ).hide();
+		//$('#showB').attr("disabled", true);
+		//$('#hideB').attr("disabled", false);
+		return false;
+	});
+});
 </script>
 <div id="body_div">
 <div id="compare_ins" >
 	<h1>{{left_rp.shortName|capitalize}} tasks with respect to other standards</h1>
 	<hr>
 </div>
-<div id="table_div"  class="tmargin">
+<div id="table_div"  class="tmargin bmargin">
 
 
 {% if coverage_res is defined%}
@@ -52,10 +190,10 @@ margin-top: 20px;
 			<th>Task Description ({{left_rp.shortName}})</th>
 			{#<th>{{right_rp.shortName}}</th>#}
 			{% for key, right_rp in right_rp_array %}
-				<th>{{right_rp.shortName}}</th>
+				<th class="telem_centered">{{right_rp.shortName}}</th>
 			{% endfor %}
 			<th>Num Of Ocurrences</th>
-			<th></th>
+			<th class="telem_invis"></th>
 		</tr>
 	{% for key, task in coverage_res[0][0] %}
 		<tr>
@@ -65,14 +203,14 @@ margin-top: 20px;
 		{% set count = 0 %}
 		{% for map_cov in coverage_res %}
 			{#<td>{{map_res[key]}}</td>#}
-			<td>{{map_cov[1][key]}}</td>
+			<td class="telem_centered">{{map_cov[1][key]}}</td>
 			{% set occ = occ + map_cov[1][key]%}
 			{% if map_cov[1][key] != 0%}
 				{% set count = count + 1%}
 			{% endif %}
 		{% endfor %}
-		<td>{{occ}}</td>
-		<td>{{count}}/{{right_rp_array|length}}</td>
+		<td class="telem_centered">{{occ}}</td>
+		<td class="frac_elem">{{count}}/{{right_rp_array|length}}</td>
 		</tr>
 	{% endfor %}
 	
@@ -80,37 +218,43 @@ margin-top: 20px;
 			<td class="borderless_td"></td>
 			<th>Num of Used Tasks ({{left_rp.shortName}})</th>
 			{% for map_cov in coverage_res %}
-				{#<td>{{count_res['c_used']}}</td>#}
-				<td>{{map_cov[2]['c_used']}}</td>
+				<td class="telem_centered">{{map_cov[2]['c_used']}}</td>
 			{% endfor %}
 		</tr>
 		<tr>
 			<td class="borderless_td"></td>
 			<th>Not used tasks ({{left_rp.shortName}})</th>
 			{% for map_cov in coverage_res %}
-				{#<td>{{count_res['c_nused']}}</td>#}
-				<td>{{map_cov[2]['c_nused']}}</td>
+				<td class="telem_centered">{{map_cov[2]['c_nused']}}</td>
 			{% endfor %}
 		</tr>
 		<tr>
 			<td class="borderless_td"></td>
-			<th>Total Num of Tasks ({{left_rp.shortName}})</th>
+			<th>Num of Tasks ({{left_rp.shortName}})</th>
 			{% for map_cov in coverage_res %}
-				{#<td>{{count_res['c_tasks']}}</td>#}
-				<td>{{map_cov[2]['c_tasks']}}</td>
+				<td class="telem_centered">{{map_cov[2]['c_tasks']}}</td>
 			{% endfor %}
 		</tr>
 		<tr>
 			<td class="borderless_td"></td>
-			<th>Total Num of Tasks (Secondary RP)</th>
-			{#<th>Total Num of Tasks ({{right_rp.shortName}})</th>#}
+			<th>Num of Tasks (Target RP)</th>
 			{% for map_cov in coverage_res %}
 				{#<td>{{count_res['c_sec_tasks']}}</td>#}
-				<td>{{map_cov[2]['c_sec_tasks']}}</td>
+				<td class="telem_centered">{{map_cov[2]['c_sec_tasks']}}</td>
 			{% endfor %}
 		</tr>
 	</table>
 {% endif %}
+</div>
+<div id="export_div">
+<a href="#" id="exportToExcel"><img src="{{asset('img/Excel-icon.png')}}">Export table</a>
+</div>
+<div id="chart_div" class="tmargin">
+<a href="{{ path('peds_chart') }}" id="show_chart_ref"><img src="{{asset('img/Charts_1.png')}}" width="26" height="26" alt="Chart" />Show coverage chart</a>
+<a href="{{ path('peds_chart') }}" id="hide_chart_ref"><img src="{{asset('img/Charts_1.png')}}" width="26" height="26" alt="Chart" />Hide coverage chart</a>
+<div id="spider_polar_chart_div" class="tmargin bmargin" style="width:100%; height:400px;"></div>
+</div>
+<div id="aux_compare_table">
 </div>
 </div>
 {% endblock %}

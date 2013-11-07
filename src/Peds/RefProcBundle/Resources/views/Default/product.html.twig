@@ -1,24 +1,52 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}New product{% endblock %}
+{% block title %}New Product{% endblock %}
 {% block Login %}{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
-#body_div
-{
-margin-left: 100px;
+.tmargin{
+margin-top: 20px;
 }
-#create_product label
+#Product div
 {
-    display: block;
-    float: left;
-    width: 200px;
+margin-top: 10px;
+}
+#Product label
+{
+display: block;
+float: left;
+/*width: 10%;*/
+{% if app.request.locale == 'es' %}
+width: 30%;
+{% else %}
+width: 20%;
+{% endif %}
+}
+.content_l
+{
+width: 40%;
+}
+.content_c
+{
+width: 60%;
+margin: auto;
 }
 </style>
 {% endblock %}
 {% block body %}
-<form action="{{ path('peds_create_product') }}" id="create_product" method="post" {{ form_enctype(form) }}>
+<div id="body_div">
+<script type="text/javascript">
+$( document ).ready(function() {
+  // Handler for .ready() called.
+});
+</script>
+<h1>New Product</h1>
+<hr>
+<div class="symfony-content content_l">
+<form action="{{ path('peds_create_product') }}" class="ffont model_form" id="create_product" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input type="submit" />
+    <input class="tmargin peds-button-green" value="Create Product" type="submit" />
 </form>
+</div>
+</div>
 {% endblock %}

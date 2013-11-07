@@ -5,23 +5,27 @@ homepage:
     pattern:  /
     defaults: { _controller: PedsRefProcBundle:Homepage:index }
 peds_create_rp:
-    pattern:  /new/rp
-    defaults: { _controller: PedsRefProcBundle:RefProc:new }
+    pattern:  /{_locale}/new/rp
+    defaults: { _controller: PedsRefProcBundle:RefProc:new, _locale: en  }
+    requirements:
+        _locale: en|es
 peds_create_rp_index:
-    pattern:  /new/rp/
-    defaults: { _controller: PedsRefProcBundle:RefProc:index }
+    pattern:  /{_locale}/new/rp/
+    defaults: { _controller: PedsRefProcBundle:RefProc:index, _locale: en  }
+    requirements:
+        _locale: en|es
 peds_create_act:
-    pattern:  /new/act
-    defaults: { _controller: PedsRefProcBundle:Activity:new }
+    pattern:   /{_locale}/new/act
+    defaults: { _controller: PedsRefProcBundle:Activity:new, _locale: en }
 peds_create_act_index:
-    pattern:  /new/act/
-    defaults: { _controller: PedsRefProcBundle:Activity:index }
+    pattern:   /{_locale}/new/act/
+    defaults: { _controller: PedsRefProcBundle:Activity:index, _locale: en }
 peds_create_task:
-    pattern:  /new/task
-    defaults: { _controller: PedsRefProcBundle:Task:new }
+    pattern:   /{_locale}/new/task
+    defaults: { _controller: PedsRefProcBundle:Task:new, _locale: en }
 peds_create_task_index:
-    pattern:  /new/task/
-    defaults: { _controller: PedsRefProcBundle:Task:index }
+    pattern:   /{_locale}/new/task/
+    defaults: { _controller: PedsRefProcBundle:Task:index, _locale: en }
 peds_remove_rp_list:
     pattern:  /remove/rp
     defaults: { _controller: PedsRefProcBundle:RefProc:remove }
@@ -41,26 +45,50 @@ peds_remove_task:
     pattern:  /remove/task/{id}
     defaults: { _controller: PedsRefProcBundle:Task:removeId }
 peds_rp_edit:
-    pattern:   /edit/rp/{id}
-    defaults:  { _controller: PedsRefProcBundle:RefProc:edit }
+    pattern:   /{_locale}/edit/rp/{id}
+    defaults:  { _controller: PedsRefProcBundle:RefProc:edit, _locale: en }
+    requirements:
+        _locale: en|es
 peds_act_edit:
-    pattern:   /edit/act/{id}
-    defaults:  { _controller: PedsRefProcBundle:Activity:edit }
+    pattern:   /{_locale}/edit/act/{id}
+    defaults:  { _controller: PedsRefProcBundle:Activity:edit, _locale: en }
+    requirements:
+        _locale: en|es
 peds_task_edit:
-    pattern:   /edit/task/{id}
-    defaults:  { _controller: PedsRefProcBundle:Task:edit }
+    pattern:   /{_locale}/edit/task/{id}
+    defaults:  { _controller: PedsRefProcBundle:Task:edit, _locale: en }
+    requirements:
+        _locale: en|es
 peds_create_product:
     pattern:  /new/product
     defaults: { _controller: PedsRefProcBundle:Product:new }
 peds_create_product_index:
     pattern:  /new/product/
     defaults: { _controller: PedsRefProcBundle:Product:index }
+peds_edit_product_list:
+    pattern:  /edit/product/
+    defaults: { _controller: PedsRefProcBundle:Product:editList }
+peds_edit_product_aux:
+    pattern:  /edit/product/aux
+    defaults: { _controller: PedsRefProcBundle:Product:editListAux }
+peds_edit_product:
+    pattern:  /edit/product/{id}
+    defaults: { _controller: PedsRefProcBundle:Product:edit }
 peds_create_role:
     pattern:  /new/role
     defaults: { _controller: PedsRefProcBundle:Role:new }
 peds_create_role_index:
     pattern:  /new/role/
     defaults: { _controller: PedsRefProcBundle:Role:index }
+peds_edit_role_list:
+    pattern:  /edit/role/
+    defaults: { _controller: PedsRefProcBundle:Role:editList }
+peds_edit_role_aux:
+    pattern:  /edit/role/aux
+    defaults: { _controller: PedsRefProcBundle:Role:editListAux }
+peds_edit_role:
+    pattern:  /edit/role/{id}
+    defaults: { _controller: PedsRefProcBundle:Role:edit }
 peds_remove_product_list:
     pattern:  /remove/product
     defaults: { _controller: PedsRefProcBundle:Product:remove }

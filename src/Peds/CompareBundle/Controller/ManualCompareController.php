@@ -3,7 +3,7 @@
 namespace Peds\CompareBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
+use Symfony\Component\HttpFoundation\Response;
 class ManualCompareController extends Controller
 {
     public function indexAction()
@@ -41,18 +41,77 @@ class ManualCompareController extends Controller
 				$right_rp=$em->getRepository('PedsEntitiesBundle:ReferenceProcess')->find($sec_rps[0]);
 				$coverage_res=array();
 				$right_rp_array=array();
+				$chart_coverage_data=array();
+				$base_rp_task_count=$this->getTaskCount($left_rp);
 				foreach($sec_rps as $key => $rp_id){
 					$aux_rp=$em->getRepository('PedsEntitiesBundle:ReferenceProcess')->find($rp_id);
 					$coverage_res[]=$this->mappingCoverageFunction($left_rp,$aux_rp);
+					$chart_coverage_data[]=$this->getCoverage($left_rp,$aux_rp,$base_rp_task_count);
 					$right_rp_array[]=$aux_rp;
 				}
 			}
-            return $this->render('PedsCompareBundle:Default:manual_compare_res.html.twig',array('left_rp' =>$left_rp,'right_rp' =>$right_rp,'coverage_res' =>$coverage_res,'right_rp_array' =>$right_rp_array));
+            return $this->render('PedsCompareBundle:Default:manual_compare_res.html.twig',array('left_rp' =>$left_rp,'right_rp' =>$right_rp,'coverage_res' =>$coverage_res,'right_rp_array' =>$right_rp_array,'chart_coverage' => $chart_coverage_data));
 
         }
             else{
                 return $this->render('PedsCompareBundle:Default:manual_compare_res.html.twig');
             }
+    }
+	
+	public function getCoverage($base_rp,$sec_rp,$task_count)
+    {
+		$em = $this->getDoctrine()->getEntityManager();
+		$user = $this->get('security.context')->getToken()->getUser();
+		$comparisons=array();
+		$count=0;
+		$comparisons_aux=$em->getRepository('PedsEntitiesBundle:TaskComp')->findBy(array('user' => $user,'rp'=>$sec_rp));
+					foreach($comparisons_aux as $key => $comp){
+
+						if($comp->getBaseTask()->getActivity()->getRp()->getId()==$base_rp->getId()){
+							$comparisons[]=$comp;
+							$count+=$comp->getMatching()->getScore();
+						}
+					}
+		//$comp_total=count($comparisons);
+		if($task_count>0){
+			return ($count/$task_count)*100;
+		}
+		else{
+			return 0;
+		}
+        //return $this->render('PedsCompareBundle:Default:chart.html.twig');
+    }
+	
+	public function getTaskCount($rp){
+		$base_rp_acts=array();
+		$base_tasks=array();
+		$base_rp_acts=$this->getRp_Acts($rp);
+			foreach($base_rp_acts as $key => $act){
+				$aux_tasks=$this->getAct_Tasks($act);
+				foreach($aux_tasks as $key => $task){
+					$base_tasks[]=$task;
+				}
+			}
+		$count_tasks=count($base_tasks);
+		return $count_tasks;
+	}
+	public function exportAction()
+    {
+		$response = new Response(
+		strip_tags($_POST['tableData'],'<table><th><tr><td>'),
+		200,
+		array(
+		'Pragma' => 'public',
+		'Expires' => '0',
+		'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+		'Content-Type' => 'application/force-download',
+		'Content-Type' => 'application/octet-stream',
+		'Content-Type' => 'application/download',
+		'Content-Type' => 'application/vnd.ms-excel',
+		'Content-Disposition' => 'attachment;filename=coverage_table_export.xls',
+		'Content-Transfer-Encoding' => 'binary',
+		));
+		return $response;
     }
 	 public function getRp_Acts($rp)
     {

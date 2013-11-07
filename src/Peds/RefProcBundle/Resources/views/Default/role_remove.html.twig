@@ -1,11 +1,46 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}Remove role{% endblock %}
+{% block title %}Remove Role{% endblock %}
 {% block Login %}{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+.tmargin{
+margin-top: 20px;
+}
+#body_div
+{
+margin-left: 10px;
+}
+#remove_role_form_div label
+{
+{% if app.request.locale == 'es' %}
+width: 30%;
+{% else %}
+width: 20%;
+{% endif %}
+}
+#remove_role_form_div div
+{
+margin-top: 10px;
+}
+#remove_role_form_div input[type=text]
+{
+font-family:arial;
+font-size: 18px;
+color:black;
+}
+</style>
+{% endblock %}
 {% block body %}
-{# src/Peds/RefProcBundle/Resources/views/Default/role_remove.html.twig #}
-<form action="{{ path('peds_remove_role_list') }}" id="register" method="post" {{ form_enctype(form) }}>
+<div id="body_div">
+<h1>Remove Role</h1>
+<hr>
+
+<div id="remove_role_form_div" class="symfony-content content_l">
+<form action="{{ path('peds_remove_role_list') }}" class="ffont model_form" id="register" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input type="submit" />
+    <input class="tmargin peds-button-green" value="Remove Role" type="submit" />
 </form>
+</div>
+</div>
 {% endblock %}

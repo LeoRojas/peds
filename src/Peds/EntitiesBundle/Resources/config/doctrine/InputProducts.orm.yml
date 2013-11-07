@@ -10,22 +10,22 @@ Peds\EntitiesBundle\Entity\InputProducts:
             generator:
                 strategy: IDENTITY
     manyToOne:
-        task:
-            targetEntity: Task
-            cascade: {  }
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                task:
-                    referencedColumnName: id
-            orphanRemoval: false
         product:
             targetEntity: Product
             cascade: {  }
             mappedBy: null
             inversedBy: null
             joinColumns:
-                product:
+                product_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        task:
+            targetEntity: Task
+            cascade: {  }
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                task_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

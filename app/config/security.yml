@@ -31,7 +31,7 @@ security:
                 check_path: /login_check
                 remember_me: true
                 always_use_default_target_path: true
-                default_target_path: /account
+                default_target_path: /en/account
                 failure_handler: authentication_handler
             logout:
                 path: /logout
@@ -48,7 +48,7 @@ security:
 
     access_control:
          - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-         - { path: ^/account, roles: ROLE_USER }
+         - { path: ^/es|en/account, roles: ROLE_USER }
          - { path: ^/compare_rp, roles: ROLE_USER }
          - { path: ^/new/rp, roles: ROLE_USER }
          - { path: ^/new/act, roles: ROLE_USER }

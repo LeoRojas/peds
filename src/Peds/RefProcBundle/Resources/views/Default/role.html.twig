@@ -1,10 +1,50 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}New role{% endblock %}
+{% block title %}New Role{% endblock %}
 {% block Login %}{% endblock %}
+{% block stylesheets %}
+<style type="text/css">
+.tmargin{
+margin-top: 20px;
+}
+#Role div
+{
+margin-top: 10px;
+}
+#Role label
+{
+/*width: 10%;*/
+{% if app.request.locale == 'es' %}
+width: 30%;
+{% else %}
+width: 20%;
+{% endif %}
+}
+.content_l
+{
+width: 40%;
+}
+.content_c
+{
+width: 60%;
+margin: auto;
+}
+</style>
+{% endblock %}
 {% block body %}
-<form action="{{ path('peds_create_role') }}" id="register" method="post" {{ form_enctype(form) }}>
+<div id="body_div">
+<script type="text/javascript">
+$( document ).ready(function() {
+  // Handler for .ready() called.
+});
+</script>
+<h1>New Role</h1>
+<hr>
+<div class="symfony-content content_l">
+<form action="{{ path('peds_create_role') }}" class="ffont model_form" id="register" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
-    <input type="submit" />
+    <input class="tmargin peds-button-green" value="Create Role" type="submit" />
 </form>
+</div>
+</div>
 {% endblock %}

@@ -6,9 +6,9 @@
     </id>
     <field name="description" type="text" column="description" nullable="false"/>
     <field name="shortName" type="string" column="short_name" length="255" nullable="false"/>
-    <many-to-one field="task" target-entity="Task">
+    <many-to-one field="rp" target-entity="ReferenceProcess">
       <join-columns>
-        <join-column name="task_id" referenced-column-name="id"/>
+        <join-column name="rp_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
   </entity>

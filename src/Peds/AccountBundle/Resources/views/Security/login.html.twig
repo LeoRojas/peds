@@ -28,15 +28,20 @@ color:black;
 {
 margin-left: 10px;
 }
+#login_div label
+{
+width:20%;
+}
 </style>
 {% endblock %}
 {% block Login %}
 <div id="body_div">
 <h1>Login</h1>
 <hr>
-<form action="{{ path('login_check') }}" method="post" class="ffont" id="login">
+<div id="login_div" class="symfony-content content_l">
+<form action="{{ path('login_check') }}" method="post" class="ffont model_form" id="login">
     <div>
-        <label for="username">Username:</label>
+        <label for="username">Username</label>
 		{% if last_username is defined %}
 			<input type="text" id="username" name="_username" value="{{ last_username }}" />
 		{% else %}
@@ -44,7 +49,7 @@ margin-left: 10px;
 		{% endif %}
     </div>
     <div class="tmargin">
-        <label for="password">Password:</label>
+        <label for="password">Password</label>
         <input type="password" id="password" name="_password" />
     </div>
 
@@ -53,7 +58,8 @@ margin-left: 10px;
         <input type="hidden" name="_target_path" value="/account" />
     #}
 
-    <button class="tmargin" type="submit">Login</button>
+    <button class="tmargin symfony-button-green" type="submit">Login</button>
 </form>
+</div>
 </div>
 {% endblock %}

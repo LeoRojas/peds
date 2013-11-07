@@ -15,6 +15,12 @@ class ActivityType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         //$builder->add('rp');
+		$trans=$options['translator_service'];
+		
+		$trans_rp_label = $trans->trans('form.rp');
+		$trans_sname_label = $trans->trans('form.sname');
+		$trans_desc_label = $trans->trans('form.desc');
+		
 		
 		$builder->add('rp', 'entity', array(
 			'class' => 'PedsEntitiesBundle:ReferenceProcess',
@@ -23,9 +29,16 @@ class ActivityType extends AbstractType
             ->where('rp.owner = :user_id')
 			->setParameter('user_id', $options['user_id']);
 			},
+			'label' => $trans_rp_label
 			));
-        $builder->add('short_name', 'text');
-        $builder->add('description');
+        $builder->add('short_name', 'text',array(
+		'attr' => array('size' => 30),
+		'label' => $trans_sname_label
+		));
+        $builder->add('description',null,array(
+		'attr' => array('cols' => 30,'rows' => 4),
+		'label' => $trans_desc_label
+		));
     }
 
     public function setDefaultOptions(OptionsResolverInterface $resolver)
@@ -33,7 +46,7 @@ class ActivityType extends AbstractType
         $resolver->setDefaults(array(
             'data_class' => 'Peds\EntitiesBundle\Entity\Activity'
         ));
-		$resolver->setOptional(array('user_id'));
+		$resolver->setOptional(array('user_id','translator_service'));
     }
 	/*
 	    public function getDefaultOptions()

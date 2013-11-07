@@ -12,7 +12,7 @@ font-family:arial;
 font-size: 18px;
 color:black;
 }
-#register input
+#register input[type=text],input[type=password],input[type=email]
 {
 font-family:arial;
 font-size: 18px;
@@ -26,6 +26,10 @@ margin-left: 10px;
 {
 margin-top: 10px;
 }
+#register_div label
+{
+width: 20%;
+}
 </style>
 {% endblock %}
 {% block body %}
@@ -33,7 +37,8 @@ margin-top: 10px;
 <h1>Register</h1>
 <hr>
 {# src/Peds/UserBundle/Resources/views/Default/register.html.twig #}
-<form action="{{ path('new_user') }}" class="ffont" id="register" method="post" {{ form_enctype(form) }}>
+<div id="register_div" class="symfony-content content_l">
+<form action="{{ path('new_user') }}" class="ffont model_form" id="register" method="post" {{ form_enctype(form) }}>
     {# {{ form_widget(form) }} #}
     {{ form_errors(form) }}
 
@@ -42,7 +47,8 @@ margin-top: 10px;
 	{{ form_row(form.Password) }}
 	{# {{ form_row(form.role) }} #}
     {{ form_rest(form) }}
-    <input class="tmargin" value="Register" type="submit" />
+    <input class="tmargin symfony-button-green" value="Register" type="submit" />
 </form>
+</div>
 </div>
 {% endblock %}

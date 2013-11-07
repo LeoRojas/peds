@@ -84,4 +84,32 @@ class Product
     {
         return $this->shortName;
     }
+    /**
+     * @var \Peds\EntitiesBundle\Entity\ReferenceProcess
+     */
+    private $rp;
+
+
+    /**
+     * Set rp
+     *
+     * @param \Peds\EntitiesBundle\Entity\ReferenceProcess $rp
+     * @return Product
+     */
+    public function setRp(\Peds\EntitiesBundle\Entity\ReferenceProcess $rp = null)
+    {
+        $this->rp = $rp;
+    
+        return $this;
+    }
+
+    /**
+     * Get rp
+     *
+     * @return \Peds\EntitiesBundle\Entity\ReferenceProcess 
+     */
+    public function getRp()
+    {
+        return $this->rp;
+    }
 }

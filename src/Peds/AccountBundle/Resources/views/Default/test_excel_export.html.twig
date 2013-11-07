@@ -1,0 +1,44 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}PATATA{% endblock %}
+{% block body %}
+<div id="body_div">
+<script type="text/javascript">
+$( document ).ready(function() {
+  // Handler for .ready() called.
+  //$("#ReferenceProcess").find("input[type=text]").addClass("ffont");
+  	$("#exportToExcel").click(function() {									   
+		var data='<table>'+$("#ReportTable").html().replace(/<a\/?[^>]+>/gi, '')+'</table>';
+		$('body').prepend("<form method='post' action='{{ path('peds_text_excel_export_func') }}' style='display:none' id='ReportTableData'><input type='text' name='tableData' value='"+data+"' ></form>");
+		 $('#ReportTableData').submit().remove();
+		 return false;
+	});
+});
+</script>
+<h1>Blabla</h1>
+<div id="frame1"> <a href="#" id="exportToExcel"><img src="excel-icon.png"></a>
+  <table width="600" border="0" cellpadding="4" cellspacing="1" class="table" id="ReportTable">
+    <tr>
+      <th>Websites</th>
+      <th>Owner</th>
+      <th>Contact Email</th>
+    </tr>
+    <tr>
+      <td><a href="http://www.connectsin.com">www.connectsin.com</a></td>
+      <td><strong>Gautam Kumar</strong></td>
+      <td>connectsin@gmail.com</td>
+    </tr>
+    <tr>
+      <td>www.w3schools.in</td>
+      <td>Gautam Kumar</td>
+      <td>contact@w3schools.in</td>
+    </tr>
+    <tr>
+      <td><a href="http://www.myelesson.org">www.myelesson.org</a></td>
+      <td>Mr. Joher</td>
+      <td>contact@myelesson.org</td>
+    </tr>
+  </table>
+</div>
+</div>
+{% endblock %}

@@ -141,4 +141,32 @@ class Task
     {
         return $this->shortName;
     }
+    /**
+     * @var \Peds\EntitiesBundle\Entity\Role
+     */
+    private $role;
+
+
+    /**
+     * Set role
+     *
+     * @param \Peds\EntitiesBundle\Entity\Role $role
+     * @return Task
+     */
+    public function setRole(\Peds\EntitiesBundle\Entity\Role $role = null)
+    {
+        $this->role = $role;
+    
+        return $this;
+    }
+
+    /**
+     * Get role
+     *
+     * @return \Peds\EntitiesBundle\Entity\Role 
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
 }

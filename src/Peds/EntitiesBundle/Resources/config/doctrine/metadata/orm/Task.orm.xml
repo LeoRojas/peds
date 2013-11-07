@@ -12,5 +12,10 @@
         <join-column name="activity_id" referenced-column-name="id"/>
       </join-columns>
     </many-to-one>
+    <many-to-one field="role" target-entity="Role">
+      <join-columns>
+        <join-column name="role_id" referenced-column-name="id"/>
+      </join-columns>
+    </many-to-one>
   </entity>
 </doctrine-mapping>

@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %}New RP{% endblock %}
+{% block title %}{{'rp_form.new.tab.title'|trans}}{% endblock %}
 {% block Login %}{% endblock %}
 {% block stylesheets %}
 <style type="text/css">
@@ -15,20 +15,44 @@ color:black;
 #body_div
 {
 margin-left: 10px;
-}
-#ReferenceProcess label
-{
-width: 10%;
+margin-right: 10px;
 }
 #ReferenceProcess div
 {
 margin-top: 10px;
+}
+#ReferenceProcess input,textarea,select
+{
+-webkit-border-radius: 4px;
+-moz-border-radius: 4px;
+border-radius: 4px;
+/*border: 1px solid #DADADA;*/
+border: 1px solid #707070;
+padding: 4px;
 }
 #ReferenceProcess input[type=text]
 {
 font-family:arial;
 font-size: 18px;
 color:black;
+}
+#ReferenceProcess label
+{
+/*width: 10%;*/
+{% if app.request.locale == 'es' %}
+width: 30%;
+{% else %}
+width: 20%;
+{% endif %}
+}
+.content_l
+{
+width: 40%;
+}
+.content_c
+{
+width: 60%;
+margin: auto;
 }
 </style>
 {% endblock %}
@@ -40,20 +64,21 @@ $( document ).ready(function() {
   //$("#ReferenceProcess").find("input[type=text]").addClass("ffont");
 });
 </script>
-<h1>Create new reference process </h1>
+<h1>{{'rp_form.new.title'|trans}}</h1>
 <hr>
-<div>
-<form action="{{ path('peds_create_rp') }}" class="ffont" id="register" method="post" {{ form_enctype(form) }}>
+<div class="symfony-content content_l">
+
+<form action="{{ path('peds_create_rp') }}" class="ffont model_form" id="register" method="post" {{ form_enctype(form) }}>
     {{ form_widget(form) }}
 {#
 	{{ form_widget(form.visibility, {attr: { value : 'PUBLIC' } }) }}
 	{{ form_widget(form.workflow, {attr: { value : '0' } }) }}
 #}
-    <input class="tmargin" value="Create RP" type="submit" />
+    <input class="tmargin peds-button-green" value="{{'rp_form.new.submit'|trans}}" type="submit" />
 </form>
 </div>
 <div class="tmargin">
-	<a  href="{{ path('peds_create_act_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create ACT" />Create activity</a>
+	<a  href="{{ path('peds_create_act_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create ACT" />{{'rp_form.new.act.shortcut'|trans}}</a>
 </div>
 </div>
 {% endblock %}

@@ -5,31 +5,323 @@
 <style type="text/css">
 #hello_div
 {
+margin-bottom: 5px;
+}
+#utility_div, #product_div, #role_div
+{
+float: left;
+width: 33%;
 margin-bottom: 15px;
+}
+.account_div
+{
+float:left;
+width: 33%;
+}
+.account_div td, th
+{
+margin:0px;
+border:3px solid;
+padding: 10px;
+border-left: 0px;
+border-right: 0px;
+/*border-style: inset;*/
+border-color: gray;
+background-color: white;
+/*border-radius: 5px;*/
+}
+.account_div th
+{
+font-weight:bold;
+text-align:center;
+background-color: #C0C0C0;
+color: white;
+font-size: 16px;
+}
+.account_div table
+{
+margin-bottom: 15px;
+border: 3px solid;
+border-color: gray;
+}
+#body_div img
+{
+vertical-align: middle;
+}
+#rp_div
+{
+clear: left;
+}
+.fake_href
+{
+color: #B24926;
+cursor: pointer;
+}
+.underl
+{
+text-decoration:underline;
+}
+hr
+{
+height: 5px;
+background-color: green;
+}
+.clb
+{
+clear: both;
+}
+#body_div
+{
+margin-left: 20px;
+}
+.xs_rmargin
+{
+margin-right: 5px;
+}
+.tmargin{
+margin-top: 20px;
 }
 </style>
 {% endblock %}
 {% block body %}
+<script type="text/javascript">
+var id_to_be_deleted=0;
+var entitie_to_be_deleted="";
+function confirmDeleteFunction(entitie,id)
+{
+//alert(entitie);
+id_to_be_deleted=id;
+entitie_to_be_deleted=entitie;
+if(entitie=="rp"){
+$( "#dialog-confirm-rp" ).dialog( "open" );
+}
+else if(entitie=="act"){
+$( "#dialog-confirm-act" ).dialog( "open" );
+}
+else if(entitie=="task"){
+$( "#dialog-confirm-task" ).dialog( "open" );
+}
+else if(entitie=="product"){
+$( "#dialog-confirm-product" ).dialog( "open" );
+}
+else if(entitie=="role"){
+$( "#dialog-confirm-role" ).dialog( "open" );
+}
+return false;
+}
+$(function() {
+    $( ".dialog-confirm" ).dialog({
+      resizable: false,
+      autoOpen: false,
+      height:200,
+      width:500,
+      modal: true,
+      buttons: {
+        "Delete all items": function() {
+          $( this ).dialog( "close" );
+          window.location.href = "{{ path('peds_remove_rp_list') }}/".replace('rp',entitie_to_be_deleted)+id_to_be_deleted;
+        },
+        Cancel: function() {
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+  });
+function onFocusFunction()
+{
+$( this ).addClass('underl');
+}
+function onBblurFunction()
+{
+$( this ).removeClass('underl');
+}
+function displayActFunction(id)
+{
+//alert("test RP "+id);
+$( "#act_div" ).find('[rp]').hide();
+$( "#act_div" ).find('[rp='+id+']').show();
+$( "#task_div" ).find('[act]').hide();
+}
+function displayTaskFunction(id)
+{
+//alert("test ACT "+id);
+//hide all tasks including the ones from a previously selected act
+$( "#task_div" ).find('[act]').hide();
+//show tasks of the requested activity
+$( "#task_div" ).find('[act='+id+']').show();
+}
+$( document ).ready(function() {
+
+	$( "#act_div" ).find('[rp]').hide();
+	$( "#task_div" ).find('[act]').hide();
+	$( ".fake_href").hover( onFocusFunction, onBblurFunction );
+});
+</script>
 <div id="body_div">
 {% if is_granted("ROLE_USER") %}
-
-<div id="hello_div" >
-Hello {{app.user.username}}
+<div id="dialog-confirm-rp" class="dialog-confirm" title="Confirm delete">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>These RP will be permanently deleted and cannot be recovered. Are you sure?</p>
 </div>
-<li><a href="{{ path('peds_compare') }}">Compare reference processes</a></li>
-<li><a href="{{ path('peds_create_rp') }}">Create new RP</a></li>
-<li><a href="{{ path('peds_create_act') }}">Create new activity</a></li>
-<li><a href="{{ path('peds_create_task') }}">Create new task</a></li>
-<li><a href="{{ path('peds_create_product') }}">Create new product</a></li>
-<li><a href="{{ path('peds_create_role') }}">Create new role</a></li>
-<li><a href="{{ path('peds_remove_rp_list') }}">Remove a reference processes (RP)</a></li>
-<li><a href="{{ path('peds_remove_act_list') }}">Remove a activity</a></li>
-<li><a href="{{ path('peds_remove_task_list') }}">Remove a task</a></li>
-<li><a href="{{ path('peds_remove_product_list') }}">Remove a product</a></li>
-<li><a href="{{ path('peds_remove_role_list') }}">Remove a role</a></li>
-<!-- poner un if granted admin-->
-<li><a href="{{ path('peds_matching') }}">Edit matching table</a></li>
+<div id="dialog-confirm-act" class="dialog-confirm" title="Confirm delete">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>These ACTIVITY will be permanently deleted and cannot be recovered. Are you sure?</p>
 </div>
-
+<div id="dialog-confirm-task" class="dialog-confirm" title="Confirm delete">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>These TASK will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+<div id="dialog-confirm-product" class="dialog-confirm" title="Confirm delete">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>These PRODUCT will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+<div id="dialog-confirm-role" class="dialog-confirm" title="Confirm delete">
+  <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span>These ROLE will be permanently deleted and cannot be recovered. Are you sure?</p>
+</div>
+{% set uname = app.user.username|capitalize %}
+<div id="title_div"><h1>{{'account.title'|trans({'%user_name%': uname })}}</h1></div>
+<hr>
+<div>
+<h2>{{'account.tools'|trans}}</h2>
+</div>
+<div class="symfony-content" id='utility_div'>
+<a href="{{ path('peds_import_public_rp') }}"><img src="{{asset('img/Charts_1.png')}}" width="26" height="26" alt="Chart" />Import Public Processes</a>
+<br/><br/>
+<a href="{{ path('peds_text_excel_export') }}"><img src="{{asset('img/Charts_1.png')}}" width="26" height="26" alt="Chart" />Export BETA</a>
+<br/><br/>
+<a href="{{ path('peds_chart') }}"><img src="{{asset('img/Charts_1.png')}}" width="26" height="26" alt="Chart" />{{'account.charts'|trans}}</a>
+<br/><br/>
+<a href="{{ path('peds_compare_manual') }}"><img src="{{asset('img/Compare_1.png')}}" width="26" height="26" alt="Compare RPs_2" />{{'account.compare.mapping'|trans}}</a>
+<br/><br/>
+{#
+<a href="{{ path('peds_compare') }}"><img src="{{asset('img/Compare_1.png')}}" width="26" height="26" alt="Compare RPs" />Compare reference processes</a>
+<br/><br/>
+#}
+<a href="{{ path('peds_compare_tasks') }}"><img src="{{asset('img/ToMap_1.png')}}" width="26" height="26" alt="Compare RPs" />{{'account.map'|trans}}</a>
+<br/><br/>
+<a href="{{ path('peds_task_comp') }}"><img src="{{asset('img/Mapping_1.png')}}" width="26" height="26" alt="Comparisons" />{{'account.my_maps'|trans}}</a>
+<br/><br/>
+<a href="{{ path('peds_task_comp_search') }}"><img src="{{asset('img/Mapping_1.png')}}" width="26" height="26" alt="Comparisons" />{{'account.other_maps'|trans}}</a>
+<br/><br/>
+{#
+<a href="{{ path('peds_task_comp') }}">My mappings</a>
+<br/><br/>
+<a href="{{ path('peds_task_comp_search') }}">Other user mappings</a>
+<br/><br/>
+#}
+<a href="{{ path('user_edit_mail') }}"><img src="{{asset('img/Config_1.png')}}" width="26" height="26" alt="edit_mail" />{{'account.edit_mail'|trans}}</a>
+<br/><br/>
+<a href="{{ path('user_edit_pass') }}"><img src="{{asset('img/Config_1.png')}}" width="26" height="26" alt="edit_pass" />{{'account.edit_pass'|trans}}</a>
+<br/><br/>
+<a href="{{ path('peds_load_rp') }}"><img src="{{asset('img/LoadXML_2.png')}}" width="26" height="26" alt="Load RP" />{{'account.load_rp'|trans}}</a>
+<br/><br/>
+{% if is_granted("ROLE_ADMIN") %}
+<a href="{{ path('peds_matching') }}"><img src="{{asset('img/Edit_1.png')}}" width="26" height="26" alt="Edit MATCHING" />{{'account.edit_mtable'|trans}}</a>
 {% endif %}
+</div>
+
+
+<div id='product_div'>
+<a href="{{ path('peds_create_product_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create PRODUCT" />Create new product</a>
+<br/><br/>
+<a href="{{ path('peds_edit_product_list') }}"><img src="{{asset('img/Edit_1.png')}}" width="26" height="26" alt="Edit PRODUCT" />Edit product</a>
+<br/><br/>
+<a href="{{ path('peds_remove_product_list') }}"><img src="{{asset('img/Delete_1.png')}}" width="26" height="26" alt="Delete PRODUCT" />Remove a product</a>
+</div>
+<div id='role_div'>
+<a href="{{ path('peds_create_role_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create ROLE" />Create new role</a>
+<br/><br/>
+<a href="{{ path('peds_edit_role_list') }}"><img src="{{asset('img/Edit_1.png')}}" width="26" height="26" alt="Edit ROLE" />Edit role</a>
+<br/><br/>
+<a href="{{ path('peds_remove_role_list') }}"><img src="{{asset('img/Delete_1.png')}}" width="26" height="26" alt="Delete ROLE" />Remove a role</a>
+</div>
+
+
+<div class="clb">
+<hr>
+<h2>{{'account.models'|trans}}</h2></div>
+<div id="model_div" class="">
+<div id="rp_div" class="account_div xs_rmargin">
+
+{% if user_rps is defined%}
+	<table class="rp_table">
+		<tr><th colspan="3">{{'account.my_rps'|trans}}</th></tr>
+	 	{% for rp in user_rps %}
+			<tr id="rp_{{rp.id}}">
+				<td><span class="fake_href" onclick="displayActFunction('{{rp.id}}')">{{rp.shortName}}</span></td>
+				<td><a href="{{ path('peds_rp_edit', {'id' :rp.id}) }}"><img src="{{asset('img/Edit_1.png')}}" width="26" height="26" alt="Edit RP" />{{'action.edit'|trans}}</a></td>
+				<td><a href="{{ path('peds_compare') }}"  onclick="return confirmDeleteFunction('rp',{{rp.id}});"><img src="{{asset('img/Delete_1.png')}}" width="26" height="26" alt="Delete RP" />{{'action.delete'|trans}}</a></td>
+			</tr>
+		{% endfor %}
+	</table>
+	<a href="{{ path('peds_create_rp_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create RP" />{{'action.create'|trans}}</a>
+{% endif %}
+</div>
+<div id="act_div" class="account_div xs_rmargin">
+{% if user_acts is defined%}
+	<table class="activity_table">
+		<tr><th colspan="3">{{'account.my_acts'|trans}}</th></tr>
+	 	{% for act_array in user_acts %}
+	 		{% for act in act_array %}
+	 			<tr id="act_{{act.id}}" rp="{{act.rp.id}}">
+	 				<td><span class="fake_href" onclick="displayTaskFunction('{{act.id}}')">{{act.shortName}}</span></td>
+	 				<td><a href="{{ path('peds_act_edit', {'id' :act.id}) }}"><img src="{{asset('img/Edit_1.png')}}" width="26" height="26" alt="Edit ACT" />{{'action.edit'|trans}}</a></td>
+	 				<td><a href="{{ path('peds_compare') }}" onclick="return confirmDeleteFunction('act',{{act.id}});"><img src="{{asset('img/Delete_1.png')}}" width="26" height="26" alt="Delete ACT" />{{'action.delete'|trans}}</a></td>
+	 			</tr>
+	 		{% endfor %}
+		{% endfor %}
+	</table>
+	<a href="{{ path('peds_create_act_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create ACT" />{{'action.create'|trans}}</a>
+{% endif %}
+</div>
+<div id="task_div" class="account_div">
+{% if user_tasks is defined%}
+	<table class="task_table">
+		<tr><th colspan="3">{{'account.my_tasks'|trans}}</th></tr>
+	 	{% for task_array in user_tasks %}
+	 		{% for task in task_array %}
+				<tr id="task_{{task.id}}" act="{{task.activity.id}}">
+					<td>{{task.shortName}}</td>
+					<td><a href="{{ path('peds_task_edit', {'id' :task.id}) }}"><img src="{{asset('img/Edit_1.png')}}" width="26" height="26" alt="Edit TASK" />{{'action.edit'|trans}}</a></td>
+					<td><a href="{{ path('peds_compare') }}" onclick="return confirmDeleteFunction('task',{{task.id}});"><img src="{{asset('img/Delete_1.png')}}" width="26" height="26" alt="Delete TASK" />{{'action.delete'|trans}}</a></td>
+				</tr>
+			{% endfor %}
+		{% endfor %}
+	</table>
+	<a href="{{ path('peds_create_task_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create TASK" />{{'action.create'|trans}}</a>
+{% endif %}
+</div>
+<div id="product_div" class="account_div clb tmargin">
+{% if user_prods is defined%}
+	<table class="product_table">
+		<tr><th colspan="3">{{'account.my_prods'|trans}}</th></tr>
+	 	{% for prod_array in user_prods %}
+	 		{% for product in prod_array %}
+				<tr id="product_{{product.id}}" rp="{{product.rp.id}}">
+					<td>{{product.shortName}}</td>
+					<td><a href="{{ path('peds_edit_product', {'id' :product.id}) }}"><img src="{{asset('img/Edit_1.png')}}" width="26" height="26" alt="Edit PRODUCT" />{{'action.edit'|trans}}</a></td>
+					<td><a href="{{ path('peds_compare') }}" onclick="return confirmDeleteFunction('product',{{product.id}});"><img src="{{asset('img/Delete_1.png')}}" width="26" height="26" alt="Delete PRODUCT" />{{'action.delete'|trans}}</a></td>
+				</tr>
+			{% endfor %}
+		{% endfor %}
+	</table>
+	<a href="{{ path('peds_create_product_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create PRODUCT" />{{'action.create'|trans}}</a>
+{% endif %}
+</div>
+<div id="role_div" class="account_div tmargin">
+{% if user_roles is defined%}
+	<table class="role_table">
+		<tr><th colspan="3">{{'account.my_roles'|trans}}</th></tr>
+	 	{% for role_array in user_roles %}
+	 		{% for role in role_array %}
+				<tr id="role_{{role.id}}" rp="{{role.rp.id}}">
+					<td>{{role.shortName}}</td>
+					<td><a href="{{ path('peds_edit_role', {'id' :role.id}) }}"><img src="{{asset('img/Edit_1.png')}}" width="26" height="26" alt="Edit ROLE" />{{'action.edit'|trans}}</a></td>
+					<td><a href="{{ path('peds_compare') }}" onclick="return confirmDeleteFunction('role',{{role.id}});"><img src="{{asset('img/Delete_1.png')}}" width="26" height="26" alt="Delete ROLE" />{{'action.delete'|trans}}</a></td>
+				</tr>
+			{% endfor %}
+		{% endfor %}
+	</table>
+	<a href="{{ path('peds_create_role_index') }}"><img src="{{asset('img/Create_1.png')}}" width="26" height="26" alt="Create TASK" />{{'action.create'|trans}}</a>
+{% endif %}
+</div>
+</div>
+{% endif %}
+</div>
 {% endblock %}

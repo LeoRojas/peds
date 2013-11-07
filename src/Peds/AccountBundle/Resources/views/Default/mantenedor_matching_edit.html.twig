@@ -11,7 +11,7 @@ margin-bottom: 20px;
 {
     display: block;
     float: left;
-    width: 10%;
+    width: 25%;
 }
 .tmargin{
 margin-top: 20px;
@@ -43,13 +43,14 @@ margin-left: 10px;
 <div id="body_div">
 <h1>Edit Matching table entry </h1>
 <hr>
-<div id="matching_row" >
+<div id="matching_row" class="symfony-content content_l">
 <!-- ver si tiene permisos-->
 
 {# src/Peds/AccountBundle/Resources/views/Default/mantenedor_matching.html.twig #}
-	<form action="{{ path('peds_matching_edit', {'id' : id}) }}" class="ffont" id="update" method="post" {{ form_enctype(form) }}>
+	<form action="{{ path('peds_matching_edit', {'id' : id}) }}" class="ffont model_form" id="update" method="post" {{ form_enctype(form) }}>
+	
     {{ form_widget(form) }}
-    <input class="tmargin" value="Edit" type="submit" />
+    <input class="tmargin symfony-button-green" value="Edit" type="submit" />
 	</form>
 
 </div>
