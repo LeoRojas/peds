@@ -38,3 +38,6 @@ peds_text_excel_export_func:
 peds_import_public_rp:
     pattern:   /import/rp
     defaults:  { _controller: PedsAccountBundle:ImportPublicRP:index }
+peds_import_public_rp_copy:
+    pattern:   /import/rp/{id}
+    defaults:  { _controller: PedsAccountBundle:ImportPublicRP:copy }
